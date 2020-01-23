@@ -1,7 +1,6 @@
 import React from 'react'
 import { Formik } from 'formik'
-import { Form } from 'semantic-ui-react'
-import { TextField } from 'components/formikWrapper'
+import { TextField, Form } from 'components/formikWrapper'
 import * as yup from 'yup'
 
 const validationSchema = yup.object().shape({
@@ -14,7 +13,7 @@ const App: React.FC = () => {
       <header className="App-header">
         <Formik
           initialValues={{ username: '' }}
-          onSubmit={() => {}}
+          onSubmit={values => alert(JSON.stringify(values))}
           validationSchema={validationSchema}
         >
           {() => (
