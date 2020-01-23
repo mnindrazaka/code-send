@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/react/dont-cleanup-after-each'
 import { render, fireEvent } from '@testing-library/react'
-import { TextField } from 'components/formikWrapper'
+import { TextField } from '../textField'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 
