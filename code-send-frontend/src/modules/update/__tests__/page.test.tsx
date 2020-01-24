@@ -1,9 +1,9 @@
 import React from 'react'
 import '@testing-library/react/dont-cleanup-after-each'
 import { render } from '@testing-library/react'
-import Page from '../page'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
+import Page from '../page'
 
 const history = createMemoryHistory()
 const { container, findByTestId } = render(
@@ -16,14 +16,14 @@ test('render correctly', () => {
   expect(container).toBeInTheDocument()
 })
 
-test('move to dashboard page', async () => {
-  history.push('/dashboard')
-  const pageElement = await findByTestId('page-dashboard')
-  expect(pageElement).toBeInTheDocument()
+test('move to update log', async () => {
+  history.push('/update/log')
+  const updateLogElement = await findByTestId('page-update-log')
+  expect(updateLogElement).toBeInTheDocument()
 })
 
-test('move to update page', async () => {
-  history.push('/update')
-  const pageElement = await findByTestId('page-update')
-  expect(pageElement).toBeInTheDocument()
+test('move to update create', async () => {
+  history.push('/update/create')
+  const updateFormElement = await findByTestId('page-update-form')
+  expect(updateFormElement).toBeInTheDocument()
 })
