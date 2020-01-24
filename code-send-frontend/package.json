@@ -1,5 +1,6 @@
 {
   "name": "code-send-frontend",
+  "homepage": "https://mnindrazaka.github.io/code-send/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
