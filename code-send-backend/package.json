@@ -1,0 +1,38 @@
+{
+  "name": "code-send-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node-dev src/server.ts",
+    "test": "jest --watch",
+    "coverage": "jest --coverage --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.2",
+    "@types/jest": "^24.9.1",
+    "@types/supertest": "^2.0.8",
+    "express": "^4.17.1",
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2",
+    "typescript": "^3.7.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "babel-jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "ts-node-dev": "^1.0.0-pre.44"
+  }
+}
