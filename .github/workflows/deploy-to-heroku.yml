@@ -7,14 +7,25 @@ on:
 
 jobs:
   build-and-deploy:
-
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Login
-      run: heroku login
-    - name: Add Remote
+    - name: Make credentials
+      run: |+
+          cat >~/.netrc <<EOF
+          machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          machine git.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          EOF
+    - name: Add remote
       run: heroku git:remote -a code-send
     - name: Deploy
       run: git subtree push --prefix code-send-backend heroku master
