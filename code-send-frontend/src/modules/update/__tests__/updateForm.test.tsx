@@ -6,21 +6,23 @@ import { createMemoryHistory } from 'history'
 import UpdateForm from '../updateForm'
 
 const history = createMemoryHistory()
-const { getByPlaceholderText, getByText, findByTestId } = render(
+const { getByLabelText, getByText, findByTestId } = render(
   <Router history={history}>
     <UpdateForm />
   </Router>
 )
 
-test('show loading after submit', async () => {
-  const inputVersionElement = getByPlaceholderText('Enter Version')
-  const inputNoteElement = getByPlaceholderText('Enter Note')
-  const submitElement = getByText('Submit')
+describe('update form', () => {
+  it('can show loading after submit', async () => {
+    const inputVersionElement = getByLabelText('Version')
+    const inputNoteElement = getByLabelText('Note')
+    const submitElement = getByText('Submit')
 
-  fireEvent.change(inputVersionElement, { target: { value: 'mockVersion' } })
-  fireEvent.change(inputNoteElement, { target: { value: 'mockNote' } })
-  fireEvent.click(submitElement)
+    fireEvent.change(inputVersionElement, { target: { value: 'mockVersion' } })
+    fireEvent.change(inputNoteElement, { target: { value: 'mockNote' } })
+    fireEvent.click(submitElement)
 
-  const loadingElement = await findByTestId('loading')
-  expect(loadingElement).toBeInTheDocument()
+    const loadingElement = await findByTestId('loading')
+    expect(loadingElement).toBeInTheDocument()
+  })
 })

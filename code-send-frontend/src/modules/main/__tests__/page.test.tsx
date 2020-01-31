@@ -6,24 +6,22 @@ import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
 const history = createMemoryHistory()
-const { container, findByTestId } = render(
+const { findByTestId } = render(
   <Router history={history}>
     <Page />
   </Router>
 )
 
-test('render correctly', () => {
-  expect(container).toBeInTheDocument()
-})
+describe('main', () => {
+  it('can move to dashboard page', async () => {
+    history.push('/dashboard')
+    const pageElement = await findByTestId('page-dashboard')
+    expect(pageElement).toBeInTheDocument()
+  })
 
-test('move to dashboard page', async () => {
-  history.push('/dashboard')
-  const pageElement = await findByTestId('page-dashboard')
-  expect(pageElement).toBeInTheDocument()
-})
-
-test('move to update page', async () => {
-  history.push('/update')
-  const pageElement = await findByTestId('page-update')
-  expect(pageElement).toBeInTheDocument()
+  it('can move to update page', async () => {
+    history.push('/update')
+    const pageElement = await findByTestId('page-update')
+    expect(pageElement).toBeInTheDocument()
+  })
 })

@@ -34,12 +34,8 @@ const UpdateForm: React.FC<RouteComponentProps> = ({ history }) => {
         onSubmit={handleSubmit}
       >
         <Form>
-          <TextField
-            name="version"
-            label="Version"
-            placeholder="Enter Version"
-          />
-          <TextField name="note" label="Note" placeholder="Enter Note" />
+          <TextField name="version" label="Version" />
+          <TextField name="note" label="Note" />
           <Button type="submit" primary>
             Submit
           </Button>
