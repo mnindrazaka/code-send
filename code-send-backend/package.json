@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "start": "node build/server.js",
+    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
     "test": "jest --watch",
     "coverage": "jest --coverage --watch"
   },

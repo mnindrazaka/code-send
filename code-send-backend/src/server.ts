@@ -2,5 +2,5 @@ import app from 'app'
 import { connectDB } from 'config/database'
 
 connectDB().then(() => {
-  app.listen(3000, () => console.log('server running'))
+  app.listen(process.env.PORT || 3000, () => console.log('server running'))
 })
