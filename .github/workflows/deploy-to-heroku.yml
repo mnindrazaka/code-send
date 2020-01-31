@@ -1,0 +1,20 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login
+      run: heroku login
+    - name: Add Remote
+      run: heroku git:remote -a code-send
+    - name: Deploy
+      run: git subtree push --prefix code-send-backend heroku master
