@@ -6,24 +6,22 @@ import { Router } from 'react-router-dom'
 import Page from '../page'
 
 const history = createMemoryHistory()
-const { container, findByTestId } = render(
+const { findByTestId } = render(
   <Router history={history}>
     <Page />
   </Router>
 )
 
-test('render correctly', () => {
-  expect(container).toBeInTheDocument()
-})
+describe('update page', () => {
+  it('can move to update log', async () => {
+    history.push('/update/log')
+    const updateLogElement = await findByTestId('page-update-log')
+    expect(updateLogElement).toBeInTheDocument()
+  })
 
-test('move to update log', async () => {
-  history.push('/update/log')
-  const updateLogElement = await findByTestId('page-update-log')
-  expect(updateLogElement).toBeInTheDocument()
-})
-
-test('move to update create', async () => {
-  history.push('/update/create')
-  const updateFormElement = await findByTestId('page-update-form')
-  expect(updateFormElement).toBeInTheDocument()
+  it('can move to update create', async () => {
+    history.push('/update/create')
+    const updateFormElement = await findByTestId('page-update-form')
+    expect(updateFormElement).toBeInTheDocument()
+  })
 })

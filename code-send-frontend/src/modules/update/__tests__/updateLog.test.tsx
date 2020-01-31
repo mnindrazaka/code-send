@@ -10,6 +10,8 @@ const { container } = render(
   </BrowserRouter>
 )
 
-test('render correctly', async () => {
-  expect(container).toBeInTheDocument()
+describe('update log', () => {
+  it('can render correctly', async () => {
+    expect(container).toBeInTheDocument()
+  })
 })

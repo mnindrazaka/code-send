@@ -10,6 +10,8 @@ const { container } = render(
   </Formik>
 )
 
-test('render correctly', () => {
-  expect(container).toBeInTheDocument()
+describe('form', () => {
+  it('can render correctly', () => {
+    expect(container).toBeInTheDocument()
+  })
 })

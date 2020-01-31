@@ -7,37 +7,33 @@ import * as yup from 'yup'
 
 const name = 'username'
 const label = 'Username'
-const placeholder = 'Enter Username'
 
 const validationSchema = yup.object().shape({
   username: yup.string().required('username required')
 })
 
-const { getByText, getByPlaceholderText, findByText } = render(
+const { getByLabelText, findByText } = render(
   <Formik
     initialValues={{ username: '' }}
     onSubmit={jest.fn()}
     validationSchema={validationSchema}
   >
-    {() => <TextField label={label} name={name} placeholder={placeholder} />}
+    {() => <TextField label={label} name={name} />}
   </Formik>
 )
 
-test('render label', () => {
-  const labelElement = getByText(label)
-  expect(labelElement).toBeInTheDocument()
-})
+describe('text field', () => {
+  it('can change text value', async () => {
+    const inputElement = getByLabelText(label)
+    fireEvent.change(inputElement, { target: { value: 'mockValue' } })
+    expect(inputElement).toHaveValue('mockValue')
+  })
 
-test('render value', async () => {
-  const inputElement = getByPlaceholderText(placeholder)
-  fireEvent.change(inputElement, { target: { value: 'a' } })
-  expect(inputElement).toHaveValue('a')
-})
-
-test('render error message', async () => {
-  const inputElement = getByPlaceholderText(placeholder)
-  fireEvent.change(inputElement, { target: { value: 'a' } })
-  fireEvent.change(inputElement, { target: { value: '' } })
-  const errorElement = await findByText('username required')
-  expect(errorElement).toBeInTheDocument()
+  it('can show error message', async () => {
+    const inputElement = getByLabelText(label)
+    fireEvent.change(inputElement, { target: { value: 'mockValue' } })
+    fireEvent.change(inputElement, { target: { value: '' } })
+    const errorElement = await findByText('username required')
+    expect(errorElement).toBeInTheDocument()
+  })
 })

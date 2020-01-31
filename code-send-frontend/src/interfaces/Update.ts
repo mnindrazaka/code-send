@@ -5,4 +5,4 @@ export interface Update extends Api {
   note: string
 }
 
-export type UpdateForm = Omit<Update, keyof Api>
+export type UpdateFormValues = Omit<Update, keyof Api>
