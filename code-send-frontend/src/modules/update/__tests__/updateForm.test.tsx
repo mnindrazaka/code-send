@@ -16,10 +16,14 @@ describe('update form', () => {
   it('can show loading after submit', async () => {
     const inputVersionElement = getByLabelText('Version')
     const inputNoteElement = getByLabelText('Note')
+    const inputBundleElement = getByLabelText('Bundle')
     const submitElement = getByText('Submit')
+
+    const mockFile = new File(['mock content'], 'index.bundle.js')
 
     fireEvent.change(inputVersionElement, { target: { value: 'mockVersion' } })
     fireEvent.change(inputNoteElement, { target: { value: 'mockNote' } })
+    fireEvent.change(inputBundleElement, { target: { files: [mockFile] } })
     fireEvent.click(submitElement)
 
     const loadingElement = await findByTestId('loading')

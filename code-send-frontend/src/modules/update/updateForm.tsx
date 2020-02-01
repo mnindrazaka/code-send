@@ -3,13 +3,15 @@ import { TextField, Form } from 'components/formikWrapper'
 import { UpdateFormValues } from 'interfaces/Update'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import { Button, Loader } from 'semantic-ui-react'
+import { Button, Loader, Dimmer } from 'semantic-ui-react'
 import { callApi } from 'utils/api/callApi'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
+import FileField from 'components/formikWrapper/fileField'
 
 const validationSchema = yup.object().shape({
   version: yup.string().required(),
-  note: yup.string().required()
+  note: yup.string().required(),
+  bundle: yup.mixed().required()
 })
 
 const initialValues: UpdateFormValues = {
@@ -36,6 +38,7 @@ const UpdateForm: React.FC<RouteComponentProps> = ({ history }) => {
         <Form>
           <TextField name="version" label="Version" />
           <TextField name="note" label="Note" />
+          <FileField name="bundle" label="Bundle" />
           <Button type="submit" primary>
             Submit
           </Button>
@@ -46,9 +49,11 @@ const UpdateForm: React.FC<RouteComponentProps> = ({ history }) => {
 
   const renderLoading = () => {
     return (
-      <div data-testid="loading">
-        <Loader size="medium">Submitting Update</Loader>
-      </div>
+      <Dimmer active inverted data-testid="loading">
+        <Loader inverted size="medium">
+          Submitting Update
+        </Loader>
+      </Dimmer>
     )
   }
 
