@@ -1,25 +1,15 @@
 import React from 'react'
 import '@testing-library/react/dont-cleanup-after-each'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import { TextField } from '../textField'
-import { Formik } from 'formik'
-import * as yup from 'yup'
+import { renderFormik } from '../utils'
 
 const name = 'username'
 const label = 'Username'
 
-const validationSchema = yup.object().shape({
-  username: yup.string().required('username required')
-})
-
-const { getByLabelText, findByText } = render(
-  <Formik
-    initialValues={{ username: '' }}
-    onSubmit={jest.fn()}
-    validationSchema={validationSchema}
-  >
-    {() => <TextField label={label} name={name} />}
-  </Formik>
+const { getByLabelText, findByText } = renderFormik(
+  <TextField label={label} name={name} />,
+  name
 )
 
 describe('text field', () => {
@@ -33,7 +23,7 @@ describe('text field', () => {
     const inputElement = getByLabelText(label)
     fireEvent.change(inputElement, { target: { value: 'mockValue' } })
     fireEvent.change(inputElement, { target: { value: '' } })
-    const errorElement = await findByText('username required')
+    const errorElement = await findByText('input required')
     expect(errorElement).toBeInTheDocument()
   })
 })
