@@ -1,22 +1,16 @@
 import React from 'react'
 import '@testing-library/react/dont-cleanup-after-each'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import FileField from '../fileField'
-import * as yup from 'yup'
-import { Formik } from 'formik'
+import { renderFormik } from '../utils'
 
-const validationSchema = yup.object().shape({
-  bundle: yup.mixed().required('bundle required')
-})
+const label = 'Bundle'
+const name = 'bundle'
+const filename = 'mockFile.jpg'
 
-const { getByPlaceholderText, getByText, findByText } = render(
-  <Formik
-    initialValues={{}}
-    onSubmit={jest.fn()}
-    validationSchema={validationSchema}
-  >
-    {() => <FileField label="Bundle" name="bundle" />}
-  </Formik>
+const { getByLabelText, getByText, findByText } = renderFormik(
+  <FileField label={label} name={name} />,
+  name
 )
 
 describe('file field', () => {
@@ -27,12 +21,12 @@ describe('file field', () => {
   })
 
   it('can change file name', async () => {
-    const mockFile = new File(['mock content'], 'index.bundle.js')
+    const mockFile = new File(['mock content'], filename)
 
-    const inputElement = getByPlaceholderText('input file')
+    const inputElement = getByLabelText(label)
     fireEvent.change(inputElement, { target: { files: [mockFile] } })
 
-    const valueElement = await findByText('index.bundle.js')
+    const valueElement = await findByText(filename)
     expect(valueElement).toBeInTheDocument()
   })
 })

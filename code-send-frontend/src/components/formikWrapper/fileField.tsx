@@ -22,26 +22,35 @@ const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
 
   const renderInput = () => {
     return (
-      <input
-        id={label}
-        type="file"
-        ref={ref => (inputFile = ref)}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-        onBlur={field.onBlur}
-        placeholder="input file"
-      />
+      <>
+        <label htmlFor={label}>{label}</label>
+        <input
+          id={label}
+          type="file"
+          ref={ref => (inputFile = ref)}
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+          onBlur={field.onBlur}
+        />
+      </>
+    )
+  }
+
+  const renderButton = () => {
+    return (
+      <>
+        <Button type="button" primary basic onClick={handleButtonClick}>
+          Choose File
+        </Button>
+        <label>{field.value && field.value.name}</label>
+      </>
     )
   }
 
   return (
     <Form.Field error={meta.error}>
       {renderInput()}
-      <label htmlFor={label}>{label}</label>
-      <Button type="button" primary basic onClick={handleButtonClick}>
-        Choose File
-      </Button>
-      <label>{field.value && field.value.name}</label>
+      {renderButton()}
     </Form.Field>
   )
 }
