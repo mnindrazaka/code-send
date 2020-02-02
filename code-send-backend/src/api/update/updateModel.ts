@@ -4,6 +4,7 @@ export default model(
   'Update',
   new Schema({
     version: String,
-    note: String
+    note: String,
+    bundleUrl: String
   })
 )

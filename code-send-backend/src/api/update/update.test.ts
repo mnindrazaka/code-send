@@ -1,11 +1,11 @@
 import supertest from 'supertest'
-import { expect } from 'chai'
 import app from 'app'
-import { connectMockDB } from 'config/database'
+import { expect } from 'chai'
+import { connectDB } from 'config/database'
 const request = supertest(app)
 
 describe('update', () => {
-  beforeAll(async () => await connectMockDB())
+  beforeAll(async () => await connectDB(true))
 
   test('create update', async () => {
     const res = await request.post('/update').send({
