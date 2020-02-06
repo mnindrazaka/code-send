@@ -22,9 +22,12 @@ const initialValues: UpdateFormValues = {
 const UpdateForm: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (values: UpdateFormValues) => {
+  const handleSubmit = async ({ bundle, ...rest }: UpdateFormValues) => {
     setLoading(true)
-    await callApi('/update', 'post', values)
+    const { data } = await callApi('/update', 'post', rest)
+    const formData = new FormData()
+    formData.append('bundle', bundle!)
+    await callApi(`/update/${data._id}/bundle`, 'put', formData)
     history.push('/update')
   }
 
