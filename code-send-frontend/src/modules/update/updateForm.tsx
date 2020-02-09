@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { TextField, Form } from 'components/formikWrapper'
+import { TextField, Form, FileField } from 'components/formikWrapper'
 import { UpdateFormValues } from 'interfaces/Update'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { Button, Loader, Dimmer } from 'semantic-ui-react'
-import { callApi } from 'utils/api/callApi'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import FileField from 'components/formikWrapper/fileField'
+import swal from 'sweetalert'
+import codeSendService from 'utils/api/codeSendService'
+import { useHistory } from 'react-router'
 
 const validationSchema = yup.object().shape({
   version: yup.string().required(),
@@ -19,16 +19,20 @@ const initialValues: UpdateFormValues = {
   note: ''
 }
 
-const UpdateForm: React.FC<RouteComponentProps> = ({ history }) => {
+const UpdateForm: React.FC = () => {
   const [loading, setLoading] = useState(false)
+  const history = useHistory()
 
   const handleSubmit = async ({ bundle, ...rest }: UpdateFormValues) => {
     setLoading(true)
-    const { data } = await callApi('/update', 'post', rest)
-    const formData = new FormData()
-    formData.append('bundle', bundle!)
-    await callApi(`/update/${data._id}/bundle`, 'put', formData)
+    const { data } = await codeSendService.createUpdate(rest)
+    await codeSendService.uploadUpdate(data._id, bundle!)
     history.push('/update')
+    swal({
+      title: 'Success',
+      text: 'Update Created',
+      icon: 'success'
+    })
   }
 
   const renderForm = () => {
@@ -67,4 +71,4 @@ const UpdateForm: React.FC<RouteComponentProps> = ({ history }) => {
   )
 }
 
-export default withRouter(UpdateForm)
+export default UpdateForm
