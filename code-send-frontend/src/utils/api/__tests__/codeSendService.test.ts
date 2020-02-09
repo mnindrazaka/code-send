@@ -11,7 +11,7 @@ describe('code send service', () => {
 
     codeSendService.createUpdate({ note, version })
     expect(axiosMock).toBeCalledWith({
-      baseURL: 'https://code-send.herokuapp.com',
+      baseURL: codeSendService.baseURL,
       url: '/update',
       method: 'post',
       data: { note, version }
@@ -26,7 +26,7 @@ describe('code send service', () => {
 
     codeSendService.uploadUpdate(id, bundle)
     expect(axiosMock).toBeCalledWith({
-      baseURL: 'https://code-send.herokuapp.com',
+      baseURL: codeSendService.baseURL,
       url: `/update/${id}/bundle`,
       method: 'put',
       data: formData

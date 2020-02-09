@@ -1,7 +1,7 @@
 import { UpdateFormValues } from 'interfaces/Update'
 import axios from 'axios'
 
-const baseURL = 'https://code-send.herokuapp.com'
+const baseURL = process.env.REACT_APP_CODE_SEND_SERVICE_URL
 
 const createUpdate = (update: UpdateFormValues) => {
   return axios({
@@ -25,6 +25,7 @@ const uploadUpdate = (id: string, bundle: Blob) => {
 }
 
 export default {
+  baseURL,
   createUpdate,
   uploadUpdate
 }
