@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/react/dont-cleanup-after-each'
 import { fireEvent } from '@testing-library/react'
-import FileField from '../fileField'
+import { FileField } from '../fileField'
 import { renderFormik } from '../utils'
 
 const label = 'Bundle'

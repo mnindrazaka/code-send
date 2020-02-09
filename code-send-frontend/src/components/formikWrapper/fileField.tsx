@@ -7,7 +7,7 @@ interface FileFieldProps {
   name: string
 }
 
-const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
+export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
   const [field, meta, helper] = useField<File>({ name })
   let inputFile: HTMLInputElement | null = null
 
@@ -71,5 +71,3 @@ const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
     </Form.Field>
   )
 }
-
-export default FileField
