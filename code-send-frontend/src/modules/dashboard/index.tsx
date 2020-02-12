@@ -1,2 +1,2 @@
-import Dashboard from './page'
-export default Dashboard
+import Dashboard from "./page";
+export default Dashboard;

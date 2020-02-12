@@ -1,10 +1,10 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model } from "mongoose";
 
 export default model(
-  'Update',
+  "Update",
   new Schema({
     version: String,
     note: String,
     bundleUrl: String
   })
-)
+);

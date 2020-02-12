@@ -1,14 +1,14 @@
-import React from 'react'
-import { Form, Input } from 'semantic-ui-react'
-import { useField } from 'formik'
+import React from "react";
+import { Form, Input } from "semantic-ui-react";
+import { useField } from "formik";
 
 interface TextFieldProps {
-  label: string
-  name: string
+  label: string;
+  name: string;
 }
 
 export const TextField: React.FC<TextFieldProps> = ({ name, label }) => {
-  const [field, meta] = useField({ name })
+  const [field, meta] = useField({ name });
   return (
     <Form.Field
       id={name}
@@ -17,5 +17,5 @@ export const TextField: React.FC<TextFieldProps> = ({ name, label }) => {
       error={meta.error}
       {...field}
     ></Form.Field>
-  )
-}
+  );
+};
