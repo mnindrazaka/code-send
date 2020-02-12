@@ -1,8 +1,8 @@
-import React from 'react'
-import { Menu, Grid } from 'semantic-ui-react'
-import { Link, Route, Redirect } from 'react-router-dom'
-import Dashboard from 'modules/dashboard'
-import Update from 'modules/update'
+import React from "react";
+import { Menu, Grid } from "semantic-ui-react";
+import { Link, Route, Redirect } from "react-router-dom";
+import Dashboard from "modules/dashboard";
+import Update from "modules/update";
 
 const Page: React.FC = () => {
   return (
@@ -33,7 +33,7 @@ const Page: React.FC = () => {
         </Grid.Column>
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

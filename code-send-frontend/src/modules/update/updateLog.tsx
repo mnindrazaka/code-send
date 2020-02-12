@@ -1,6 +1,6 @@
-import React from 'react'
-import { Table, Button } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Table, Button } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 const UpdateLog: React.FC = () => {
   return (
@@ -40,7 +40,7 @@ const UpdateLog: React.FC = () => {
         </Table.Body>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default UpdateLog
+export default UpdateLog;

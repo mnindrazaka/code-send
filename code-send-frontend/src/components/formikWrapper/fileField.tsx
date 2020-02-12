@@ -1,28 +1,28 @@
-import React from 'react'
-import { Button, Form, Message } from 'semantic-ui-react'
-import { useField } from 'formik'
+import React from "react";
+import { Button, Form, Message } from "semantic-ui-react";
+import { useField } from "formik";
 
 interface FileFieldProps {
-  label: string
-  name: string
+  label: string;
+  name: string;
 }
 
 export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
-  const [field, meta, helper] = useField<File>({ name })
-  let inputFile: HTMLInputElement | null = null
+  const [field, meta, helper] = useField<File>({ name });
+  let inputFile: HTMLInputElement | null = null;
 
   const isError = () => {
-    return meta.error !== undefined
-  }
+    return meta.error !== undefined;
+  };
 
   const handleButtonClick = () => {
-    inputFile && inputFile.click()
-  }
+    inputFile && inputFile.click();
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files && event.target.files[0]
-    helper.setValue(selectedFile!)
-  }
+    const selectedFile = event.target.files && event.target.files[0];
+    helper.setValue(selectedFile!);
+  };
 
   const renderInput = () => {
     return (
@@ -34,8 +34,8 @@ export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
         onChange={handleFileChange}
         onBlur={field.onBlur}
       />
-    )
-  }
+    );
+  };
 
   const renderButton = () => {
     return (
@@ -48,19 +48,23 @@ export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
         onClick={handleButtonClick}
         style={{ marginRight: 10 }}
       />
-    )
-  }
+    );
+  };
 
   const renderMessage = () => {
-    const message = isError() ? meta.error : field.value ? field.value.name : ''
+    const message = isError()
+      ? meta.error
+      : field.value
+      ? field.value.name
+      : "";
     return (
       message && (
         <Message negative={isError()} compact size="tiny">
           {message}
         </Message>
       )
-    )
-  }
+    );
+  };
 
   return (
     <Form.Field error={isError()}>
@@ -69,5 +73,5 @@ export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
       {renderButton()}
       {renderMessage()}
     </Form.Field>
-  )
-}
+  );
+};

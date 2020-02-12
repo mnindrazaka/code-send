@@ -1,7 +1,7 @@
-import React from 'react'
-import { Route, Redirect, Switch } from 'react-router-dom'
-import UpdateLog from './updateLog'
-import UpdateForm from './updateForm'
+import React from "react";
+import { Route, Redirect, Switch } from "react-router-dom";
+import UpdateLog from "./updateLog";
+import UpdateForm from "./updateForm";
 
 const Page: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const Page: React.FC = () => {
         <Route render={() => <Redirect to="/update/log" />} />
       </Switch>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
