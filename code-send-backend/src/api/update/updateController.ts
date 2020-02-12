@@ -1,11 +1,11 @@
-import { Request, Response } from 'express'
-import updateModel from './updateModel'
+import { Request, Response } from "express";
+import updateModel from "./updateModel";
 
 export default class UpdateController {
   store = async (req: Request, res: Response) => {
-    const update = await updateModel.create(req.body)
-    res.send(update)
-  }
+    const update = await updateModel.create(req.body);
+    res.send(update);
+  };
 
   uploadBundle = async (req: Request, res: Response) => {
     const update = await updateModel.findByIdAndUpdate(
@@ -14,7 +14,7 @@ export default class UpdateController {
         bundleUrl: req.file.path
       },
       { new: true }
-    )
-    res.send(update)
-  }
+    );
+    res.send(update);
+  };
 }

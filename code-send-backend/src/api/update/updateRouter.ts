@@ -1,15 +1,15 @@
-import { Router } from 'express'
-import UpdateController from './updateController'
-import upload from 'middleware/upload'
+import { Router } from "express";
+import UpdateController from "./updateController";
+import upload from "middleware/upload";
 
-const updateRouter = Router()
-const updateController = new UpdateController()
+const updateRouter = Router();
+const updateController = new UpdateController();
 
-updateRouter.post('/', updateController.store)
+updateRouter.post("/", updateController.store);
 updateRouter.put(
-  '/:id/bundle',
-  upload('upload/bundle', 'bundle'),
+  "/:id/bundle",
+  upload("upload/bundle", "bundle"),
   updateController.uploadBundle
-)
+);
 
-export default updateRouter
+export default updateRouter;
