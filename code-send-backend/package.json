@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "start": "NODE_PATH=./build node build/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
     "test": "jest --forceExit",
