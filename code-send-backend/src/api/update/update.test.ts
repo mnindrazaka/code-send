@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import app from "app";
 import { expect } from "chai";
-import { connectDB } from "config/database";
+import { connectDB } from "utils/database";
 const request = supertest(app);
 
 describe("update", () => {
