@@ -10,8 +10,8 @@ export default class UpdateController {
 
   uploadBundle = async (req: Request, res: Response) => {
     const id = req.params.id;
-    const bundleUrl = req.file.path;
-    const update = await updateService.uploadBundle(id, bundleUrl);
+    const bundleBuffer = req.file.buffer;
+    const update = await updateService.uploadBundle(id, bundleBuffer);
     res.send(update);
   };
 }

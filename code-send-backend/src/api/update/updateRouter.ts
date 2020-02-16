@@ -6,6 +6,10 @@ const updateRouter = Router();
 const updateController = new UpdateController();
 
 updateRouter.post("/", updateController.store);
-updateRouter.put("/:id/bundle", upload("upload/bundle", "bundle"), updateController.uploadBundle);
+updateRouter.put(
+  "/:id/bundle",
+  upload("bundle"),
+  updateController.uploadBundle
+);
 
 export default updateRouter;

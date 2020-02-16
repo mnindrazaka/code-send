@@ -1,5 +1,7 @@
 import multer from "multer";
 
-export default function upload(dest: string, field: string) {
-  return multer({ dest }).single(field);
+const storage = multer.memoryStorage();
+
+export default function upload(field: string) {
+  return multer({ storage }).single(field);
 }

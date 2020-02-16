@@ -1,6 +1,7 @@
 require("dotenv").config();
 import app from "app";
-import { connectDB } from "config/database";
+import { connectDB } from "utils/database";
+import "utils/cloudinary";
 
 const port = process.env.PORT || 3000;
 connectDB().then(() => {
