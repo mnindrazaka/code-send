@@ -1,5 +1,5 @@
 import { Schema, model, Document } from "mongoose";
-import { Update } from "@shared/interfaces/Update";
+import { Update } from "./updateType";
 
 type UpdateDocument = Update & Document;
 

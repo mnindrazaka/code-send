@@ -8,9 +8,7 @@
     "moduleResolution": "node",
     "baseUrl": "src",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "paths": { "@shared/*": ["../../shared/*"] }
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "references": [{ "path": "../shared/" }]
+  "include": ["src/**/*"]
 }

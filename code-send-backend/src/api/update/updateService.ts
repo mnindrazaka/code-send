@@ -1,5 +1,5 @@
 import updateModel from "./updateModel";
-import { UpdateRequest } from "@shared/interfaces/Update";
+import { UpdateRequest } from "./updateType";
 
 export default class UpdateService {
   createUpdate = async (update: UpdateRequest) => {
@@ -7,6 +7,10 @@ export default class UpdateService {
   };
 
   uploadBundle = async (id: string, bundleUrl: string) => {
-    return await updateModel.findByIdAndUpdate(id, { bundleUrl }, { new: true });
+    return await updateModel.findByIdAndUpdate(
+      id,
+      { bundleUrl },
+      { new: true }
+    );
   };
 }
