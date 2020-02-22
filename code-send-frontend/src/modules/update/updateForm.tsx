@@ -24,15 +24,25 @@ const UpdateForm: React.FC = () => {
   const history = useHistory();
 
   const handleSubmit = async ({ bundle, ...rest }: UpdateFormValues) => {
-    setLoading(true);
-    const { data } = await codeSendService.createUpdate(rest);
-    await codeSendService.uploadUpdate(data._id, bundle!);
-    history.push("/update");
-    swal({
-      title: "Success",
-      text: "Update Created",
-      icon: "success"
-    });
+    try {
+      setLoading(true);
+      const { _id } = await codeSendService.createUpdate(rest);
+      await codeSendService.uploadUpdate(_id, bundle!);
+      swal({
+        title: "Success",
+        text: "Update Created",
+        icon: "success"
+      });
+      history.push("/update");
+    } catch (error) {
+      swal({
+        title: "Failed",
+        text: error.message,
+        icon: "error"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderForm = () => {
@@ -56,7 +66,7 @@ const UpdateForm: React.FC = () => {
 
   const renderLoading = () => {
     return (
-      <Dimmer active inverted data-testid="loading">
+      <Dimmer active inverted>
         <Loader inverted size="medium">
           Submitting Update
         </Loader>
