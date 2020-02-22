@@ -3,7 +3,10 @@ import { Api } from "./Api";
 export interface Update extends Api {
   version: string;
   note: string;
-  bundle?: Blob;
+  bundleUrl: string;
 }
 
-export type UpdateFormValues = Omit<Update, keyof Api>;
+export interface UpdateFormValues
+  extends Omit<Update, keyof Api | "bundleUrl"> {
+  bundle?: Blob;
+}

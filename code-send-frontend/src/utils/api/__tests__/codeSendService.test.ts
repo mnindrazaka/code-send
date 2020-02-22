@@ -1,35 +1,29 @@
 import codeSendService from "../codeSendService";
-import axios from "axios";
+import Service from "../service";
 
-jest.mock("axios");
-const axiosMock = axios as jest.Mocked<typeof axios>;
+jest.mock("../service");
+const ServiceMock = Service as jest.MockedClass<typeof Service>;
 
 describe("code send service", () => {
   it("can create update", () => {
-    const note = "mock note";
-    const version = "mock version";
-
-    codeSendService.createUpdate({ note, version });
-    expect(axiosMock).toBeCalledWith({
-      baseURL: codeSendService.baseURL,
-      url: "/update",
-      method: "post",
-      data: { note, version }
-    });
+    const update = { note: "mock note", version: "mock version" };
+    codeSendService.createUpdate(update);
+    expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
+      "/update",
+      update
+    );
   });
 
-  it("can upload update", () => {
-    const id = "12345";
+  it("can create update", () => {
+    const id = "mock id";
     const bundle = new Blob([]);
     const formData = new FormData();
     formData.append("bundle", bundle);
 
     codeSendService.uploadUpdate(id, bundle);
-    expect(axiosMock).toBeCalledWith({
-      baseURL: codeSendService.baseURL,
-      url: `/update/${id}/bundle`,
-      method: "put",
-      data: formData
-    });
+    expect(ServiceMock.mock.instances[0].put).toHaveBeenCalledWith(
+      `/update/${id}/bundle`,
+      formData
+    );
   });
 });

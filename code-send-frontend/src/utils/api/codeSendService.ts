@@ -1,27 +1,17 @@
 import { UpdateFormValues } from "interfaces/Update";
-import axios from "axios";
+import Service from "./service";
 
-const baseURL = process.env.REACT_APP_CODE_SEND_SERVICE_URL;
+const baseURL = process.env.REACT_APP_CODE_SEND_SERVICE_URL as string;
+const service = new Service(baseURL);
 
 const createUpdate = (update: UpdateFormValues) => {
-  return axios({
-    baseURL,
-    url: "/update",
-    method: "post",
-    data: update
-  });
+  return service.post("/update", update);
 };
 
 const uploadUpdate = (id: string, bundle: Blob) => {
   const formData = new FormData();
   formData.append("bundle", bundle);
-
-  return axios({
-    baseURL,
-    url: `/update/${id}/bundle`,
-    method: "put",
-    data: formData
-  });
+  return service.put(`/update/${id}/bundle`, formData);
 };
 
 export default {
