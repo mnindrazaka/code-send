@@ -16,4 +16,9 @@ describe("update", () => {
     expect(res.body).to.has.property("version");
     expect(res.body).to.has.property("note");
   });
+
+  test("get all update", async () => {
+    const res = await request.get("/update").send();
+    expect(res.body).to.be.an("array");
+  });
 });
