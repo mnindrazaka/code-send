@@ -57,9 +57,9 @@ describe("update form", () => {
 
   it("can show failed message", async () => {
     const { submitElement, findByText } = renderUpdateForm();
-    codeSendServiceMock.createUpdate.mockRejectedValue({
+    codeSendServiceMock.createUpdate.mockRejectedValueOnce({
       status: "error",
-      message: "failed to update"
+      message: "failed to create update"
     });
 
     fireEvent.click(submitElement);
