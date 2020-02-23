@@ -3,8 +3,12 @@ import { UpdateRequest } from "./updateType";
 import cloudinary from "cloudinary";
 
 export default class UpdateService {
-  createUpdate = async (update: UpdateRequest) => {
-    return await updateModel.create(update);
+  getAllUpdate = () => {
+    return updateModel.find();
+  };
+
+  createUpdate = (update: UpdateRequest) => {
+    return updateModel.create(update);
   };
 
   uploadBundle = async (id: string, bundleBuffer: Buffer) => {
@@ -15,10 +19,6 @@ export default class UpdateService {
       resource_type: "raw"
     });
 
-    return await updateModel.findByIdAndUpdate(
-      id,
-      { bundleUrl: url },
-      { new: true }
-    );
+    return updateModel.findByIdAndUpdate(id, { bundleUrl: url }, { new: true });
   };
 }

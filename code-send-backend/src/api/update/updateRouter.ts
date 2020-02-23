@@ -5,6 +5,7 @@ import upload from "middleware/upload";
 const updateRouter = Router();
 const updateController = new UpdateController();
 
+updateRouter.get("/", updateController.index);
 updateRouter.post("/", updateController.store);
 updateRouter.put(
   "/:id/bundle",

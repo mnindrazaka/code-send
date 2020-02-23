@@ -4,6 +4,15 @@ import HttpException from "utils/httpException";
 const updateService = new UpdateService();
 
 export default class UpdateController {
+  index = async (req: Request, res: Response) => {
+    try {
+      const update = await updateService.getAllUpdate();
+      res.send(update);
+    } catch (error) {
+      throw new HttpException(500, error.message);
+    }
+  };
+
   store = async (req: Request, res: Response) => {
     try {
       const update = await updateService.createUpdate(req.body);
