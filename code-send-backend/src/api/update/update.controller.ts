@@ -1,12 +1,21 @@
 import { Request, Response } from "express";
-import UpdateService from "./updateService";
+import UpdateService from "./update.service";
 import HttpException from "utils/httpException";
 const updateService = new UpdateService();
 
 export default class UpdateController {
   index = async (req: Request, res: Response) => {
     try {
-      const update = await updateService.getAllUpdate();
+      const updates = await updateService.getAllUpdate();
+      res.send(updates);
+    } catch (error) {
+      throw new HttpException(500, error.message);
+    }
+  };
+
+  latest = async (req: Request, res: Response) => {
+    try {
+      const update = await updateService.getLatestUpdate();
       res.send(update);
     } catch (error) {
       throw new HttpException(500, error.message);
