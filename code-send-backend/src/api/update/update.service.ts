@@ -1,10 +1,14 @@
-import updateModel from "./updateModel";
-import { UpdateRequest } from "./updateType";
+import updateModel from "./update.model";
+import { UpdateRequest } from "./update.type";
 import cloudinary from "cloudinary";
 
 export default class UpdateService {
   getAllUpdate = () => {
     return updateModel.find();
+  };
+
+  getLatestUpdate = () => {
+    return updateModel.findOne().sort({ _id: -1 });
   };
 
   createUpdate = (update: UpdateRequest) => {

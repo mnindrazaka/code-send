@@ -21,4 +21,11 @@ describe("update", () => {
     const res = await request.get("/update").send();
     expect(res.body).to.be.an("array");
   });
+
+  test("get latest update", async () => {
+    const res = await request.get("/update/latest").send();
+    expect(res.body).to.has.property("_id");
+    expect(res.body).to.has.property("version");
+    expect(res.body).to.has.property("note");
+  });
 });

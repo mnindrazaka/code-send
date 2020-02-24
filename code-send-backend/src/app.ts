@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import errorHandler from "middleware/errorHandler";
-import updateRouter from "api/update/updateRouter";
+import updateRouter from "api/update/update.router";
 
 const app = express();
 
