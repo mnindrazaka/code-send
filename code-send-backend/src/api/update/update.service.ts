@@ -3,7 +3,7 @@ import { UpdateRequest } from "./update.type";
 import cloudinary from "cloudinary";
 
 export default class UpdateService {
-  getAllUpdate = () => {
+  getAllUpdates = () => {
     return updateModel.find();
   };
 

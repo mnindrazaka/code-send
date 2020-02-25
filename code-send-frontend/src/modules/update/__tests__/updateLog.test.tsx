@@ -20,16 +20,15 @@ const renderUpdateLog = () => {
 
 describe("update log", () => {
   it("can render correct row count", async () => {
-    codeSendServiceMock.getAllUpdate.mockResolvedValueOnce([{}, {}, {}]);
-    const { getByTestId } = renderUpdateLog();
-    await waitForDomChange();
-    const tableBodyElement = getByTestId("table-body-update-log");
+    codeSendServiceMock.getAllUpdates.mockResolvedValueOnce([{}, {}, {}]);
+    const { findByTestId } = renderUpdateLog();
+    const tableBodyElement = await findByTestId("table-body-update-log");
     const tableRowElements = tableBodyElement.getElementsByTagName("tr");
     expect(tableRowElements.length).toEqual(3);
   });
 
   it("can show failed message", async () => {
-    codeSendServiceMock.getAllUpdate.mockRejectedValueOnce({
+    codeSendServiceMock.getAllUpdates.mockRejectedValueOnce({
       status: "error",
       message: "failed to get update"
     });
