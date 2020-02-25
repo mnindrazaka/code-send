@@ -5,9 +5,16 @@ jest.mock("../service");
 const ServiceMock = Service as jest.MockedClass<typeof Service>;
 
 describe("code send service", () => {
-  it("can get all update", () => {
-    codeSendService.getAllUpdate();
+  it("can get all updates", () => {
+    codeSendService.getAllUpdates();
     expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith("/update");
+  });
+
+  it("can get latest update", () => {
+    codeSendService.getLatestUpdate();
+    expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith(
+      "/update/latest"
+    );
   });
 
   it("can create update", () => {

@@ -12,7 +12,7 @@ const UpdateLog: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     codeSendService
-      .getAllUpdate()
+      .getAllUpdates()
       .then(updates => setUpdates(updates))
       .catch(error =>
         swal({
@@ -26,9 +26,9 @@ const UpdateLog: React.FC = () => {
 
   const renderData = () => {
     return updates.map((update, index) => (
-      <Table.Row key={update._id}>
+      <Table.Row key={index}>
         <Table.Cell>{index + 1}</Table.Cell>
-        <Table.Cell>{update.created_at}</Table.Cell>
+        <Table.Cell>{update.createdAt}</Table.Cell>
         <Table.Cell>{update.version}</Table.Cell>
         <Table.Cell>{update.note}</Table.Cell>
         <Table.Cell>

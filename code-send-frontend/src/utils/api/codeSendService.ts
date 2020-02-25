@@ -4,8 +4,12 @@ import Service from "./service";
 const baseURL = process.env.REACT_APP_CODE_SEND_SERVICE_URL as string;
 const service = new Service(baseURL);
 
-const getAllUpdate = () => {
+const getAllUpdates = () => {
   return service.get("/update");
+};
+
+const getLatestUpdate = () => {
+  return service.get("/update/latest");
 };
 
 const createUpdate = (update: UpdateFormValues) => {
@@ -20,7 +24,8 @@ const uploadUpdate = (id: string, bundle: Blob) => {
 
 export default {
   baseURL,
-  getAllUpdate,
+  getAllUpdates,
+  getLatestUpdate,
   createUpdate,
   uploadUpdate
 };

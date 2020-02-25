@@ -6,7 +6,7 @@ const updateService = new UpdateService();
 export default class UpdateController {
   index = async (req: Request, res: Response) => {
     try {
-      const updates = await updateService.getAllUpdate();
+      const updates = await updateService.getAllUpdates();
       res.send(updates);
     } catch (error) {
       throw new HttpException(500, error.message);
