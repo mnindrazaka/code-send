@@ -1,28 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Table, Button, Dimmer, Loader } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { Update } from "interfaces/Update";
-import codeSendService from "utils/api/codeSendService";
+import { useGetAllUpdate } from "hooks/stores/update";
 import swal from "sweetalert";
 
 const UpdateLog: React.FC = () => {
-  const [updates, setUpdates] = useState<Update[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoading(true);
-    codeSendService
-      .getAllUpdates()
-      .then(updates => setUpdates(updates))
-      .catch(error =>
-        swal({
-          title: "Failed",
-          text: error.message,
-          icon: "error"
-        })
-      )
-      .finally(() => setLoading(false));
-  }, []);
+  const { updates, loading, error } = useGetAllUpdate();
 
   const renderData = () => {
     return updates.map((update, index) => (
@@ -68,6 +51,14 @@ const UpdateLog: React.FC = () => {
       </Dimmer>
     );
   };
+
+  if (error) {
+    swal({
+      title: "Failed",
+      icon: "error",
+      text: error
+    });
+  }
 
   return (
     <div data-testid="page-update-log">

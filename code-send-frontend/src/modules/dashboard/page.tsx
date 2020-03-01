@@ -1,35 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Card, Dimmer, Loader } from "semantic-ui-react";
-import { Update } from "interfaces/Update";
-import codeSendService from "utils/api/codeSendService";
+import { useGetLatestUpdate } from "hooks/stores/update";
 import swal from "sweetalert";
 
 const Page: React.FC = () => {
-  const [update, setUpdate] = useState<Update>();
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoading(true);
-    codeSendService
-      .getLatestUpdate()
-      .then(update => setUpdate(update))
-      .catch(error =>
-        swal({
-          title: "Failed",
-          text: error.message,
-          icon: "error"
-        })
-      )
-      .finally(() => setLoading(false));
-  }, []);
+  const { latestUpdate, loading, error } = useGetLatestUpdate();
 
   const renderData = () => {
     return (
       <Card>
         <Card.Content>
           <Card.Header>Latest Update</Card.Header>
-          <Card.Meta>{update?.version}</Card.Meta>
-          <Card.Description>{update?.note}</Card.Description>
+          <Card.Meta>{latestUpdate?.version}</Card.Meta>
+          <Card.Description>{latestUpdate?.note}</Card.Description>
         </Card.Content>
       </Card>
     );
@@ -44,6 +27,14 @@ const Page: React.FC = () => {
       </Dimmer>
     );
   };
+
+  if (error) {
+    swal({
+      title: "Failed",
+      icon: "error",
+      text: error
+    });
+  }
 
   return (
     <div data-testid="page-dashboard">

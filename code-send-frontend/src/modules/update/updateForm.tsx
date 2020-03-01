@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextField, Form, FileField } from "components/formikWrapper";
 import { UpdateFormValues } from "interfaces/Update";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, Loader, Dimmer } from "semantic-ui-react";
 import swal from "sweetalert";
-import codeSendService from "utils/api/codeSendService";
 import { useHistory } from "react-router";
+import { useCreateUpdate } from "hooks/stores/update";
 
 const validationSchema = yup.object().shape({
   version: yup.string().required(),
@@ -20,37 +20,15 @@ const initialValues: UpdateFormValues = {
 };
 
 const UpdateForm: React.FC = () => {
-  const [loading, setLoading] = useState(false);
   const history = useHistory();
-
-  const handleSubmit = async ({ bundle, ...rest }: UpdateFormValues) => {
-    try {
-      setLoading(true);
-      const { _id } = await codeSendService.createUpdate(rest);
-      await codeSendService.uploadUpdate(_id, bundle!);
-      swal({
-        title: "Success",
-        text: "Update Created",
-        icon: "success"
-      });
-      history.push("/update");
-    } catch (error) {
-      swal({
-        title: "Failed",
-        text: error.message,
-        icon: "error"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { createUpdate, loading, error, success } = useCreateUpdate();
 
   const renderForm = () => {
     return (
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={createUpdate}
       >
         <Form>
           <TextField name="version" label="Version" />
@@ -73,6 +51,23 @@ const UpdateForm: React.FC = () => {
       </Dimmer>
     );
   };
+
+  if (error) {
+    swal({
+      title: "Failed",
+      icon: "error",
+      text: error
+    });
+  }
+
+  if (success) {
+    swal({
+      title: "Success",
+      icon: "success",
+      text: "Create update success"
+    });
+    history.push("/update");
+  }
 
   return (
     <div data-testid="page-update-form">
