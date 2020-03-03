@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input } from "semantic-ui-react";
+import { Input, Form } from "antd";
 import { useField } from "formik";
 
 interface TextFieldProps {
@@ -10,12 +10,14 @@ interface TextFieldProps {
 export const TextField: React.FC<TextFieldProps> = ({ name, label }) => {
   const [field, meta] = useField({ name });
   return (
-    <Form.Field
-      id={name}
+    <Form.Item
       label={label}
-      control={Input}
-      error={meta.error}
-      {...field}
-    ></Form.Field>
+      hasFeedback
+      validateStatus={meta.error && "error"}
+      help={meta.error}
+      htmlFor={name}
+    >
+      <Input {...field} id={name} />
+    </Form.Item>
   );
 };

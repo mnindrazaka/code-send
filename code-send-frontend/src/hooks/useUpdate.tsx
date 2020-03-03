@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Update, UpdateFormValues } from "interfaces/Update";
 import codeSendService from "utils/api/codeSendService";
+import { notification } from "antd";
 
 const useUpdate = () => {
   const [updates, setUpdates] = useState<Update[]>([]);
@@ -8,6 +9,26 @@ const useUpdate = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<boolean>(false);
+
+  const handleSuccessIndicator = useCallback(
+    (title: string, description: string) => {
+      notification.success({
+        message: title,
+        description
+      });
+    },
+    []
+  );
+
+  const handleErrorIndicator = useCallback(
+    (title: string, description: string) => {
+      notification.error({
+        message: title,
+        description
+      });
+    },
+    []
+  );
 
   return {
     updates,
@@ -19,7 +40,9 @@ const useUpdate = () => {
     error,
     setError,
     success,
-    setSuccess
+    setSuccess,
+    handleSuccessIndicator,
+    handleErrorIndicator
   };
 };
 
@@ -32,20 +55,25 @@ export const useGetAllUpdate = () => {
     updates,
     loading,
     error,
-    success
+    success,
+    handleErrorIndicator
   } = useUpdate();
 
   useEffect(() => {
-    setLoading(true);
-    codeSendService
-      .getAllUpdates()
-      .then(updates => {
+    (async () => {
+      try {
+        setLoading(true);
+        const updates = await codeSendService.getAllUpdates();
         setUpdates(updates);
         setSuccess(true);
-      })
-      .catch(error => setError(error.message))
-      .finally(() => setLoading(false));
-  }, [setUpdates, setLoading, setError, setSuccess]);
+      } catch (error) {
+        setError(error.message);
+        handleErrorIndicator("Failed", error.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [setUpdates, setLoading, setError, setSuccess, handleErrorIndicator]);
 
   return { updates, loading, error, success };
 };
@@ -59,20 +87,25 @@ export const useGetLatestUpdate = () => {
     latestUpdate,
     loading,
     error,
-    success
+    success,
+    handleErrorIndicator
   } = useUpdate();
 
   useEffect(() => {
-    setLoading(true);
-    codeSendService
-      .getLatestUpdate()
-      .then(update => {
+    (async () => {
+      try {
+        setLoading(true);
+        const update = await codeSendService.getLatestUpdate();
         setLatestUpdate(update);
         setSuccess(true);
-      })
-      .catch(error => setError(error.message))
-      .finally(() => setLoading(false));
-  }, [setLatestUpdate, setLoading, setError, setSuccess]);
+      } catch (error) {
+        setError(error.message);
+        handleErrorIndicator("Failed", error.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [setLoading, setLatestUpdate, setSuccess, setError, handleErrorIndicator]);
 
   return { latestUpdate, loading, error, success };
 };
@@ -84,7 +117,9 @@ export const useCreateUpdate = () => {
     setSuccess,
     loading,
     error,
-    success
+    success,
+    handleSuccessIndicator,
+    handleErrorIndicator
   } = useUpdate();
 
   const createUpdate = async ({ bundle, ...rest }: UpdateFormValues) => {
@@ -93,8 +128,10 @@ export const useCreateUpdate = () => {
       const { _id } = await codeSendService.createUpdate(rest);
       await codeSendService.uploadUpdate(_id, bundle!);
       setSuccess(true);
+      handleSuccessIndicator("Success", "Your update is successfully created");
     } catch (error) {
       setError(error.message);
+      handleErrorIndicator("Failed", error.message);
     } finally {
       setLoading(false);
     }

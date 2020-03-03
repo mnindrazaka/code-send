@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
 import Page from "../page";
 import codeSendService from "utils/api/codeSendService";

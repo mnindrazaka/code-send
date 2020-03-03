@@ -1,5 +1,6 @@
 import React from "react";
-import { render, fireEvent, act } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
+import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
 import UpdateForm from "../updateForm";
 import codeSendService from "utils/api/codeSendService";
@@ -25,11 +26,7 @@ const renderUpdateForm = () => {
   const inputVersionElement = getByLabelText("Version");
   const inputNoteElement = getByLabelText("Note");
   const inputBundleElement = getByLabelText("Bundle");
-  const submitElement = getByText("Submit");
-
-  fireEvent.change(inputVersionElement, { target: { value: version } });
-  fireEvent.change(inputNoteElement, { target: { value: note } });
-  fireEvent.change(inputBundleElement, { target: { files: [file] } });
+  const submitElement = getByText("Submit").closest("button");
 
   return {
     ...utils,
@@ -42,27 +39,58 @@ const renderUpdateForm = () => {
 
 describe("update form", () => {
   it("can fill correct value", () => {
-    const { inputVersionElement, inputNoteElement } = renderUpdateForm();
+    const {
+      inputVersionElement,
+      inputNoteElement,
+      inputBundleElement
+    } = renderUpdateForm();
+
+    fireEvent.change(inputVersionElement, { target: { value: version } });
+    fireEvent.change(inputNoteElement, { target: { value: note } });
+    fireEvent.change(inputBundleElement, { target: { files: [file] } });
+
     expect(inputVersionElement).toHaveValue(version);
     expect(inputNoteElement).toHaveValue(note);
   });
 
   it("can show success message", async () => {
-    const { submitElement, findByText } = renderUpdateForm();
+    const {
+      inputVersionElement,
+      inputNoteElement,
+      inputBundleElement,
+      submitElement,
+      findByText
+    } = renderUpdateForm();
+
     codeSendServiceMock.createUpdate.mockResolvedValueOnce({ _id });
-    fireEvent.click(submitElement);
+    codeSendServiceMock.uploadUpdate.mockResolvedValueOnce({ _id });
+    fireEvent.change(inputVersionElement, { target: { value: version } });
+    fireEvent.change(inputNoteElement, { target: { value: note } });
+    fireEvent.change(inputBundleElement, { target: { files: [file] } });
+    fireEvent.click(submitElement!);
+
     const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
   });
 
   it("can show failed message", async () => {
-    const { submitElement, findByText } = renderUpdateForm();
+    const {
+      inputVersionElement,
+      inputNoteElement,
+      inputBundleElement,
+      submitElement,
+      findByText
+    } = renderUpdateForm();
+
     codeSendServiceMock.createUpdate.mockRejectedValueOnce({
       status: "error",
       message: "failed to create update"
     });
+    fireEvent.change(inputVersionElement, { target: { value: version } });
+    fireEvent.change(inputNoteElement, { target: { value: note } });
+    fireEvent.change(inputBundleElement, { target: { files: [file] } });
+    fireEvent.click(submitElement!);
 
-    fireEvent.click(submitElement);
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
   });

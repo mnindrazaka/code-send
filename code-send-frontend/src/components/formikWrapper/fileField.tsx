@@ -1,5 +1,6 @@
-import React from "react";
-import { Button, Form, Message } from "semantic-ui-react";
+import React, { useRef } from "react";
+import { Form, Button, Typography } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { useField } from "formik";
 
 interface FileFieldProps {
@@ -9,14 +10,14 @@ interface FileFieldProps {
 
 export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
   const [field, meta, helper] = useField<File>({ name });
-  let inputFile: HTMLInputElement | null = null;
+  const inputFileRef = useRef<HTMLInputElement>(null);
 
   const isError = () => {
     return meta.error !== undefined;
   };
 
   const handleButtonClick = () => {
-    inputFile && inputFile.click();
+    inputFileRef.current?.click();
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,9 +28,9 @@ export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
   const renderInput = () => {
     return (
       <input
-        id={label}
+        id={name}
         type="file"
-        ref={ref => (inputFile = ref)}
+        ref={inputFileRef}
         hidden
         onChange={handleFileChange}
         onBlur={field.onBlur}
@@ -39,15 +40,9 @@ export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
 
   const renderButton = () => {
     return (
-      <Button
-        type="button"
-        icon="upload"
-        content="Choose File"
-        negative={isError()}
-        basic
-        onClick={handleButtonClick}
-        style={{ marginRight: 10 }}
-      />
+      <Button onClick={handleButtonClick} style={{ marginRight: 15 }}>
+        <UploadOutlined /> Choose File
+      </Button>
     );
   };
 
@@ -57,21 +52,19 @@ export const FileField: React.FC<FileFieldProps> = ({ label, name }) => {
       : field.value
       ? field.value.name
       : "";
+
     return (
-      message && (
-        <Message negative={isError()} compact size="tiny">
-          {message}
-        </Message>
-      )
+      <Typography.Text type={isError() ? "danger" : "secondary"}>
+        {message}
+      </Typography.Text>
     );
   };
 
   return (
-    <Form.Field error={isError()}>
-      <label htmlFor={label}>{label}</label>
+    <Form.Item label={label} htmlFor={name}>
       {renderInput()}
       {renderButton()}
       {renderMessage()}
-    </Form.Field>
+    </Form.Item>
   );
 };

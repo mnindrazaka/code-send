@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TextField, Form, FileField } from "components/formikWrapper";
 import { UpdateFormValues } from "interfaces/Update";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { Button, Loader, Dimmer } from "semantic-ui-react";
-import swal from "sweetalert";
+import { Button, PageHeader } from "antd";
 import { useHistory } from "react-router";
-import { useCreateUpdate } from "hooks/stores/update";
+import { useCreateUpdate } from "hooks/useUpdate";
 
 const validationSchema = yup.object().shape({
   version: yup.string().required(),
@@ -21,10 +20,20 @@ const initialValues: UpdateFormValues = {
 
 const UpdateForm: React.FC = () => {
   const history = useHistory();
-  const { createUpdate, loading, error, success } = useCreateUpdate();
+  const { createUpdate, loading, success } = useCreateUpdate();
 
-  const renderForm = () => {
-    return (
+  useEffect(() => {
+    if (success) {
+      history.push("/update");
+    }
+  }, [success, history]);
+
+  return (
+    <div data-testid="page-update-form">
+      <PageHeader
+        title="Create Update"
+        subTitle="Create and realease your new update"
+      />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -34,44 +43,11 @@ const UpdateForm: React.FC = () => {
           <TextField name="version" label="Version" />
           <TextField name="note" label="Note" />
           <FileField name="bundle" label="Bundle" />
-          <Button type="submit" primary>
+          <Button type="primary" htmlType="submit" loading={loading}>
             Submit
           </Button>
         </Form>
       </Formik>
-    );
-  };
-
-  const renderLoading = () => {
-    return (
-      <Dimmer active inverted>
-        <Loader inverted size="medium">
-          Submitting Update
-        </Loader>
-      </Dimmer>
-    );
-  };
-
-  if (error) {
-    swal({
-      title: "Failed",
-      icon: "error",
-      text: error
-    });
-  }
-
-  if (success) {
-    swal({
-      title: "Success",
-      icon: "success",
-      text: "Create update success"
-    });
-    history.push("/update");
-  }
-
-  return (
-    <div data-testid="page-update-form">
-      {loading ? renderLoading() : renderForm()}
     </div>
   );
 };
