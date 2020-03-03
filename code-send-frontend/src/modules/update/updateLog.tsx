@@ -1,76 +1,56 @@
 import React from "react";
-import { Table, Button, Dimmer, Loader } from "semantic-ui-react";
+import { Button, Skeleton, Table, PageHeader } from "antd";
 import { Link } from "react-router-dom";
-import { useGetAllUpdate } from "hooks/stores/update";
-import swal from "sweetalert";
+import { useGetAllUpdate } from "hooks/useUpdate";
 
 const UpdateLog: React.FC = () => {
-  const { updates, loading, error } = useGetAllUpdate();
+  const { updates, loading } = useGetAllUpdate();
 
-  const renderData = () => {
-    return updates.map((update, index) => (
-      <Table.Row key={index}>
-        <Table.Cell>{index + 1}</Table.Cell>
-        <Table.Cell>{update.createdAt}</Table.Cell>
-        <Table.Cell>{update.version}</Table.Cell>
-        <Table.Cell>{update.note}</Table.Cell>
-        <Table.Cell>
-          <Button as="a" href={update.bundleUrl} basic>
-            Download
-          </Button>
-        </Table.Cell>
-      </Table.Row>
-    ));
+  const getDataSource = () => {
+    return updates.map(update => ({
+      key: update._id,
+      date: update.createdAt,
+      version: update.version,
+      note: update.note
+    }));
   };
 
-  const renderTable = () => {
-    return (
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>No</Table.HeaderCell>
-            <Table.HeaderCell>Date</Table.HeaderCell>
-            <Table.HeaderCell>Version</Table.HeaderCell>
-            <Table.HeaderCell>Note</Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body data-testid="table-body-update-log">
-          {renderData()}
-        </Table.Body>
-      </Table>
-    );
+  const getColumns = () => {
+    return [
+      {
+        title: "Relase Date",
+        dataIndex: "date",
+        key: "date"
+      },
+      {
+        title: "Version",
+        dataIndex: "version",
+        key: "version"
+      },
+      {
+        title: "Note",
+        dataIndex: "note",
+        key: "note"
+      }
+    ];
   };
-
-  const renderLoading = () => {
-    return (
-      <Dimmer active inverted>
-        <Loader inverted size="medium">
-          Getting Update
-        </Loader>
-      </Dimmer>
-    );
-  };
-
-  if (error) {
-    swal({
-      title: "Failed",
-      icon: "error",
-      text: error
-    });
-  }
 
   return (
     <div data-testid="page-update-log">
-      <Button
-        as={Link}
-        to="/update/create"
-        primary
-        data-testid="button-create-update"
-      >
-        Create New Update
-      </Button>
-      {loading ? renderLoading() : renderTable()}
+      <PageHeader title="Update Logs" subTitle="Show your update logs" />
+
+      <Link to="/update/create">
+        <Button type="primary">Create New Update</Button>
+      </Link>
+
+      <Skeleton loading={loading} active>
+        <Table
+          dataSource={getDataSource()}
+          columns={getColumns()}
+          style={{ marginTop: 15 }}
+          data-testid="table-update-log"
+        />
+      </Skeleton>
     </div>
   );
 };

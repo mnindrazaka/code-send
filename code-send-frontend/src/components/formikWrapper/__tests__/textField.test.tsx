@@ -1,5 +1,6 @@
 import React from "react";
 import "@testing-library/react/dont-cleanup-after-each";
+import "matchMedia.mock";
 import { fireEvent } from "@testing-library/react";
 import { TextField } from "../textField";
 import { renderFormik } from "../utils";

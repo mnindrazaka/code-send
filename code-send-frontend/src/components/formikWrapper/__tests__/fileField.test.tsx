@@ -1,5 +1,6 @@
 import React from "react";
 import "@testing-library/react/dont-cleanup-after-each";
+import "matchMedia.mock";
 import { fireEvent } from "@testing-library/react";
 import { FileField } from "../fileField";
 import { renderFormik } from "../utils";
@@ -16,7 +17,6 @@ const { getByLabelText, getByText, findByText } = renderFormik(
 describe("file field", () => {
   it("has choose file button", () => {
     const buttonElement = getByText("Choose File");
-    fireEvent.click(buttonElement);
     expect(buttonElement).toBeInTheDocument();
   });
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitForDomChange } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import UpdateLog from "../updateLog";
 import codeSendService from "utils/api/codeSendService";
@@ -22,9 +22,9 @@ describe("update log", () => {
   it("can render correct row count", async () => {
     codeSendServiceMock.getAllUpdates.mockResolvedValueOnce([{}, {}, {}]);
     const { findByTestId } = renderUpdateLog();
-    const tableBodyElement = await findByTestId("table-body-update-log");
-    const tableRowElements = tableBodyElement.getElementsByTagName("tr");
-    expect(tableRowElements.length).toEqual(3);
+    const tableElement = await findByTestId("table-update-log");
+    const tableRowElements = tableElement.getElementsByTagName("tr");
+    expect(tableRowElements.length).toEqual(4);
   });
 
   it("can show failed message", async () => {

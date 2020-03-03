@@ -1,44 +1,59 @@
 import React from "react";
-import { Card, Dimmer, Loader } from "semantic-ui-react";
-import { useGetLatestUpdate } from "hooks/stores/update";
-import swal from "sweetalert";
+import { Card, Row, Col, PageHeader, Skeleton } from "antd";
+import {
+  NumberOutlined,
+  InfoCircleOutlined,
+  CalendarOutlined
+} from "@ant-design/icons";
+import { useGetLatestUpdate } from "hooks/useUpdate";
 
 const Page: React.FC = () => {
-  const { latestUpdate, loading, error } = useGetLatestUpdate();
-
-  const renderData = () => {
-    return (
-      <Card>
-        <Card.Content>
-          <Card.Header>Latest Update</Card.Header>
-          <Card.Meta>{latestUpdate?.version}</Card.Meta>
-          <Card.Description>{latestUpdate?.note}</Card.Description>
-        </Card.Content>
-      </Card>
-    );
-  };
-
-  const renderLoading = () => {
-    return (
-      <Dimmer active inverted>
-        <Loader inverted size="medium">
-          Getting Update
-        </Loader>
-      </Dimmer>
-    );
-  };
-
-  if (error) {
-    swal({
-      title: "Failed",
-      icon: "error",
-      text: error
-    });
-  }
+  const { latestUpdate, loading } = useGetLatestUpdate();
 
   return (
     <div data-testid="page-dashboard">
-      {loading ? renderLoading() : renderData()}
+      <PageHeader
+        title="Latest Update"
+        subTitle="Show your latest update information"
+      />
+
+      <Row style={{ marginTop: 15 }} gutter={16}>
+        <Col span="8">
+          <Card>
+            <Skeleton avatar loading={loading} active>
+              <Card.Meta
+                title="Version"
+                description={latestUpdate?.version}
+                avatar={<NumberOutlined />}
+              />
+            </Skeleton>
+          </Card>
+        </Col>
+
+        <Col span="8">
+          <Card>
+            <Skeleton avatar loading={loading} active>
+              <Card.Meta
+                title="Note"
+                description={latestUpdate?.note}
+                avatar={<InfoCircleOutlined />}
+              />
+            </Skeleton>
+          </Card>
+        </Col>
+
+        <Col span="8">
+          <Card>
+            <Skeleton avatar loading={loading} active>
+              <Card.Meta
+                title="Release Date"
+                description={latestUpdate?.createdAt}
+                avatar={<CalendarOutlined />}
+              />
+            </Skeleton>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };
