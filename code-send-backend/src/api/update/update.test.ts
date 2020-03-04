@@ -1,17 +1,8 @@
 import supertest from "supertest";
 import app from "app";
 import { expect } from "chai";
-import { connectDB, closeDB } from "utils/database";
-import updateModel from "./update.model";
-
+import { connectDB, closeDB, mockingDatabaseRecord } from "utils/database";
 const request = supertest(app);
-const mockingDatabaseRecord = () => {
-  return updateModel.create({
-    version: "0.1",
-    note: "first release",
-    bundleUrl: "http://localhost"
-  });
-};
 
 describe("update", () => {
   beforeEach(async () => {

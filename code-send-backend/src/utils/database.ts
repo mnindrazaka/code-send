@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import projectModel from "api/project/project.model";
+import updateModel from "api/update/update.model";
 
 const mongoMemoryServer = new MongoMemoryServer();
 const { USERNAME, PASSWORD } = process.env;
@@ -20,4 +22,16 @@ export async function closeDB(isUsingMemory?: boolean) {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
   if (isUsingMemory) await mongoMemoryServer.stop();
+}
+
+export async function mockingDatabaseRecord() {
+  await projectModel.create({
+    name: "project-1"
+  });
+
+  await updateModel.create({
+    version: "0.1",
+    note: "first release",
+    bundleUrl: "http://localhost"
+  });
 }
