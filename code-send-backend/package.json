@@ -7,7 +7,7 @@
     "build": "tsc --build",
     "start": "NODE_PATH=./build node build/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
-    "test": "jest --forceExit",
+    "test": "jest",
     "coverage": "jest --coverage --watch",
     "prettier": "prettier --write '{src,test,mock}/**/*.{ts,tsx}'"
   },
