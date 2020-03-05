@@ -8,8 +8,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/project", projectRouter);
-app.use("/update", updateRouter);
+app.use(projectRouter);
+app.use(updateRouter);
 app.use(errorHandler);
 
 export default app;

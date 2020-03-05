@@ -6,7 +6,8 @@ const updateService = new UpdateService();
 export default class UpdateController {
   index = async (req: Request, res: Response) => {
     try {
-      const updates = await updateService.getAllUpdates();
+      const { projectId } = req.params;
+      const updates = await updateService.getAllUpdates(projectId);
       res.send(updates);
     } catch (error) {
       throw new HttpException(500, error.message);
@@ -15,7 +16,8 @@ export default class UpdateController {
 
   latest = async (req: Request, res: Response) => {
     try {
-      const update = await updateService.getLatestUpdate();
+      const { projectId } = req.params;
+      const update = await updateService.getLatestUpdate(projectId);
       res.send(update);
     } catch (error) {
       throw new HttpException(500, error.message);
@@ -24,7 +26,8 @@ export default class UpdateController {
 
   store = async (req: Request, res: Response) => {
     try {
-      const update = await updateService.createUpdate(req.body);
+      const { projectId } = req.params;
+      const update = await updateService.createUpdate(projectId, req.body);
       res.send(update);
     } catch (error) {
       throw new HttpException(500, error.message);
@@ -33,9 +36,9 @@ export default class UpdateController {
 
   uploadBundle = async (req: Request, res: Response) => {
     try {
-      const id = req.params.id;
+      const { updateId } = req.params;
       const bundleBuffer = req.file.buffer;
-      const update = await updateService.uploadBundle(id, bundleBuffer);
+      const update = await updateService.uploadBundle(updateId, bundleBuffer);
       res.send(update);
     } catch (error) {
       throw new HttpException(500, error.message);
