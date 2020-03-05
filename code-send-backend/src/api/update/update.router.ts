@@ -4,12 +4,13 @@ import upload from "middleware/upload";
 
 const updateRouter = Router();
 const updateController = new UpdateController();
+const baseUrl = "/project/:projectId/update";
 
-updateRouter.get("/", updateController.index);
-updateRouter.get("/latest", updateController.latest);
-updateRouter.post("/", updateController.store);
+updateRouter.get(baseUrl, updateController.index);
+updateRouter.get(`${baseUrl}/latest`, updateController.latest);
+updateRouter.post(baseUrl, updateController.store);
 updateRouter.put(
-  "/:id/bundle",
+  `${baseUrl}/:updateId/bundle`,
   upload("bundle"),
   updateController.uploadBundle
 );

@@ -25,13 +25,14 @@ export async function closeDB(isUsingMemory?: boolean) {
 }
 
 export async function mockingDatabaseRecord() {
-  await projectModel.create({
+  const project = await projectModel.create({
     name: "project-1"
   });
 
   await updateModel.create({
     version: "0.1",
     note: "first release",
-    bundleUrl: "http://localhost"
+    bundleUrl: "http://localhost",
+    project: project._id
   });
 }

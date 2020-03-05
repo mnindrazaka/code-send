@@ -7,7 +7,11 @@ const updateSchema = new Schema(
   {
     version: String,
     note: String,
-    bundleUrl: String
+    bundleUrl: String,
+    project: {
+      type: Schema.Types.ObjectId,
+      ref: "Project"
+    }
   },
   {
     timestamps: true
