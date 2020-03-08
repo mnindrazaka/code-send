@@ -1,10 +1,9 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { AppProvider } from "contexts/appContext";
 import UpdateLog from "../updateLog";
 import codeSendService from "utils/api/codeSendService";
-import { ProjectProvider } from "contexts/projectContext";
-import { UpdateProvider } from "contexts/updateContext";
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -14,11 +13,9 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 const renderUpdateLog = () => {
   const utils = render(
     <MemoryRouter>
-      <ProjectProvider>
-        <UpdateProvider>
-          <UpdateLog />
-        </UpdateProvider>
-      </ProjectProvider>
+      <AppProvider>
+        <UpdateLog />
+      </AppProvider>
     </MemoryRouter>
   );
   return utils;

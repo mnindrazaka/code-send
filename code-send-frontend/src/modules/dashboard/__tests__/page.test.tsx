@@ -2,10 +2,9 @@ import React from "react";
 import { render } from "@testing-library/react";
 import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
+import { AppProvider } from "contexts/appContext";
 import Page from "../page";
 import codeSendService from "utils/api/codeSendService";
-import { ProjectProvider } from "contexts/projectContext";
-import { UpdateProvider } from "contexts/updateContext";
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -15,14 +14,11 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 const renderDashboardPage = () => {
   const utils = render(
     <MemoryRouter>
-      <ProjectProvider>
-        <UpdateProvider>
-          <Page />
-        </UpdateProvider>
-      </ProjectProvider>
+      <AppProvider>
+        <Page />
+      </AppProvider>
     </MemoryRouter>
   );
-
   return utils;
 };
 
