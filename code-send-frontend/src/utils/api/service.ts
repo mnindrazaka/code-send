@@ -12,31 +12,31 @@ export default class Service {
     return status === "error" ? Promise.reject(message) : res;
   }
 
-  public get(endpoint: string) {
+  public get<T>(endpoint: string) {
     return axios
       .get(this.baseURL + endpoint)
       .then(this.handleError)
-      .then(res => res.data);
+      .then(res => res.data as T);
   }
 
-  public post(endpoint: string, data: any) {
+  public post<T>(endpoint: string, data: any) {
     return axios
       .post(this.baseURL + endpoint, data)
       .then(this.handleError)
-      .then(res => res.data);
+      .then(res => res.data as T);
   }
 
-  public put(endpoint: string, data: any) {
+  public put<T>(endpoint: string, data: any) {
     return axios
       .put(this.baseURL + endpoint, data)
       .then(this.handleError)
-      .then(res => res.data);
+      .then(res => res.data as T);
   }
 
-  public delete(endpoint: string) {
+  public delete<T>(endpoint: string) {
     return axios
       .delete(this.baseURL + endpoint)
       .then(this.handleError)
-      .then(res => res.data);
+      .then(res => res.data as T);
   }
 }
