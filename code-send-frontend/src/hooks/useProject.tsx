@@ -2,6 +2,7 @@ import { useEffect, useContext } from "react";
 import { ProjectFormValues } from "interfaces/Project";
 import codeSendService from "utils/api/codeSendService";
 import { projectContext } from "contexts/projectContext";
+import { useNotification } from "hooks/useNotification";
 
 export const useGetAllProject = () => {
   const {
@@ -12,9 +13,9 @@ export const useGetAllProject = () => {
     projects,
     loading,
     error,
-    success,
-    handleErrorIndicator
+    success
   } = useContext(projectContext);
+  const { handleError } = useNotification();
 
   useEffect(() => {
     (async () => {
@@ -25,12 +26,12 @@ export const useGetAllProject = () => {
         setSuccess(true);
       } catch (error) {
         setError(error.message);
-        handleErrorIndicator("Failed", error.message);
+        handleError("Failed", error.message);
       } finally {
         setLoading(false);
       }
     })();
-  }, [setProjects, setLoading, setError, setSuccess, handleErrorIndicator]);
+  }, [setProjects, setLoading, setError, setSuccess, handleError]);
 
   return { projects, loading, error, success };
 };
@@ -42,20 +43,19 @@ export const useCreateProject = () => {
     setSuccess,
     loading,
     error,
-    success,
-    handleSuccessIndicator,
-    handleErrorIndicator
+    success
   } = useContext(projectContext);
+  const { handleSuccess, handleError } = useNotification();
 
   const createProject = async (projectFormValues: ProjectFormValues) => {
     try {
       setLoading(true);
       await codeSendService.createProject(projectFormValues);
       setSuccess(true);
-      handleSuccessIndicator("Success", "Your project is successfully created");
+      handleSuccess("Success", "Your project is successfully created");
     } catch (error) {
       setError(error.message);
-      handleErrorIndicator("Failed", error.message);
+      handleError("Failed", error.message);
     } finally {
       setLoading(false);
     }

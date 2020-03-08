@@ -3,6 +3,7 @@ import { UpdateFormValues } from "interfaces/Update";
 import codeSendService from "utils/api/codeSendService";
 import { updateContext } from "contexts/updateContext";
 import { projectContext } from "contexts/projectContext";
+import { useNotification } from "./useNotification";
 
 export const useGetAllUpdate = () => {
   const {
@@ -13,10 +14,10 @@ export const useGetAllUpdate = () => {
     updates,
     loading,
     error,
-    success,
-    handleErrorIndicator
+    success
   } = useContext(updateContext);
   const { selectedProject } = useContext(projectContext);
+  const { handleError } = useNotification();
 
   useEffect(() => {
     (async () => {
@@ -29,7 +30,7 @@ export const useGetAllUpdate = () => {
         setSuccess(true);
       } catch (error) {
         setError(error.message);
-        handleErrorIndicator("Failed", error.message);
+        handleError("Failed", error.message);
       } finally {
         setLoading(false);
       }
@@ -39,7 +40,7 @@ export const useGetAllUpdate = () => {
     setLoading,
     setError,
     setSuccess,
-    handleErrorIndicator,
+    handleError,
     selectedProject
   ]);
 
@@ -55,10 +56,10 @@ export const useGetLatestUpdate = () => {
     latestUpdate,
     loading,
     error,
-    success,
-    handleErrorIndicator
+    success
   } = useContext(updateContext);
   const { selectedProject } = useContext(projectContext);
+  const { handleError } = useNotification();
 
   useEffect(() => {
     (async () => {
@@ -71,7 +72,7 @@ export const useGetLatestUpdate = () => {
         setSuccess(true);
       } catch (error) {
         setError(error.message);
-        handleErrorIndicator("Failed", error.message);
+        handleError("Failed", error.message);
       } finally {
         setLoading(false);
       }
@@ -81,7 +82,7 @@ export const useGetLatestUpdate = () => {
     setLatestUpdate,
     setSuccess,
     setError,
-    handleErrorIndicator,
+    handleError,
     selectedProject
   ]);
 
@@ -95,11 +96,10 @@ export const useCreateUpdate = () => {
     setSuccess,
     loading,
     error,
-    success,
-    handleSuccessIndicator,
-    handleErrorIndicator
+    success
   } = useContext(updateContext);
   const { selectedProject } = useContext(projectContext);
+  const { handleError, handleSuccess } = useNotification();
 
   const createUpdate = async ({ bundle, ...rest }: UpdateFormValues) => {
     try {
@@ -114,10 +114,10 @@ export const useCreateUpdate = () => {
         bundle!
       );
       setSuccess(true);
-      handleSuccessIndicator("Success", "Your update is successfully created");
+      handleSuccess("Success", "Your update is successfully created");
     } catch (error) {
       setError(error.message);
-      handleErrorIndicator("Failed", error.message);
+      handleError("Failed", error.message);
     } finally {
       setLoading(false);
     }

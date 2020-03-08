@@ -20,8 +20,6 @@ interface ProjectContextValue {
   setError: Dispatch<SetStateAction<string | undefined>>;
   success: boolean;
   setSuccess: Dispatch<SetStateAction<boolean>>;
-  handleSuccessIndicator: (title: string, description: string) => void;
-  handleErrorIndicator: (title: string, description: string) => void;
 }
 
 export const projectContext = createContext<ProjectContextValue>({
@@ -34,9 +32,7 @@ export const projectContext = createContext<ProjectContextValue>({
   error: undefined,
   setError: () => null,
   success: false,
-  setSuccess: () => null,
-  handleSuccessIndicator: () => null,
-  handleErrorIndicator: () => null
+  setSuccess: () => null
 });
 
 const { Provider } = projectContext;
@@ -47,26 +43,6 @@ export const ProjectProvider: FunctionComponent = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<boolean>(false);
-
-  const handleSuccessIndicator = useCallback(
-    (title: string, description: string) => {
-      notification.success({
-        message: title,
-        description
-      });
-    },
-    []
-  );
-
-  const handleErrorIndicator = useCallback(
-    (title: string, description: string) => {
-      notification.error({
-        message: title,
-        description
-      });
-    },
-    []
-  );
 
   return (
     <Provider
@@ -80,9 +56,7 @@ export const ProjectProvider: FunctionComponent = ({ children }) => {
         error,
         setError,
         success,
-        setSuccess,
-        handleSuccessIndicator,
-        handleErrorIndicator
+        setSuccess
       }}
     >
       {children}
