@@ -4,6 +4,8 @@ import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
 import UpdateForm from "../updateForm";
 import codeSendService from "utils/api/codeSendService";
+import { ProjectProvider } from "contexts/projectContext";
+import { UpdateProvider } from "contexts/updateContext";
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -18,7 +20,11 @@ const file = new File(["mock content"], "index.bundle.js");
 const renderUpdateForm = () => {
   const utils = render(
     <MemoryRouter>
-      <UpdateForm />
+      <ProjectProvider>
+        <UpdateProvider>
+          <UpdateForm />
+        </UpdateProvider>
+      </ProjectProvider>
     </MemoryRouter>
   );
   const { getByLabelText, getByText } = utils;

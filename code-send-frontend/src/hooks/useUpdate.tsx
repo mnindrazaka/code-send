@@ -1,50 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
-import { Update, UpdateFormValues } from "interfaces/Update";
+import { useEffect, useContext } from "react";
+import { UpdateFormValues } from "interfaces/Update";
 import codeSendService from "utils/api/codeSendService";
-import { notification } from "antd";
-
-const useUpdate = () => {
-  const [updates, setUpdates] = useState<Update[]>([]);
-  const [latestUpdate, setLatestUpdate] = useState<Update>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>();
-  const [success, setSuccess] = useState<boolean>(false);
-
-  const handleSuccessIndicator = useCallback(
-    (title: string, description: string) => {
-      notification.success({
-        message: title,
-        description
-      });
-    },
-    []
-  );
-
-  const handleErrorIndicator = useCallback(
-    (title: string, description: string) => {
-      notification.error({
-        message: title,
-        description
-      });
-    },
-    []
-  );
-
-  return {
-    updates,
-    setUpdates,
-    latestUpdate,
-    setLatestUpdate,
-    loading,
-    setLoading,
-    error,
-    setError,
-    success,
-    setSuccess,
-    handleSuccessIndicator,
-    handleErrorIndicator
-  };
-};
+import { updateContext } from "contexts/updateContext";
+import { projectContext } from "contexts/projectContext";
 
 export const useGetAllUpdate = () => {
   const {
@@ -57,13 +15,16 @@ export const useGetAllUpdate = () => {
     error,
     success,
     handleErrorIndicator
-  } = useUpdate();
+  } = useContext(updateContext);
+  const { selectedProject } = useContext(projectContext);
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const updates = await codeSendService.getAllUpdates();
+        const updates = await codeSendService.getAllUpdates(
+          selectedProject?._id || ""
+        );
         setUpdates(updates);
         setSuccess(true);
       } catch (error) {
@@ -73,7 +34,14 @@ export const useGetAllUpdate = () => {
         setLoading(false);
       }
     })();
-  }, [setUpdates, setLoading, setError, setSuccess, handleErrorIndicator]);
+  }, [
+    setUpdates,
+    setLoading,
+    setError,
+    setSuccess,
+    handleErrorIndicator,
+    selectedProject
+  ]);
 
   return { updates, loading, error, success };
 };
@@ -89,13 +57,16 @@ export const useGetLatestUpdate = () => {
     error,
     success,
     handleErrorIndicator
-  } = useUpdate();
+  } = useContext(updateContext);
+  const { selectedProject } = useContext(projectContext);
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const update = await codeSendService.getLatestUpdate();
+        const update = await codeSendService.getLatestUpdate(
+          selectedProject?._id || ""
+        );
         setLatestUpdate(update);
         setSuccess(true);
       } catch (error) {
@@ -105,7 +76,14 @@ export const useGetLatestUpdate = () => {
         setLoading(false);
       }
     })();
-  }, [setLoading, setLatestUpdate, setSuccess, setError, handleErrorIndicator]);
+  }, [
+    setLoading,
+    setLatestUpdate,
+    setSuccess,
+    setError,
+    handleErrorIndicator,
+    selectedProject
+  ]);
 
   return { latestUpdate, loading, error, success };
 };
@@ -120,13 +98,21 @@ export const useCreateUpdate = () => {
     success,
     handleSuccessIndicator,
     handleErrorIndicator
-  } = useUpdate();
+  } = useContext(updateContext);
+  const { selectedProject } = useContext(projectContext);
 
   const createUpdate = async ({ bundle, ...rest }: UpdateFormValues) => {
     try {
       setLoading(true);
-      const { _id } = await codeSendService.createUpdate(rest);
-      await codeSendService.uploadUpdate(_id, bundle!);
+      const update = await codeSendService.createUpdate(
+        selectedProject?._id || "",
+        rest
+      );
+      await codeSendService.uploadUpdate(
+        selectedProject?._id || "",
+        update._id,
+        bundle!
+      );
       setSuccess(true);
       handleSuccessIndicator("Success", "Your update is successfully created");
     } catch (error) {

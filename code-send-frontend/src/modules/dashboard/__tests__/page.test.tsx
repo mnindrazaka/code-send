@@ -4,6 +4,8 @@ import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
 import Page from "../page";
 import codeSendService from "utils/api/codeSendService";
+import { ProjectProvider } from "contexts/projectContext";
+import { UpdateProvider } from "contexts/updateContext";
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -13,7 +15,11 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 const renderDashboardPage = () => {
   const utils = render(
     <MemoryRouter>
-      <Page />
+      <ProjectProvider>
+        <UpdateProvider>
+          <Page />
+        </UpdateProvider>
+      </ProjectProvider>
     </MemoryRouter>
   );
 
