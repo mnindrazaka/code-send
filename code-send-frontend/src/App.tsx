@@ -1,14 +1,14 @@
 import React from "react";
 import Main from "modules/main";
 import { BrowserRouter } from "react-router-dom";
-import { AppProvider } from "contexts/appContext";
+import { StoreProvider } from "stores";
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <AppProvider>
+      <StoreProvider>
         <Main />
-      </AppProvider>
+      </StoreProvider>
     </BrowserRouter>
   );
 };

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { TextField, Form, FileField } from "components/formikWrapper";
 import { UpdateFormValues } from "interfaces/Update";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
-import { useHistory } from "react-router";
 import { useCreateUpdate } from "hooks/useUpdate";
 
 const validationSchema = yup.object().shape({
@@ -19,14 +18,7 @@ const initialValues: UpdateFormValues = {
 };
 
 const UpdateForm: React.FC = () => {
-  const history = useHistory();
-  const { createUpdate, loading, success } = useCreateUpdate();
-
-  useEffect(() => {
-    if (success) {
-      history.push("/update");
-    }
-  }, [success, history]);
+  const { createUpdate, loading } = useCreateUpdate();
 
   return (
     <div data-testid="page-update-form">

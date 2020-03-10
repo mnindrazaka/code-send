@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
-import { AppProvider } from "contexts/appContext";
+import { StoreProvider } from "stores";
 import Page from "../page";
 import codeSendService from "utils/api/codeSendService";
 
@@ -14,9 +14,9 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 const renderDashboardPage = () => {
   const utils = render(
     <MemoryRouter>
-      <AppProvider>
+      <StoreProvider>
         <Page />
-      </AppProvider>
+      </StoreProvider>
     </MemoryRouter>
   );
   return utils;
@@ -25,8 +25,12 @@ const renderDashboardPage = () => {
 describe("dashboard page", () => {
   it("can render correct version", async () => {
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce({
+      _id: "mock id",
+      createdAt: "mock created at",
+      updatedAt: "mock updated at",
       version: "0.1",
-      note: "latest update"
+      note: "latest update",
+      bundleUrl: "mock bundle url"
     });
     const { findByText } = renderDashboardPage();
     const versionTextElement = await findByText("0.1");

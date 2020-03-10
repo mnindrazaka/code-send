@@ -1,132 +1,113 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { UpdateFormValues } from "interfaces/Update";
 import codeSendService from "utils/api/codeSendService";
-import { updateContext } from "contexts/updateContext";
-import { projectContext } from "contexts/projectContext";
 import { useNotification } from "./useNotification";
+import { useUpdateState, useProjectState, useUpdateAction } from "./useStore";
+import { useHistory } from "react-router-dom";
 
 export const useGetAllUpdate = () => {
+  const { items, loading, error } = useUpdateState();
+  const project = useProjectState();
   const {
-    setUpdates,
-    setLoading,
-    setError,
-    setSuccess,
-    updates,
-    loading,
-    error,
-    success
-  } = useContext(updateContext);
-  const { selectedProject } = useContext(projectContext);
+    getUpdateRequest,
+    getUpdateSuccess,
+    getUpdateError
+  } = useUpdateAction();
   const { handleError } = useNotification();
 
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
+        getUpdateRequest();
         const updates = await codeSendService.getAllUpdates(
-          selectedProject?._id || ""
+          project.selected?._id || ""
         );
-        setUpdates(updates);
-        setSuccess(true);
+        getUpdateSuccess(updates);
       } catch (error) {
-        setError(error.message);
+        getUpdateError(error.message);
         handleError("Failed", error.message);
-      } finally {
-        setLoading(false);
       }
     })();
   }, [
-    setUpdates,
-    setLoading,
-    setError,
-    setSuccess,
+    getUpdateRequest,
+    getUpdateSuccess,
+    getUpdateError,
     handleError,
-    selectedProject
+    project.selected
   ]);
 
-  return { updates, loading, error, success };
+  return { items, loading, error };
 };
 
 export const useGetLatestUpdate = () => {
+  const { latest, loading, error } = useUpdateState();
+  const project = useProjectState();
   const {
-    setLatestUpdate,
-    setLoading,
-    setError,
-    setSuccess,
-    latestUpdate,
-    loading,
-    error,
-    success
-  } = useContext(updateContext);
-  const { selectedProject } = useContext(projectContext);
+    getLatestUpdateRequest,
+    getLatestUpdateSuccess,
+    getLatestUpdateError
+  } = useUpdateAction();
   const { handleError } = useNotification();
 
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
+        getLatestUpdateRequest();
         const update = await codeSendService.getLatestUpdate(
-          selectedProject?._id || ""
+          project.selected?._id || ""
         );
-        setLatestUpdate(update);
-        setSuccess(true);
+        getLatestUpdateSuccess(update);
       } catch (error) {
-        setError(error.message);
+        getLatestUpdateError(error.message);
         handleError("Failed", error.message);
-      } finally {
-        setLoading(false);
       }
     })();
   }, [
-    setLoading,
-    setLatestUpdate,
-    setSuccess,
-    setError,
+    getLatestUpdateRequest,
+    getLatestUpdateSuccess,
+    getLatestUpdateError,
     handleError,
-    selectedProject
+    project.selected
   ]);
 
-  return { latestUpdate, loading, error, success };
+  return { latest, loading, error };
 };
 
 export const useCreateUpdate = () => {
+  const { loading, error } = useUpdateState();
+  const project = useProjectState();
   const {
-    setLoading,
-    setError,
-    setSuccess,
-    loading,
-    error,
-    success
-  } = useContext(updateContext);
-  const { selectedProject } = useContext(projectContext);
+    createUpdateRequest,
+    createUpdateSuccess,
+    createUpdateError
+  } = useUpdateAction();
   const { handleError, handleSuccess } = useNotification();
+  const { push } = useHistory();
 
   const createUpdate = async ({ bundle, ...rest }: UpdateFormValues) => {
     try {
-      setLoading(true);
-      const update = await codeSendService.createUpdate(
-        selectedProject?._id || "",
+      createUpdateRequest();
+      let update = await codeSendService.createUpdate(
+        project.selected?._id || "",
         rest
       );
-      await codeSendService.uploadUpdate(
-        selectedProject?._id || "",
+      update = await codeSendService.uploadUpdate(
+        project.selected?._id || "",
         update._id,
         bundle!
       );
-      setSuccess(true);
+      createUpdateSuccess(update);
       handleSuccess("Success", "Your update is successfully created");
+      push("/update");
     } catch (error) {
-      setError(error.message);
+      createUpdateError(error.message);
       handleError("Failed", error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   return {
     createUpdate,
     loading,
-    error,
-    success
+    error
   };
 };

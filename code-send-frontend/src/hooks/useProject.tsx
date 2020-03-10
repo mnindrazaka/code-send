@@ -1,70 +1,61 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { ProjectFormValues } from "interfaces/Project";
 import codeSendService from "utils/api/codeSendService";
-import { projectContext } from "contexts/projectContext";
 import { useNotification } from "hooks/useNotification";
+import { useProjectState, useProjectAction } from "./useStore";
+import { useHistory } from "react-router-dom";
 
 export const useGetAllProject = () => {
+  const { items, loading, error } = useProjectState();
   const {
-    setProjects,
-    setLoading,
-    setError,
-    setSuccess,
-    projects,
-    loading,
-    error,
-    success
-  } = useContext(projectContext);
+    getProjectRequest,
+    getProjectSuccess,
+    getProjectError
+  } = useProjectAction();
   const { handleError } = useNotification();
 
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
+        getProjectRequest();
         const projects = await codeSendService.getallProjects();
-        setProjects(projects);
-        setSuccess(true);
+        getProjectSuccess(projects);
       } catch (error) {
-        setError(error.message);
+        getProjectError(error.message);
         handleError("Failed", error.message);
-      } finally {
-        setLoading(false);
       }
     })();
-  }, [setProjects, setLoading, setError, setSuccess, handleError]);
+  }, [getProjectRequest, getProjectSuccess, getProjectError, handleError]);
 
-  return { projects, loading, error, success };
+  return { items, loading, error };
 };
 
 export const useCreateProject = () => {
+  const { loading, error } = useProjectState();
   const {
-    setLoading,
-    setError,
-    setSuccess,
-    loading,
-    error,
-    success
-  } = useContext(projectContext);
+    createProjectRequest,
+    createProjectSuccess,
+    createProjectError
+  } = useProjectAction();
   const { handleSuccess, handleError } = useNotification();
+  const { push } = useHistory();
 
   const createProject = async (projectFormValues: ProjectFormValues) => {
     try {
-      setLoading(true);
-      await codeSendService.createProject(projectFormValues);
-      setSuccess(true);
+      createProjectRequest();
+      const project = await codeSendService.createProject(projectFormValues);
+      createProjectSuccess(project);
       handleSuccess("Success", "Your project is successfully created");
+      push("/project");
     } catch (error) {
-      setError(error.message);
+      createProjectError(error.message);
       handleError("Failed", error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   return {
     createProject,
     loading,
-    error,
-    success
+    error
   };
 };
