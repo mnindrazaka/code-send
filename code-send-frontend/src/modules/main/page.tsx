@@ -105,7 +105,7 @@ const Page: React.FC = () => {
         <Layout.Sider>
           <Navigation />
         </Layout.Sider>
-        <Layout.Content style={{ padding: "30px" }}>
+        <Layout.Content>
           <Content />
         </Layout.Content>
       </Layout>

@@ -6,6 +6,7 @@ import {
   CalendarOutlined
 } from "@ant-design/icons";
 import { useGetLatestUpdate } from "hooks/useUpdate";
+import Container from "components/container";
 
 const Page: React.FC = () => {
   const { latest, loading } = useGetLatestUpdate();
@@ -15,45 +16,48 @@ const Page: React.FC = () => {
       <PageHeader
         title="Latest Update"
         subTitle="Show your latest update information"
+        backIcon
       />
 
-      <Row style={{ marginTop: 15 }} gutter={16}>
-        <Col span="8">
-          <Card>
-            <Skeleton avatar loading={loading} active>
-              <Card.Meta
-                title="Version"
-                description={latest?.version}
-                avatar={<NumberOutlined />}
-              />
-            </Skeleton>
-          </Card>
-        </Col>
+      <Container>
+        <Row gutter={16}>
+          <Col span="8">
+            <Card>
+              <Skeleton avatar loading={loading} active>
+                <Card.Meta
+                  title="Version"
+                  description={latest?.version}
+                  avatar={<NumberOutlined />}
+                />
+              </Skeleton>
+            </Card>
+          </Col>
 
-        <Col span="8">
-          <Card>
-            <Skeleton avatar loading={loading} active>
-              <Card.Meta
-                title="Note"
-                description={latest?.note}
-                avatar={<InfoCircleOutlined />}
-              />
-            </Skeleton>
-          </Card>
-        </Col>
+          <Col span="8">
+            <Card>
+              <Skeleton avatar loading={loading} active>
+                <Card.Meta
+                  title="Note"
+                  description={latest?.note}
+                  avatar={<InfoCircleOutlined />}
+                />
+              </Skeleton>
+            </Card>
+          </Col>
 
-        <Col span="8">
-          <Card>
-            <Skeleton avatar loading={loading} active>
-              <Card.Meta
-                title="Release Date"
-                description={latest?.createdAt}
-                avatar={<CalendarOutlined />}
-              />
-            </Skeleton>
-          </Card>
-        </Col>
-      </Row>
+          <Col span="8">
+            <Card>
+              <Skeleton avatar loading={loading} active>
+                <Card.Meta
+                  title="Release Date"
+                  description={latest?.createdAt}
+                  avatar={<CalendarOutlined />}
+                />
+              </Skeleton>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
