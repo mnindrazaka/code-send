@@ -96,7 +96,8 @@ const Content = () => {
 };
 
 const Page: React.FC = () => {
-  return (
+  const { selected } = useProjectState();
+  return selected ? (
     <Layout style={{ minHeight: "100vh" }}>
       <Layout.Header>
         <Row justify="space-between">
@@ -119,6 +120,8 @@ const Page: React.FC = () => {
         </Layout.Content>
       </Layout>
     </Layout>
+  ) : (
+    <Redirect to="/project" />
   );
 };
 

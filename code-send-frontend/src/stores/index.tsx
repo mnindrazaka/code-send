@@ -25,8 +25,19 @@ export const storeContext = createContext<RootContextValue>({
 
 const { Provider } = storeContext;
 
-export const StoreProvider: FunctionComponent = ({ children }) => {
+interface StoreProviderProps {
+  initialState?: Partial<RootState>;
+}
+
+export const StoreProvider: FunctionComponent<StoreProviderProps> = ({
+  children,
+  initialState
+}) => {
   const [rootReducers, rootState] = rootStateAndReducers;
   const [state, dispatch] = useReducer(rootReducers, rootState);
-  return <Provider value={{ state, dispatch }}>{children}</Provider>;
+  const providerValue = {
+    state: { ...state, ...initialState },
+    dispatch
+  };
+  return <Provider value={providerValue}>{children}</Provider>;
 };

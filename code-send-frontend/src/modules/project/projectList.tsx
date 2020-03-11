@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Skeleton, PageHeader, Card, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import { useGetAllProject, useSelectProject } from "hooks/useProject";
-import { FileOutlined } from "@ant-design/icons";
+import { AndroidOutlined } from "@ant-design/icons";
 import Container from "components/container";
 import { getFormattedDate } from "utils/dateTime";
 
@@ -23,11 +23,14 @@ const ProjectList: React.FC = () => {
           <Row style={{ marginTop: 15 }} gutter={[15, 15]}>
             {items.map((item, index) => (
               <Col span={6} key={index}>
-                <Card onClick={() => selectProject(item)}>
+                <Card
+                  onClick={() => selectProject(item)}
+                  style={{ cursor: "pointer" }}
+                >
                   <Card.Meta
                     title={item.name}
                     description={getFormattedDate(item.createdAt)}
-                    avatar={<FileOutlined />}
+                    avatar={<AndroidOutlined style={{ fontSize: 30 }} />}
                   />
                 </Card>
               </Col>
