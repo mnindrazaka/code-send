@@ -1,11 +1,13 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
 import { StoreProvider } from "stores";
 import ProjectForm from "../projectForm";
 import codeSendService from "utils/api/codeSendService";
 import { Project } from "interfaces/Project";
+import initMatchMedia from "matchMedia.mock";
+
+initMatchMedia();
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<

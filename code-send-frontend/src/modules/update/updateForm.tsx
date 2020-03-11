@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
 import { useCreateUpdate } from "hooks/useUpdate";
+import Container from "components/container";
 
 const validationSchema = yup.object().shape({
   version: yup.string().required(),
@@ -26,20 +27,23 @@ const UpdateForm: React.FC = () => {
         title="Create Update"
         subTitle="Create and realease your new update"
       />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={createUpdate}
-      >
-        <Form>
-          <TextField name="version" label="Version" />
-          <TextField name="note" label="Note" />
-          <FileField name="bundle" label="Bundle" />
-          <Button type="primary" htmlType="submit" loading={loading}>
-            Submit
-          </Button>
-        </Form>
-      </Formik>
+
+      <Container>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={createUpdate}
+        >
+          <Form>
+            <TextField name="version" label="Version" />
+            <TextField name="note" label="Note" />
+            <FileField name="bundle" label="Bundle" />
+            <Button type="primary" htmlType="submit" loading={loading}>
+              Submit
+            </Button>
+          </Form>
+        </Formik>
+      </Container>
     </div>
   );
 };

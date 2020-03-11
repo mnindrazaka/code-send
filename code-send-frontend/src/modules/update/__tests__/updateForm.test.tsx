@@ -1,30 +1,26 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
 import { StoreProvider } from "stores";
 import UpdateForm from "../updateForm";
 import codeSendService from "utils/api/codeSendService";
 import { Update } from "interfaces/Update";
+import initMatchMedia from "matchMedia.mock";
+
+initMatchMedia();
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
   typeof codeSendService
 >;
 
-const _id = "mock id";
-const version = "mock version";
-const note = "mock note";
-const createdAt = "mock created at";
-const updatedAt = "mock updated at";
-const bundleUrl = "mock bundle url";
 const mockUpdate: Update = {
-  _id,
-  createdAt,
-  updatedAt,
-  version,
-  note,
-  bundleUrl
+  _id: "mock id",
+  version: "mock version",
+  note: "mock note",
+  createdAt: "mock created at",
+  updatedAt: "mock updated at",
+  bundleUrl: "mock bundle url"
 };
 const file = new File(["mock content"], "index.bundle.js");
 
@@ -60,6 +56,7 @@ describe("update form", () => {
       inputBundleElement
     } = renderUpdateForm();
 
+    const { version, note } = mockUpdate;
     fireEvent.change(inputVersionElement, { target: { value: version } });
     fireEvent.change(inputNoteElement, { target: { value: note } });
     fireEvent.change(inputBundleElement, { target: { files: [file] } });
@@ -77,6 +74,7 @@ describe("update form", () => {
       findByText
     } = renderUpdateForm();
 
+    const { version, note } = mockUpdate;
     codeSendServiceMock.createUpdate.mockResolvedValueOnce(mockUpdate);
     codeSendServiceMock.uploadUpdate.mockResolvedValueOnce(mockUpdate);
     fireEvent.change(inputVersionElement, { target: { value: version } });
@@ -101,6 +99,7 @@ describe("update form", () => {
       status: "error",
       message: "failed to create update"
     });
+    const { version, note } = mockUpdate;
     fireEvent.change(inputVersionElement, { target: { value: version } });
     fireEvent.change(inputNoteElement, { target: { value: note } });
     fireEvent.change(inputBundleElement, { target: { files: [file] } });

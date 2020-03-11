@@ -5,6 +5,9 @@ import { StoreProvider } from "stores";
 import ProjectList from "../projectList";
 import codeSendService from "utils/api/codeSendService";
 import { Project } from "interfaces/Project";
+import initMatchMedia from "matchMedia.mock";
+
+initMatchMedia();
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<

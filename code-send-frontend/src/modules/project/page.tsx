@@ -1,14 +1,24 @@
 import React from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch, Link } from "react-router-dom";
 import ProjectList from "./projectList";
 import ProjectForm from "./projectForm";
-import { Layout } from "antd";
+import { Layout, Row, Col, Typography } from "antd";
 
 const Page: React.FC = () => {
   return (
     <div data-testid="page-project">
       <Layout style={{ minHeight: "100vh" }}>
-        <Layout.Header>Code Send</Layout.Header>
+        <Layout.Header>
+          <Row justify="space-between">
+            <Col>
+              <Link to="/project">
+                <Typography.Text strong style={{ color: "white" }}>
+                  Code Send
+                </Typography.Text>
+              </Link>
+            </Col>
+          </Row>
+        </Layout.Header>
         <Layout>
           <Layout.Content style={{ padding: "30px" }}>
             <Switch>

@@ -1,15 +1,32 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import "matchMedia.mock";
 import Page from "../page";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
+import initMatchMedia from "matchMedia.mock";
+import { StoreProvider } from "stores";
+
+initMatchMedia();
 
 const renderMainPage = () => {
+  const mockProject = {
+    _id: "mock id",
+    createdAt: "mock created at",
+    updatedAt: "mock updated at",
+    name: "mock name"
+  };
+  const mockProjectState = {
+    items: [mockProject],
+    loading: false,
+    selected: mockProject
+  };
+
   const history = createMemoryHistory();
   const utils = render(
     <Router history={history}>
-      <Page />
+      <StoreProvider initialState={{ project: mockProjectState }}>
+        <Page />
+      </StoreProvider>
     </Router>
   );
 

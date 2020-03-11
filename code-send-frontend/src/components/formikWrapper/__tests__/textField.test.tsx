@@ -1,9 +1,11 @@
 import React from "react";
 import "@testing-library/react/dont-cleanup-after-each";
-import "matchMedia.mock";
 import { fireEvent } from "@testing-library/react";
 import { TextField } from "../textField";
 import { renderFormik } from "../utils";
+import initMatchMedia from "matchMedia.mock";
+
+initMatchMedia();
 
 const name = "username";
 const label = "Username";
