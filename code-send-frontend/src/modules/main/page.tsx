@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Layout, Dropdown, Button } from "antd";
+import { Menu, Layout, Dropdown, Button, Row, Col, Typography } from "antd";
 import {
   DashboardOutlined,
   GiftOutlined,
@@ -99,7 +99,16 @@ const Page: React.FC = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Layout.Header>
-        <ProjectSelector />
+        <Row justify="space-between">
+          <Col>
+            <Typography.Text strong style={{ color: "white" }}>
+              Code Send
+            </Typography.Text>
+          </Col>
+          <Col>
+            <ProjectSelector />
+          </Col>
+        </Row>
       </Layout.Header>
       <Layout>
         <Layout.Sider>
