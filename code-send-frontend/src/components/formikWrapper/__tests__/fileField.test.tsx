@@ -1,9 +1,11 @@
 import React from "react";
 import "@testing-library/react/dont-cleanup-after-each";
-import "matchMedia.mock";
 import { fireEvent } from "@testing-library/react";
 import { FileField } from "../fileField";
 import { renderFormik } from "../utils";
+import initMatchMedia from "matchMedia.mock";
+
+initMatchMedia();
 
 const label = "Bundle";
 const name = "bundle";

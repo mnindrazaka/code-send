@@ -1,5 +1,4 @@
 import React from "react";
-import "matchMedia.mock";
 import { Button, Skeleton, PageHeader, Card, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import { useGetAllProject, useSelectProject } from "hooks/useProject";
