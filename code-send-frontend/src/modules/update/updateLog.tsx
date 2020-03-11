@@ -1,40 +1,36 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Button, Table, PageHeader } from "antd";
 import { Link } from "react-router-dom";
 import { useGetAllUpdate } from "hooks/useUpdate";
 import Container from "components/container";
+import { ColumnType } from "antd/lib/table";
+import { Update } from "interfaces/Update";
 
 const UpdateLog: React.FC = () => {
   const { items, loading } = useGetAllUpdate();
 
-  const getDataSource = () => {
-    return items.map(item => ({
-      key: item._id,
-      date: item.createdAt,
-      version: item.version,
-      note: item.note
-    }));
-  };
-
-  const getColumns = () => {
+  const columns = useMemo((): ColumnType<Update>[] => {
     return [
       {
         title: "Relase Date",
-        dataIndex: "date",
-        key: "date"
+        dataIndex: "createdAt"
       },
       {
         title: "Version",
-        dataIndex: "version",
-        key: "version"
+        dataIndex: "version"
       },
       {
         title: "Note",
-        dataIndex: "note",
-        key: "note"
+        dataIndex: "note"
+      },
+      {
+        title: "",
+        render: (value, record) => (
+          <Button href={record.bundleUrl}>Download Bundle</Button>
+        )
       }
     ];
-  };
+  }, []);
 
   return (
     <div data-testid="page-update-log">
@@ -46,8 +42,8 @@ const UpdateLog: React.FC = () => {
         </Link>
 
         <Table
-          dataSource={getDataSource()}
-          columns={getColumns()}
+          dataSource={items}
+          columns={columns}
           style={{ marginTop: 15 }}
           data-testid="table-update-log"
           loading={loading}
