@@ -17,6 +17,7 @@ const { getByLabelText, getByText, findByText } = renderFormik(
 describe("file field", () => {
   it("has choose file button", () => {
     const buttonElement = getByText("Choose File");
+    fireEvent.click(buttonElement);
     expect(buttonElement).toBeInTheDocument();
   });
 

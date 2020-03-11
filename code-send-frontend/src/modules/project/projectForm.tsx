@@ -18,7 +18,7 @@ const ProjectForm: React.FC = () => {
   const { createProject, loading } = useCreateProject();
 
   return (
-    <div data-testid="page-update-form">
+    <div data-testid="page-project-form">
       <PageHeader title="Create Project" subTitle="Create your new project" />
       <Formik
         initialValues={initialValues}

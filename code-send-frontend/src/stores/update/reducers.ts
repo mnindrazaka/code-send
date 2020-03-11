@@ -11,7 +11,7 @@ export const updateInitialState: UpdateState = {
 };
 
 const itemsReducer: Reducer<UpdateState["items"], Action> = (
-  prevState = updateInitialState["items"],
+  prevState,
   { type, payload }
 ) => {
   switch (type) {
@@ -25,7 +25,7 @@ const itemsReducer: Reducer<UpdateState["items"], Action> = (
 };
 
 const latestReducer: Reducer<UpdateState["latest"], Action> = (
-  prevState = updateInitialState["latest"],
+  prevState,
   { type, payload }
 ) => {
   switch (type) {
@@ -37,7 +37,7 @@ const latestReducer: Reducer<UpdateState["latest"], Action> = (
 };
 
 const loadingReducer: Reducer<UpdateState["loading"], Action> = (
-  prevState = updateInitialState["loading"],
+  prevState,
   { type }
 ) => {
   switch (type) {
@@ -58,7 +58,7 @@ const loadingReducer: Reducer<UpdateState["loading"], Action> = (
 };
 
 const errorReducer: Reducer<UpdateState["error"], Action> = (
-  prevState = updateInitialState["error"],
+  prevState,
   { type, payload }
 ) => {
   switch (type) {

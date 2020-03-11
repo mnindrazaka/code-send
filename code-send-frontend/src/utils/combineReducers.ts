@@ -34,10 +34,8 @@ export const combineReducers = <T extends object>(
       let nextStateForCurrentKey: T[keyof T];
 
       reducerKeys.forEach(reducerKey => {
-        const currentReducer = reducersMap.get(reducerKey);
+        const currentReducer = reducersMap.get(reducerKey)!;
         const prevStateForCurrentKey = state[reducerKey];
-
-        if (!currentReducer) return;
 
         nextStateForCurrentKey = currentReducer(prevStateForCurrentKey, action);
         hasStateChanged =

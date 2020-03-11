@@ -11,7 +11,7 @@ export const projectInitialState: ProjectState = {
 };
 
 const itemsReducer: Reducer<ProjectState["items"], Action> = (
-  prevState = projectInitialState["items"],
+  prevState,
   { type, payload }
 ) => {
   switch (type) {
@@ -25,7 +25,7 @@ const itemsReducer: Reducer<ProjectState["items"], Action> = (
 };
 
 const selectedReducer: Reducer<ProjectState["selected"], Action> = (
-  prevState = projectInitialState["selected"],
+  prevState,
   { type, payload }
 ) => {
   switch (type) {
@@ -37,7 +37,7 @@ const selectedReducer: Reducer<ProjectState["selected"], Action> = (
 };
 
 const loadingReducer: Reducer<ProjectState["loading"], Action> = (
-  prevState = projectInitialState["loading"],
+  prevState,
   { type }
 ) => {
   switch (type) {
@@ -55,7 +55,7 @@ const loadingReducer: Reducer<ProjectState["loading"], Action> = (
 };
 
 const errorReducer: Reducer<ProjectState["error"], Action> = (
-  prevState = projectInitialState["error"],
+  prevState,
   { type, payload }
 ) => {
   switch (type) {
