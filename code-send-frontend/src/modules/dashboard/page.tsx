@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { useGetLatestUpdate } from "hooks/useUpdate";
 import Container from "components/container";
+import { getFormattedDate } from "utils/dateTime";
 
 const Page: React.FC = () => {
   const { latest, loading } = useGetLatestUpdate();
@@ -50,7 +51,7 @@ const Page: React.FC = () => {
               <Skeleton avatar loading={loading} active>
                 <Card.Meta
                   title="Release Date"
-                  description={latest?.createdAt}
+                  description={getFormattedDate(latest?.createdAt || "")}
                   avatar={<CalendarOutlined />}
                 />
               </Skeleton>

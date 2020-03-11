@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useGetAllProject, useSelectProject } from "hooks/useProject";
 import { FileOutlined } from "@ant-design/icons";
 import Container from "components/container";
+import { getFormattedDate } from "utils/dateTime";
 
 const ProjectList: React.FC = () => {
   const { items, loading } = useGetAllProject();
@@ -25,7 +26,7 @@ const ProjectList: React.FC = () => {
                 <Card onClick={() => selectProject(item)}>
                   <Card.Meta
                     title={item.name}
-                    description={item.createdAt}
+                    description={getFormattedDate(item.createdAt)}
                     avatar={<FileOutlined />}
                   />
                 </Card>

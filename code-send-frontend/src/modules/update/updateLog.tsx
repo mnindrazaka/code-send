@@ -5,6 +5,7 @@ import { useGetAllUpdate } from "hooks/useUpdate";
 import Container from "components/container";
 import { ColumnType } from "antd/lib/table";
 import { Update } from "interfaces/Update";
+import { getFormattedDate } from "utils/dateTime";
 
 const UpdateLog: React.FC = () => {
   const { items, loading } = useGetAllUpdate();
@@ -13,7 +14,9 @@ const UpdateLog: React.FC = () => {
     return [
       {
         title: "Relase Date",
-        dataIndex: "createdAt"
+        render: (value, record) => (
+          <span>{getFormattedDate(record.createdAt)}</span>
+        )
       },
       {
         title: "Version",
