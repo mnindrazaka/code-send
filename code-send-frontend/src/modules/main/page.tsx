@@ -1,10 +1,6 @@
 import React from "react";
-import { Menu, Layout, Dropdown, Button, Row, Col, Typography } from "antd";
-import {
-  DashboardOutlined,
-  GiftOutlined,
-  DownOutlined
-} from "@ant-design/icons";
+import { Menu, Layout, Row, Col, Typography, Select } from "antd";
+import { DashboardOutlined, GiftOutlined } from "@ant-design/icons";
 import { Route, Redirect, Link, Switch, useHistory } from "react-router-dom";
 import Dashboard from "modules/dashboard";
 import Update from "modules/update";
@@ -31,32 +27,24 @@ const ProjectSelector = () => {
   const { items, selected } = useProjectState();
   const { selectProject } = useSelectProject();
 
-  const selectedKeys = React.useMemo(() => {
-    return items.findIndex(item => item.name === selected?.name).toString();
-  }, [items, selected]);
-
-  const renderMenu = () => {
-    return (
-      <Menu selectedKeys={[selectedKeys]} data-testid="project-selector-button">
-        {items.map((item, index) => (
-          <Menu.Item
-            key={index}
-            onClick={() => selectProject(item)}
-            data-testid="project-selector-item"
-          >
-            {item.name}
-          </Menu.Item>
-        ))}
-      </Menu>
-    );
+  const handleChange = (value: string) => {
+    const project = items.find(item => item._id === value);
+    if (project) selectProject(project);
   };
 
   return (
-    <Dropdown overlay={renderMenu()}>
-      <Button>
-        {selected?.name} <DownOutlined />
-      </Button>
-    </Dropdown>
+    <Select
+      placeholder="Select Project"
+      value={selected?._id}
+      onChange={handleChange}
+      style={{ minWidth: 130 }}
+    >
+      {items.map((item, index) => (
+        <Select.Option key={index} value={item._id}>
+          {item.name}
+        </Select.Option>
+      ))}
+    </Select>
   );
 };
 
@@ -102,9 +90,11 @@ const Page: React.FC = () => {
       <Layout.Header>
         <Row justify="space-between">
           <Col>
-            <Typography.Text strong style={{ color: "white" }}>
-              Code Send
-            </Typography.Text>
+            <Link to="/project">
+              <Typography.Text strong style={{ color: "white" }}>
+                Code Send
+              </Typography.Text>
+            </Link>
           </Col>
           <Col>
             <ProjectSelector />
