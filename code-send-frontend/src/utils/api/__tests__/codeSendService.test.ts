@@ -5,36 +5,56 @@ jest.mock("../service");
 const ServiceMock = Service as jest.MockedClass<typeof Service>;
 
 describe("code send service", () => {
+  it("can get all projects", () => {
+    codeSendService.getallProjects();
+    expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith("/project");
+  });
+
+  it("can create project", () => {
+    const project = { name: "mock name" };
+    codeSendService.createProject(project);
+    expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
+      "/project",
+      project
+    );
+  });
+
   it("can get all updates", () => {
-    codeSendService.getAllUpdates();
-    expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith("/update");
+    const projectId = "mock id";
+    codeSendService.getAllUpdates(projectId);
+    expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith(
+      `/project/${projectId}/update`
+    );
   });
 
   it("can get latest update", () => {
-    codeSendService.getLatestUpdate();
+    const projectId = "mock id";
+    codeSendService.getLatestUpdate(projectId);
     expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith(
-      "/update/latest"
+      `/project/${projectId}/update/latest`
     );
   });
 
   it("can create update", () => {
+    const projectId = "mock id";
     const update = { note: "mock note", version: "mock version" };
-    codeSendService.createUpdate(update);
+    codeSendService.createUpdate(projectId, update);
     expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
-      "/update",
+      `/project/${projectId}/update`,
       update
     );
   });
 
   it("can upload update", () => {
-    const id = "mock id";
+    const projectId = "mock id";
+    const updateId = "mock id";
     const bundle = new Blob([]);
     const formData = new FormData();
     formData.append("bundle", bundle);
 
-    codeSendService.uploadUpdate(id, bundle);
+    codeSendService.uploadUpdate(projectId, updateId, bundle);
     expect(ServiceMock.mock.instances[0].put).toHaveBeenCalledWith(
-      `/update/${id}/bundle`,
+      `/project/${projectId}/update/${updateId}/bundle`,
       formData
     );
   });

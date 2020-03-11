@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import { useGetAllUpdate } from "hooks/useUpdate";
 
 const UpdateLog: React.FC = () => {
-  const { updates, loading } = useGetAllUpdate();
+  const { items, loading } = useGetAllUpdate();
 
   const getDataSource = () => {
-    return updates.map(update => ({
-      key: update._id,
-      date: update.createdAt,
-      version: update.version,
-      note: update.note
+    return items.map(item => ({
+      key: item._id,
+      date: item.createdAt,
+      version: item.version,
+      note: item.note
     }));
   };
 

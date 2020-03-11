@@ -1,56 +1,58 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { StoreProvider } from "stores";
-import UpdateLog from "../updateLog";
+import ProjectList from "../projectList";
 import codeSendService from "utils/api/codeSendService";
-import { Update } from "interfaces/Update";
+import { Project } from "interfaces/Project";
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
   typeof codeSendService
 >;
 
-const renderUpdateLog = () => {
+const renderProjectList = () => {
   const utils = render(
     <MemoryRouter>
       <StoreProvider>
-        <UpdateLog />
+        <ProjectList />
       </StoreProvider>
     </MemoryRouter>
   );
   return utils;
 };
 
-const mockUpdate: Update = {
+const mockProject: Project = {
   _id: "mock id",
   createdAt: "mock created at",
   updatedAt: "mock updated at",
-  bundleUrl: "mock bundle url",
-  version: "mock version",
-  note: "mock note"
+  name: "mock name"
 };
 
-describe("update log", () => {
+describe("project list", () => {
   it("can render correct row count", async () => {
-    codeSendServiceMock.getAllUpdates.mockResolvedValueOnce([
-      mockUpdate,
-      mockUpdate,
-      mockUpdate
+    codeSendServiceMock.getallProjects.mockResolvedValueOnce([
+      mockProject,
+      mockProject,
+      mockProject
     ]);
-    const { findByTestId } = renderUpdateLog();
-    const tableElement = await findByTestId("table-update-log");
-    const tableRowElements = tableElement.getElementsByTagName("tr");
-    expect(tableRowElements.length).toEqual(4);
+    const { findAllByText } = renderProjectList();
+    const cardElements = await findAllByText(mockProject.name);
+
+    cardElements.forEach(cardElement => {
+      fireEvent.click(cardElement);
+    });
+
+    expect(cardElements.length).toEqual(3);
   });
 
   it("can show failed message", async () => {
-    codeSendServiceMock.getAllUpdates.mockRejectedValueOnce({
+    codeSendServiceMock.getallProjects.mockRejectedValueOnce({
       status: "error",
       message: "failed to get update"
     });
 
-    const { findByText } = renderUpdateLog();
+    const { findByText } = renderProjectList();
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
   });

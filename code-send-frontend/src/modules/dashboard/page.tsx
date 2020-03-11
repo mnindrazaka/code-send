@@ -8,7 +8,7 @@ import {
 import { useGetLatestUpdate } from "hooks/useUpdate";
 
 const Page: React.FC = () => {
-  const { latestUpdate, loading } = useGetLatestUpdate();
+  const { latest, loading } = useGetLatestUpdate();
 
   return (
     <div data-testid="page-dashboard">
@@ -23,7 +23,7 @@ const Page: React.FC = () => {
             <Skeleton avatar loading={loading} active>
               <Card.Meta
                 title="Version"
-                description={latestUpdate?.version}
+                description={latest?.version}
                 avatar={<NumberOutlined />}
               />
             </Skeleton>
@@ -35,7 +35,7 @@ const Page: React.FC = () => {
             <Skeleton avatar loading={loading} active>
               <Card.Meta
                 title="Note"
-                description={latestUpdate?.note}
+                description={latest?.note}
                 avatar={<InfoCircleOutlined />}
               />
             </Skeleton>
@@ -47,7 +47,7 @@ const Page: React.FC = () => {
             <Skeleton avatar loading={loading} active>
               <Card.Meta
                 title="Release Date"
-                description={latestUpdate?.createdAt}
+                description={latest?.createdAt}
                 avatar={<CalendarOutlined />}
               />
             </Skeleton>

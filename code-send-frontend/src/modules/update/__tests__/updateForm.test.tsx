@@ -2,8 +2,10 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import "matchMedia.mock";
 import { MemoryRouter } from "react-router-dom";
+import { StoreProvider } from "stores";
 import UpdateForm from "../updateForm";
 import codeSendService from "utils/api/codeSendService";
+import { Update } from "interfaces/Update";
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -13,12 +15,25 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 const _id = "mock id";
 const version = "mock version";
 const note = "mock note";
+const createdAt = "mock created at";
+const updatedAt = "mock updated at";
+const bundleUrl = "mock bundle url";
+const mockUpdate: Update = {
+  _id,
+  createdAt,
+  updatedAt,
+  version,
+  note,
+  bundleUrl
+};
 const file = new File(["mock content"], "index.bundle.js");
 
 const renderUpdateForm = () => {
   const utils = render(
     <MemoryRouter>
-      <UpdateForm />
+      <StoreProvider>
+        <UpdateForm />
+      </StoreProvider>
     </MemoryRouter>
   );
   const { getByLabelText, getByText } = utils;
@@ -62,8 +77,8 @@ describe("update form", () => {
       findByText
     } = renderUpdateForm();
 
-    codeSendServiceMock.createUpdate.mockResolvedValueOnce({ _id });
-    codeSendServiceMock.uploadUpdate.mockResolvedValueOnce({ _id });
+    codeSendServiceMock.createUpdate.mockResolvedValueOnce(mockUpdate);
+    codeSendServiceMock.uploadUpdate.mockResolvedValueOnce(mockUpdate);
     fireEvent.change(inputVersionElement, { target: { value: version } });
     fireEvent.change(inputNoteElement, { target: { value: note } });
     fireEvent.change(inputBundleElement, { target: { files: [file] } });
