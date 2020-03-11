@@ -66,7 +66,7 @@ export const useSelectProject = () => {
 
   const selectProject = (project: Project) => {
     projectAction.selectProject(project);
-    push("/update");
+    push("/dashboard");
   };
 
   return { selectProject };
