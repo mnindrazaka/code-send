@@ -3,9 +3,9 @@ import { Card, Row, Col, PageHeader, Skeleton, Result, Button } from "antd";
 import {
   NumberOutlined,
   InfoCircleOutlined,
-  CalendarOutlined,
-  FrownOutlined
+  CalendarOutlined
 } from "@ant-design/icons";
+import { ReactComponent as Empty } from "assets/images/empty.svg";
 import { useGetLatestUpdate } from "hooks/useUpdate";
 import Container from "components/container";
 import { getFormattedDate } from "utils/dateTime";
@@ -64,7 +64,7 @@ const Page: React.FC = () => {
         ) : (
           <Card>
             <Result
-              icon={<FrownOutlined />}
+              icon={<Empty style={{ width: 200, height: 200 }} />}
               title="You Have No Update !"
               subTitle="Create one and start developing your application"
               extra={

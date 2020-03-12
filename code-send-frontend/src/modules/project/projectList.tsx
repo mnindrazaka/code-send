@@ -16,7 +16,7 @@ import { ReactComponent as ProjectCover6 } from "assets/images/projectCover6.svg
 const ProjectCard: FunctionComponent<{ project: Project }> = ({ project }) => {
   const { selectProject } = useSelectProject();
 
-  const getProjectCover = () => {
+  const projectCover = React.useMemo(() => {
     const covers = [
       <ProjectCover1 style={{ width: 150, height: 150 }} />,
       <ProjectCover2 style={{ width: 150, height: 150 }} />,
@@ -26,7 +26,7 @@ const ProjectCard: FunctionComponent<{ project: Project }> = ({ project }) => {
       <ProjectCover6 style={{ width: 150, height: 150 }} />
     ];
     return covers[Math.floor(Math.random() * covers.length)];
-  };
+  }, []);
 
   return (
     <Card
@@ -40,7 +40,7 @@ const ProjectCard: FunctionComponent<{ project: Project }> = ({ project }) => {
     >
       <Row justify="center">
         <Col style={{ textAlign: "center" }}>
-          {getProjectCover()}
+          {projectCover}
           <Typography.Title ellipsis level={4}>
             {project.name}
           </Typography.Title>
