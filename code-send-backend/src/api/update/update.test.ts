@@ -41,4 +41,20 @@ describe("update", () => {
     expect(res.body).to.has.property("version");
     expect(res.body).to.has.property("note");
   });
+
+  it("can edit update", async () => {
+    const getAllProjectResponse = await request.get("/project").send();
+    const projectId = getAllProjectResponse.body[0]._id;
+
+    const getAllUpdateResponse = await request
+      .get(`/project/${projectId}/update`)
+      .send();
+    const updateId = getAllUpdateResponse.body[0]._id;
+
+    const editUpdateResponse = await request
+      .put(`/project/${projectId}/update/${updateId}`)
+      .send({ note: "wonderful update" });
+
+    expect(editUpdateResponse.body.note).to.equal("wonderful update");
+  });
 });

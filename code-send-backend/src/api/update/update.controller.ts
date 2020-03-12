@@ -34,6 +34,16 @@ export default class UpdateController {
     }
   };
 
+  edit = async (req: Request, res: Response) => {
+    try {
+      const { updateId } = req.params;
+      const update = await updateService.editUpdate(updateId, req.body);
+      res.send(update);
+    } catch (error) {
+      throw new HttpException(500, error.message);
+    }
+  };
+
   uploadBundle = async (req: Request, res: Response) => {
     try {
       const { updateId } = req.params;

@@ -9,6 +9,7 @@ const baseUrl = "/project/:projectId/update";
 updateRouter.get(baseUrl, updateController.index);
 updateRouter.get(`${baseUrl}/latest`, updateController.latest);
 updateRouter.post(baseUrl, updateController.store);
+updateRouter.put(`${baseUrl}/:updateId`, updateController.edit);
 updateRouter.put(
   `${baseUrl}/:updateId/bundle`,
   upload("bundle"),

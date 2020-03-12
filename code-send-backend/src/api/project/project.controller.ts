@@ -25,8 +25,8 @@ export default class ProjectController {
   edit = async (req: Request, res: Response) => {
     try {
       const { projectId } = req.params;
-      const project = req.body;
-      res.send(await projectService.editProject(projectId, project));
+      const project = await projectService.editProject(projectId, req.body);
+      res.send(project);
     } catch (error) {
       throw new HttpException(500, error.message);
     }

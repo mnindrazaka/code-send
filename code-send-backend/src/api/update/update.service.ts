@@ -1,7 +1,7 @@
 import updateModel from "./update.model";
 import { UpdateRequest } from "./update.type";
-import cloudinary from "cloudinary";
 import { Types } from "mongoose";
+import { uploadBundle } from "utils/cloudinary";
 
 export default class UpdateService {
   getAllUpdates = (projectId: string) => {
@@ -17,14 +17,12 @@ export default class UpdateService {
     return updateModel.create({ ...update, project });
   };
 
+  editUpdate = (updateId: string, update: UpdateRequest) => {
+    return updateModel.findByIdAndUpdate(updateId, update, { new: true });
+  };
+
   uploadBundle = async (updateId: string, bundleBuffer: Buffer) => {
-    const bufferString = bundleBuffer.toString("base64");
-    const base64String = `data:application/javascript;base64,${bufferString}`;
-
-    const { url } = await cloudinary.v2.uploader.upload(base64String, {
-      resource_type: "raw"
-    });
-
+    const url = await uploadBundle(bundleBuffer);
     return updateModel.findByIdAndUpdate(
       updateId,
       { bundleUrl: url },
