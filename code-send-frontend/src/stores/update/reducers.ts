@@ -19,6 +19,12 @@ const itemsReducer: Reducer<UpdateState["items"], Action> = (
       return [...payload];
     case UpdateActionTypes.CreateSuccess:
       return [...prevState, payload];
+    case UpdateActionTypes.EditSuccess: {
+      const updates = [...prevState];
+      const index = updates.findIndex(update => update._id === payload._id);
+      updates[index] = payload;
+      return updates;
+    }
     default:
       return prevState;
   }
@@ -43,14 +49,17 @@ const loadingReducer: Reducer<UpdateState["loading"], Action> = (
   switch (type) {
     case UpdateActionTypes.GetRequest:
     case UpdateActionTypes.CreateRequest:
+    case UpdateActionTypes.EditRequest:
     case UpdateActionTypes.GetLatestRequest:
       return true;
     case UpdateActionTypes.GetSuccess:
     case UpdateActionTypes.GetError:
-    case UpdateActionTypes.CreateSuccess:
-    case UpdateActionTypes.CreateError:
     case UpdateActionTypes.GetLatestSuccess:
     case UpdateActionTypes.GetLatestError:
+    case UpdateActionTypes.CreateSuccess:
+    case UpdateActionTypes.CreateError:
+    case UpdateActionTypes.EditSuccess:
+    case UpdateActionTypes.EditError:
       return false;
     default:
       return prevState;
@@ -63,12 +72,14 @@ const errorReducer: Reducer<UpdateState["error"], Action> = (
 ) => {
   switch (type) {
     case UpdateActionTypes.GetError:
-    case UpdateActionTypes.CreateError:
     case UpdateActionTypes.GetLatestError:
+    case UpdateActionTypes.CreateError:
+    case UpdateActionTypes.EditError:
       return payload;
     case UpdateActionTypes.GetSuccess:
-    case UpdateActionTypes.CreateSuccess:
     case UpdateActionTypes.GetLatestSuccess:
+    case UpdateActionTypes.CreateSuccess:
+    case UpdateActionTypes.EditSuccess:
       return undefined;
     default:
       return prevState;

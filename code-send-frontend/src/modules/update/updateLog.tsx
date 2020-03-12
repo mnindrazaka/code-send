@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { Button, Table, PageHeader } from "antd";
+import React, { useMemo, FunctionComponent } from "react";
+import { Button, Table, PageHeader, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import { useGetAllUpdate } from "hooks/useUpdate";
 import Container from "components/container";
@@ -7,7 +7,26 @@ import { ColumnType } from "antd/lib/table";
 import { Update } from "interfaces/Update";
 import { getFormattedDate } from "utils/dateTime";
 
-const UpdateLog: React.FC = () => {
+interface TableAction {
+  update: Update;
+}
+
+const TableAction: FunctionComponent<TableAction> = ({ update }) => {
+  return (
+    <Row gutter={15}>
+      <Col>
+        <Link to={{ pathname: "/update/edit", state: { update } }}>
+          <Button type="primary">Edit</Button>
+        </Link>
+      </Col>
+      <Col>
+        <Button href={update.bundleUrl}>Download Bundle</Button>
+      </Col>
+    </Row>
+  );
+};
+
+const UpdateLog: FunctionComponent = () => {
   const { items, loading } = useGetAllUpdate();
 
   const columns = useMemo((): ColumnType<Update>[] => {
@@ -28,9 +47,7 @@ const UpdateLog: React.FC = () => {
       },
       {
         title: "",
-        render: (value, record) => (
-          <Button href={record.bundleUrl}>Download Bundle</Button>
-        )
+        render: (value, record) => <TableAction update={record} />
       }
     ];
   }, []);

@@ -111,3 +111,41 @@ export const useCreateUpdate = () => {
     error
   };
 };
+
+export const useEditUpdate = () => {
+  const { loading, error } = useUpdateState();
+  const project = useProjectState();
+  const {
+    editUpdateRequest,
+    editUpdateSuccess,
+    editUpdateError
+  } = useUpdateAction();
+  const { handleError, handleSuccess } = useNotification();
+  const { push } = useHistory();
+
+  const editUpdate = async (
+    updateId: string,
+    { bundle, ...rest }: UpdateFormValues
+  ) => {
+    try {
+      editUpdateRequest();
+      const update = await codeSendService.editUpdate(
+        project.selected?._id || "",
+        updateId,
+        rest
+      );
+      editUpdateSuccess(update);
+      handleSuccess("Success", "Your update is successfully edited");
+      push("/update");
+    } catch (error) {
+      editUpdateError(error.message);
+      handleError("Failed", error.message);
+    }
+  };
+
+  return {
+    editUpdate,
+    loading,
+    error
+  };
+};
