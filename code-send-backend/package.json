@@ -8,7 +8,7 @@
     "start": "NODE_PATH=./build node build/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
     "test": "jest",
-    "coverage": "jest --coverage --watch",
+    "coverage": "jest --coverage --watch-all",
     "prettier": "prettier --write '{src,test,mock}/**/*.{ts,tsx}'"
   },
   "keywords": [],

@@ -21,4 +21,14 @@ export default class ProjectController {
       throw new HttpException(500, error.message);
     }
   };
+
+  edit = async (req: Request, res: Response) => {
+    try {
+      const { projectId } = req.params;
+      const project = req.body;
+      res.send(await projectService.editProject(projectId, project));
+    } catch (error) {
+      throw new HttpException(500, error.message);
+    }
+  };
 }
