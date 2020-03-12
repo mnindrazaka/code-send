@@ -24,13 +24,13 @@ describe("project", () => {
   });
 
   it("can edit project", async () => {
-    const getRes = await request.get("/project").send();
-    const projectId = getRes.body[0]._id;
+    const geAllProjectResponse = await request.get("/project").send();
+    const projectId = geAllProjectResponse.body[0]._id;
 
-    const putRes = await request
+    const editProjectResponse = await request
       .put(`/project/${projectId}`)
       .send({ name: "wonderful-app" });
 
-    expect(putRes.body.name).to.equal("wonderful-app");
+    expect(editProjectResponse.body.name).to.equal("wonderful-app");
   });
 });
