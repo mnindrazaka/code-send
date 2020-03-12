@@ -8,7 +8,10 @@ const Page: React.FC = () => {
     <div data-testid="page-update">
       <Switch>
         <Route path="/update/log" component={UpdateLog} />
-        <Route path="/update/create" component={UpdateForm} />
+        <Route
+          path={["/update/create", "/update/edit"]}
+          component={UpdateForm}
+        />
         <Route render={() => <Redirect to="/update/log" />} />
       </Switch>
     </div>

@@ -14,6 +14,18 @@ export const getUpdateErrorAction = (error: string) => {
   return action(UpdateActionTypes.GetError, error);
 };
 
+export const getLatestUpdateRequestAction = () => {
+  return action(UpdateActionTypes.GetLatestRequest);
+};
+
+export const getLatestUpdateSuccessAction = (update: Update) => {
+  return action(UpdateActionTypes.GetLatestSuccess, update);
+};
+
+export const getLatestUpdateErrorAction = (error: string) => {
+  return action(UpdateActionTypes.GetLatestError, error);
+};
+
 export const createUpdateRequestAction = () => {
   return action(UpdateActionTypes.CreateRequest);
 };
@@ -26,14 +38,14 @@ export const createUpdateErrorAction = (error: string) => {
   return action(UpdateActionTypes.CreateError, error);
 };
 
-export const getLatestUpdateRequestAction = () => {
-  return action(UpdateActionTypes.GetLatestRequest);
+export const editUpdateRequestAction = () => {
+  return action(UpdateActionTypes.EditRequest);
 };
 
-export const getLatestUpdateSuccessAction = (update: Update) => {
-  return action(UpdateActionTypes.GetLatestSuccess, update);
+export const editUpdateSuccessAction = (update: Update) => {
+  return action(UpdateActionTypes.EditSuccess, update);
 };
 
-export const getLatestUpdateErrorAction = (error: string) => {
-  return action(UpdateActionTypes.GetLatestError, error);
+export const editUpdateErrorAction = (error: string) => {
+  return action(UpdateActionTypes.EditError, error);
 };

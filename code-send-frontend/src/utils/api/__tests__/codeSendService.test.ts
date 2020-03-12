@@ -20,7 +20,7 @@ describe("code send service", () => {
   });
 
   it("can edit project", () => {
-    const projectId = "mock id";
+    const projectId = "mock project id";
     const project = { name: "mock name" };
     codeSendService.editProject(projectId, project);
     expect(ServiceMock.mock.instances[0].put).toHaveBeenCalledWith(
@@ -30,7 +30,7 @@ describe("code send service", () => {
   });
 
   it("can get all updates", () => {
-    const projectId = "mock id";
+    const projectId = "mock project id";
     codeSendService.getAllUpdates(projectId);
     expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith(
       `/project/${projectId}/update`
@@ -38,7 +38,7 @@ describe("code send service", () => {
   });
 
   it("can get latest update", () => {
-    const projectId = "mock id";
+    const projectId = "mock project id";
     codeSendService.getLatestUpdate(projectId);
     expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith(
       `/project/${projectId}/update/latest`
@@ -46,11 +46,22 @@ describe("code send service", () => {
   });
 
   it("can create update", () => {
-    const projectId = "mock id";
+    const projectId = "mock project id";
     const update = { note: "mock note", version: "mock version" };
     codeSendService.createUpdate(projectId, update);
     expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
       `/project/${projectId}/update`,
+      update
+    );
+  });
+
+  it("can edit update", () => {
+    const projectId = "mock project id";
+    const updateId = "mock update id";
+    const update = { note: "mock note", version: "mock version" };
+    codeSendService.editUpdate(projectId, updateId, update);
+    expect(ServiceMock.mock.instances[0].put).toHaveBeenCalledWith(
+      `/project/${projectId}/update/${updateId}`,
       update
     );
   });

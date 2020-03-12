@@ -22,7 +22,10 @@ import {
   createUpdateErrorAction,
   getLatestUpdateRequestAction,
   getLatestUpdateSuccessAction,
-  getLatestUpdateErrorAction
+  getLatestUpdateErrorAction,
+  editUpdateRequestAction,
+  editUpdateSuccessAction,
+  editUpdateErrorAction
 } from "stores/update/actions";
 import { Update } from "interfaces/Update";
 
@@ -130,21 +133,6 @@ export const useUpdateAction = () => {
     [dispatch]
   );
 
-  const createUpdateRequest = useCallback(
-    () => dispatch(createUpdateRequestAction()),
-    [dispatch]
-  );
-
-  const createUpdateSuccess = useCallback(
-    (Update: Update) => dispatch(createUpdateSuccessAction(Update)),
-    [dispatch]
-  );
-
-  const createUpdateError = useCallback(
-    (error: string) => dispatch(createUpdateErrorAction(error)),
-    [dispatch]
-  );
-
   const getLatestUpdateRequest = useCallback(
     () => dispatch(getLatestUpdateRequestAction()),
     [dispatch]
@@ -160,15 +148,48 @@ export const useUpdateAction = () => {
     [dispatch]
   );
 
+  const createUpdateRequest = useCallback(
+    () => dispatch(createUpdateRequestAction()),
+    [dispatch]
+  );
+
+  const createUpdateSuccess = useCallback(
+    (Update: Update) => dispatch(createUpdateSuccessAction(Update)),
+    [dispatch]
+  );
+
+  const createUpdateError = useCallback(
+    (error: string) => dispatch(createUpdateErrorAction(error)),
+    [dispatch]
+  );
+
+  const editUpdateRequest = useCallback(
+    () => dispatch(editUpdateRequestAction()),
+    [dispatch]
+  );
+
+  const editUpdateSuccess = useCallback(
+    (Update: Update) => dispatch(editUpdateSuccessAction(Update)),
+    [dispatch]
+  );
+
+  const editUpdateError = useCallback(
+    (error: string) => dispatch(editUpdateErrorAction(error)),
+    [dispatch]
+  );
+
   return {
     getUpdateRequest,
     getUpdateSuccess,
     getUpdateError,
+    getLatestUpdateRequest,
+    getLatestUpdateSuccess,
+    getLatestUpdateError,
     createUpdateRequest,
     createUpdateSuccess,
     createUpdateError,
-    getLatestUpdateRequest,
-    getLatestUpdateSuccess,
-    getLatestUpdateError
+    editUpdateRequest,
+    editUpdateSuccess,
+    editUpdateError
   };
 };

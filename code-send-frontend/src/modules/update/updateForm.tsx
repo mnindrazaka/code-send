@@ -1,43 +1,56 @@
-import React from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { TextField, Form, FileField } from "components/formikWrapper";
-import { UpdateFormValues } from "interfaces/Update";
+import { UpdateFormValues, Update } from "interfaces/Update";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
-import { useCreateUpdate } from "hooks/useUpdate";
+import { useCreateUpdate, useEditUpdate } from "hooks/useUpdate";
 import Container from "components/container";
+import useToggleForm from "hooks/useToggleForm";
+import { useHistory } from "react-router-dom";
 
-const validationSchema = yup.object().shape({
-  version: yup.string().required(),
-  note: yup.string().required(),
-  bundle: yup.mixed().required()
-});
+interface UpdateFormHistory {
+  update?: Update;
+}
 
-const initialValues: UpdateFormValues = {
-  version: "",
-  note: ""
-};
-
-const UpdateForm: React.FC = () => {
+const UpdateForm: FunctionComponent = () => {
   const { createUpdate, loading } = useCreateUpdate();
+  const { editUpdate } = useEditUpdate();
+  const { state } = useHistory<UpdateFormHistory>().location;
+
+  const update = useMemo(() => {
+    return state ? state.update : undefined;
+  }, [state]);
+
+  const validationSchema = yup.object().shape({
+    version: update ? yup.string() : yup.string().required(),
+    note: yup.string().required(),
+    bundle: update ? yup.mixed() : yup.mixed().required()
+  });
+
+  const { title, subTitle, initialValues, handleSubmit } = useToggleForm<
+    UpdateFormValues
+  >({
+    name: "Update",
+    emptyValues: { note: "", version: "" },
+    filledValues: update,
+    onCreate: createUpdate,
+    onEdit: values => editUpdate(update?._id || "", values)
+  });
 
   return (
     <div data-testid="page-update-form">
-      <PageHeader
-        title="Create Update"
-        subTitle="Create and realease your new update"
-      />
-
+      <PageHeader title={title} subTitle={subTitle} />
       <Container>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={createUpdate}
+          onSubmit={handleSubmit}
         >
           <Form>
-            <TextField name="version" label="Version" />
+            {!update && <TextField name="version" label="Version" />}
             <TextField name="note" label="Note" />
-            <FileField name="bundle" label="Bundle" />
+            {!update && <FileField name="bundle" label="Bundle" />}
             <Button type="primary" htmlType="submit" loading={loading}>
               Submit
             </Button>

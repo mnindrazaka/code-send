@@ -29,6 +29,17 @@ const createUpdate = (projectId: string, update: UpdateFormValues) => {
   return service.post<Update>(`/project/${projectId}/update`, update);
 };
 
+const editUpdate = (
+  projectId: string,
+  updateId: string,
+  update: UpdateFormValues
+) => {
+  return service.put<Update>(
+    `/project/${projectId}/update/${updateId}`,
+    update
+  );
+};
+
 const uploadUpdate = (projectId: string, updateId: string, bundle: Blob) => {
   const formData = new FormData();
   formData.append("bundle", bundle);
@@ -46,5 +57,6 @@ export default {
   getAllUpdates,
   getLatestUpdate,
   createUpdate,
+  editUpdate,
   uploadUpdate
 };

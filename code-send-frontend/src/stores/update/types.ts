@@ -11,10 +11,13 @@ export enum UpdateActionTypes {
   GetRequest = "@Update/GetRequest",
   GetSuccess = "@Update/GetSuccess",
   GetError = "@Update/GetError",
+  GetLatestRequest = "@Update/GetLatestRequest",
+  GetLatestSuccess = "@Update/GetLatestSuccess",
+  GetLatestError = "@Update/GetLatestError",
   CreateRequest = "@Update/CreateRequest",
   CreateSuccess = "@Update/CreateSuccess",
   CreateError = "@Update/CreateError",
-  GetLatestRequest = "@Update/GetLatestRequest",
-  GetLatestSuccess = "@Update/GetLatestSuccess",
-  GetLatestError = "@Update/GetLatestError"
+  EditRequest = "@Update/EditRequest",
+  EditSuccess = "@Update/EditSuccess",
+  EditError = "@Update/EditError"
 }
