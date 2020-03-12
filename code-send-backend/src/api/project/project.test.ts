@@ -22,4 +22,15 @@ describe("project", () => {
     expect(res.body).to.has.property("_id");
     expect(res.body).to.has.property("name");
   });
+
+  it("can edit project", async () => {
+    const getRes = await request.get("/project").send();
+    const projectId = getRes.body[0]._id;
+
+    const putRes = await request
+      .put(`/project/${projectId}`)
+      .send({ name: "wonderful-app" });
+
+    expect(putRes.body.name).to.equal("wonderful-app");
+  });
 });

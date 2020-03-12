@@ -9,4 +9,8 @@ export default class ProjectService {
   createProject = (project: ProjectRequest) => {
     return projectModel.create(project);
   };
+
+  editProject = (projectId: string, project: ProjectRequest) => {
+    return projectModel.findByIdAndUpdate(projectId, project, { new: true });
+  };
 }
