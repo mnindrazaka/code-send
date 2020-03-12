@@ -19,6 +19,16 @@ describe("code send service", () => {
     );
   });
 
+  it("can edit project", () => {
+    const projectId = "mock id";
+    const project = { name: "mock name" };
+    codeSendService.editProject(projectId, project);
+    expect(ServiceMock.mock.instances[0].put).toHaveBeenCalledWith(
+      `/project/${projectId}`,
+      project
+    );
+  });
+
   it("can get all updates", () => {
     const projectId = "mock id";
     codeSendService.getAllUpdates(projectId);

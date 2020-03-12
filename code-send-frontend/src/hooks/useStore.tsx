@@ -7,6 +7,9 @@ import {
   createProjectRequestAction,
   createProjectSuccessAction,
   createProjectErrorAction,
+  editProjectRequestAction,
+  editProjectSuccessAction,
+  editProjectErrorAction,
   selectProjectAction
 } from "stores/project/actions";
 import { Project } from "interfaces/Project";
@@ -68,6 +71,21 @@ export const useProjectAction = () => {
     [dispatch]
   );
 
+  const editProjectRequest = useCallback(
+    () => dispatch(editProjectRequestAction()),
+    [dispatch]
+  );
+
+  const editProjectSuccess = useCallback(
+    (project: Project) => dispatch(editProjectSuccessAction(project)),
+    [dispatch]
+  );
+
+  const editProjectError = useCallback(
+    (error: string) => dispatch(editProjectErrorAction(error)),
+    [dispatch]
+  );
+
   const selectProject = useCallback(
     (project: Project) => dispatch(selectProjectAction(project)),
     [dispatch]
@@ -80,6 +98,9 @@ export const useProjectAction = () => {
     createProjectRequest,
     createProjectSuccess,
     createProjectError,
+    editProjectRequest,
+    editProjectSuccess,
+    editProjectError,
     selectProject
   };
 };

@@ -3,9 +3,9 @@ import { Card, Row, Col, PageHeader, Skeleton, Result, Button } from "antd";
 import {
   NumberOutlined,
   InfoCircleOutlined,
-  CalendarOutlined,
-  FrownOutlined
+  CalendarOutlined
 } from "@ant-design/icons";
+import { ReactComponent as Empty } from "assets/images/empty.svg";
 import { useGetLatestUpdate } from "hooks/useUpdate";
 import Container from "components/container";
 import { getFormattedDate } from "utils/dateTime";
@@ -23,14 +23,14 @@ const Page: React.FC = () => {
       />
 
       <Container>
-        {latest ? (
+        {latest || loading ? (
           <Row gutter={16}>
             <Col span="8">
               <Card>
                 <Skeleton avatar loading={loading} active>
                   <Card.Meta
                     title="Version"
-                    description={latest.version}
+                    description={latest?.version}
                     avatar={<NumberOutlined />}
                   />
                 </Skeleton>
@@ -42,7 +42,7 @@ const Page: React.FC = () => {
                 <Skeleton avatar loading={loading} active>
                   <Card.Meta
                     title="Note"
-                    description={latest.note}
+                    description={latest?.note}
                     avatar={<InfoCircleOutlined />}
                   />
                 </Skeleton>
@@ -54,7 +54,7 @@ const Page: React.FC = () => {
                 <Skeleton avatar loading={loading} active>
                   <Card.Meta
                     title="Release Date"
-                    description={getFormattedDate(latest.createdAt)}
+                    description={getFormattedDate(latest?.createdAt || "")}
                     avatar={<CalendarOutlined />}
                   />
                 </Skeleton>
@@ -64,7 +64,7 @@ const Page: React.FC = () => {
         ) : (
           <Card>
             <Result
-              icon={<FrownOutlined />}
+              icon={<Empty style={{ width: 200, height: 200 }} />}
               title="You Have No Update !"
               subTitle="Create one and start developing your application"
               extra={
