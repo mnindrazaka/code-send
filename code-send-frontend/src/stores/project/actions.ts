@@ -26,6 +26,18 @@ export const createProjectErrorAction = (error: string) => {
   return action(ProjectActionTypes.CreateError, error);
 };
 
+export const editProjectRequestAction = () => {
+  return action(ProjectActionTypes.EditRequest);
+};
+
+export const editProjectSuccessAction = (project: Project) => {
+  return action(ProjectActionTypes.EditSuccess, project);
+};
+
+export const editProjectErrorAction = (error: string) => {
+  return action(ProjectActionTypes.EditError, error);
+};
+
 export const selectProjectAction = (project: Project) => {
   return action(ProjectActionTypes.Select, project);
 };

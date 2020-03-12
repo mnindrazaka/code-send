@@ -1,31 +1,49 @@
-import React from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { TextField, Form } from "components/formikWrapper";
-import { ProjectFormValues } from "interfaces/Project";
+import { ProjectFormValues, Project } from "interfaces/Project";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
-import { useCreateProject } from "hooks/useProject";
+import { useCreateProject, useEditProject } from "hooks/useProject";
 import Container from "components/container";
+import { useHistory } from "react-router-dom";
+import useToggleForm from "hooks/useToggleForm";
 
-const validationSchema = yup.object().shape({
-  name: yup.string().required()
-});
+interface ProjectFormHistory {
+  project?: Project;
+}
 
-const initialValues: ProjectFormValues = {
-  name: ""
-};
-
-const ProjectForm: React.FC = () => {
+const ProjectForm: FunctionComponent = () => {
   const { createProject, loading } = useCreateProject();
+  const { editProject } = useEditProject();
+  const { state } = useHistory<ProjectFormHistory>().location;
+
+  const project = useMemo(() => {
+    return state ? state.project : undefined;
+  }, [state]);
+
+  const validationSchema = yup.object().shape({
+    name: yup.string().required()
+  });
+
+  const { title, subTitle, initialValues, handleSubmit } = useToggleForm<
+    ProjectFormValues
+  >({
+    name: "Project",
+    emptyValues: { name: "" },
+    filledValues: project,
+    onCreate: createProject,
+    onEdit: values => editProject(project?._id || "", values)
+  });
 
   return (
     <div data-testid="page-project-form">
-      <PageHeader title="Create Project" subTitle="Create your new project" />
+      <PageHeader title={title} subTitle={subTitle} />
       <Container>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={createProject}
+          onSubmit={handleSubmit}
         >
           <Form>
             <TextField name="name" label="Name" />

@@ -60,6 +60,42 @@ export const useCreateProject = () => {
   };
 };
 
+export const useEditProject = () => {
+  const { loading, error } = useProjectState();
+  const {
+    editProjectRequest,
+    editProjectSuccess,
+    editProjectError
+  } = useProjectAction();
+  const { handleSuccess, handleError } = useNotification();
+  const { push } = useHistory();
+
+  const editProject = async (
+    projectId: string,
+    projectFormValues: ProjectFormValues
+  ) => {
+    try {
+      editProjectRequest();
+      const project = await codeSendService.editProject(
+        projectId,
+        projectFormValues
+      );
+      editProjectSuccess(project);
+      handleSuccess("Success", "Your project is successfully edited");
+      push("/project");
+    } catch (error) {
+      editProjectError(error.message);
+      handleError("Failed", error.message);
+    }
+  };
+
+  return {
+    editProject,
+    loading,
+    error
+  };
+};
+
 export const useSelectProject = () => {
   const projectAction = useProjectAction();
   const { push } = useHistory();

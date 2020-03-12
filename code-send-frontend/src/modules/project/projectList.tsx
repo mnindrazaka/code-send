@@ -13,7 +13,11 @@ import { ReactComponent as ProjectCover4 } from "assets/images/projectCover4.svg
 import { ReactComponent as ProjectCover5 } from "assets/images/projectCover5.svg";
 import { ReactComponent as ProjectCover6 } from "assets/images/projectCover6.svg";
 
-const ProjectCard: FunctionComponent<{ project: Project }> = ({ project }) => {
+interface ProjectCardProps {
+  project: Project;
+}
+
+const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
   const { selectProject } = useSelectProject();
 
   const projectCover = React.useMemo(() => {
@@ -31,14 +35,15 @@ const ProjectCard: FunctionComponent<{ project: Project }> = ({ project }) => {
   return (
     <Card
       hoverable
-      onClick={() => selectProject(project)}
       actions={[
-        <EditOutlined title="edit project" />,
+        <Link to={{ pathname: "/project/edit", state: { project } }}>
+          <EditOutlined title="edit project" />
+        </Link>,
         <DeleteOutlined title="delete project" />,
         <MoreOutlined />
       ]}
     >
-      <Row justify="center">
+      <Row justify="center" onClick={() => selectProject(project)}>
         <Col style={{ textAlign: "center" }}>
           {projectCover}
           <Typography.Title ellipsis level={4}>

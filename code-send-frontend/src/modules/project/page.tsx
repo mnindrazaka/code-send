@@ -20,7 +20,10 @@ const Page: React.FC = () => {
           <Layout.Content style={{ padding: "30px" }}>
             <Switch>
               <Route path="/project/list" component={ProjectList} />
-              <Route path="/project/create" component={ProjectForm} />
+              <Route
+                path={["/project/create", "/project/edit"]}
+                component={ProjectForm}
+              />
               <Route render={() => <Redirect to="/project/list" />} />
             </Switch>
           </Layout.Content>

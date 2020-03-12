@@ -13,6 +13,10 @@ const createProject = (project: ProjectFormValues) => {
   return service.post<Project>("/project", project);
 };
 
+const editProject = (projectId: string, project: ProjectFormValues) => {
+  return service.put<Project>(`/project/${projectId}`, project);
+};
+
 const getAllUpdates = (projectId: string) => {
   return service.get<Update[]>(`/project/${projectId}/update`);
 };
@@ -38,6 +42,7 @@ export default {
   baseURL,
   getallProjects,
   createProject,
+  editProject,
   getAllUpdates,
   getLatestUpdate,
   createUpdate,
