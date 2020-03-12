@@ -1,8 +1,9 @@
 import React from "react";
-import { Route, Redirect, Switch, Link } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
+import { Layout, Row, Col } from "antd";
+import Logo from "components/logo/logo";
 import ProjectList from "./projectList";
 import ProjectForm from "./projectForm";
-import { Layout, Row, Col, Typography } from "antd";
 
 const Page: React.FC = () => {
   return (
@@ -11,11 +12,7 @@ const Page: React.FC = () => {
         <Layout.Header>
           <Row justify="space-between">
             <Col>
-              <Link to="/project">
-                <Typography.Text strong style={{ color: "white" }}>
-                  Code Send
-                </Typography.Text>
-              </Link>
+              <Logo />
             </Col>
           </Row>
         </Layout.Header>

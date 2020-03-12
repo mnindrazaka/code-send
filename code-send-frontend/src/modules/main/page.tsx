@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Layout, Row, Col, Typography, Select } from "antd";
+import { Menu, Layout, Row, Col, Select } from "antd";
 import { DashboardOutlined, GiftOutlined } from "@ant-design/icons";
 import { Route, Redirect, Link, Switch, useHistory } from "react-router-dom";
 import Dashboard from "modules/dashboard";
@@ -7,6 +7,7 @@ import Update from "modules/update";
 import { NavigationMenuItem } from "interfaces/Navigation";
 import { useProjectState } from "hooks/useStore";
 import { useSelectProject } from "hooks/useProject";
+import Logo from "components/logo/logo";
 
 const navigationMenuItems: NavigationMenuItem[] = [
   {
@@ -90,11 +91,7 @@ const Page: React.FC = () => {
       <Layout.Header>
         <Row justify="space-between">
           <Col>
-            <Link to="/project">
-              <Typography.Text strong style={{ color: "white" }}>
-                Code Send
-              </Typography.Text>
-            </Link>
+            <Logo />
           </Col>
           <Col>
             <ProjectSelector />

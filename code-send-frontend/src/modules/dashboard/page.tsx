@@ -23,14 +23,14 @@ const Page: React.FC = () => {
       />
 
       <Container>
-        {latest ? (
+        {latest || loading ? (
           <Row gutter={16}>
             <Col span="8">
               <Card>
                 <Skeleton avatar loading={loading} active>
                   <Card.Meta
                     title="Version"
-                    description={latest.version}
+                    description={latest?.version}
                     avatar={<NumberOutlined />}
                   />
                 </Skeleton>
@@ -42,7 +42,7 @@ const Page: React.FC = () => {
                 <Skeleton avatar loading={loading} active>
                   <Card.Meta
                     title="Note"
-                    description={latest.note}
+                    description={latest?.note}
                     avatar={<InfoCircleOutlined />}
                   />
                 </Skeleton>
@@ -54,7 +54,7 @@ const Page: React.FC = () => {
                 <Skeleton avatar loading={loading} active>
                   <Card.Meta
                     title="Release Date"
-                    description={getFormattedDate(latest.createdAt)}
+                    description={getFormattedDate(latest?.createdAt || "")}
                     avatar={<CalendarOutlined />}
                   />
                 </Skeleton>
