@@ -20,7 +20,7 @@ export const storeContext = createContext<RootContextValue>({
     project: projectInitialState,
     update: updateInitialState
   },
-  dispatch: () => null
+  dispatch: () => {}
 });
 
 const { Provider } = storeContext;

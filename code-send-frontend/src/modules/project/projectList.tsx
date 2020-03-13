@@ -37,7 +37,11 @@ const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
     <Card
       hoverable
       actions={[
-        <Link to="/project/edit" onClick={() => selectProject(project)}>
+        <Link
+          to="/project/edit"
+          onClick={() => selectProject(project)}
+          data-testid="link-project-edit"
+        >
           <EditOutlined title="edit project" />
         </Link>,
         <DeleteOutlined title="delete project" />,

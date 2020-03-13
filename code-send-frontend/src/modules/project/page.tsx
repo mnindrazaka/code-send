@@ -24,7 +24,7 @@ const Page: React.FC = () => {
                 path={["/project/create", "/project/edit"]}
                 component={ProjectForm}
               />
-              <Route render={() => <Redirect to="/project/list" />} />
+              <Redirect to="/project/list" />
             </Switch>
           </Layout.Content>
         </Layout>

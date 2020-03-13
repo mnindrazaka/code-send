@@ -25,7 +25,7 @@ const ProjectForm: FunctionComponent = () => {
     emptyValues: { name: "" },
     filledValues: selected,
     onCreate: createProject,
-    onEdit: values => editProject(selected?._id || "", values)
+    onEdit: values => editProject(selected!._id, values)
   });
 
   return (

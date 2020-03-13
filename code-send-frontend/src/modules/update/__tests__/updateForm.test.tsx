@@ -37,7 +37,7 @@ const renderUpdateForm = (initialState?: Partial<RootState>) => {
 };
 
 describe("update form", () => {
-  it("can show success message", async () => {
+  it("can show create success message", async () => {
     const { findByText, getByLabelText, getByText } = renderUpdateForm();
 
     const inputVersionElement = getByLabelText("Version");
@@ -57,7 +57,7 @@ describe("update form", () => {
     expect(alertElement).toBeInTheDocument();
   });
 
-  it("can show failed message", async () => {
+  it("can show create failed message", async () => {
     const { findByText, getByLabelText, getByText } = renderUpdateForm();
     const inputVersionElement = getByLabelText("Version");
     const inputNoteElement = getByLabelText("Note");
@@ -79,7 +79,7 @@ describe("update form", () => {
     expect(alertElement).toBeInTheDocument();
   });
 
-  it("can edit update", async () => {
+  it("can show edit success message", async () => {
     const { getByLabelText, getByText, findByText } = renderUpdateForm({
       update: {
         items: [],
@@ -92,12 +92,35 @@ describe("update form", () => {
     const submitElement = getByText("Submit").closest("button");
 
     const { note } = mockUpdate;
-    codeSendServiceMock.createUpdate.mockResolvedValueOnce(mockUpdate);
-    codeSendServiceMock.uploadUpdate.mockResolvedValueOnce(mockUpdate);
+    codeSendServiceMock.editUpdate.mockResolvedValueOnce(mockUpdate);
     fireEvent.change(inputNoteElement, { target: { value: note } });
     fireEvent.click(submitElement!);
 
     const alertElement = await findByText("Success");
+    expect(alertElement).toBeInTheDocument();
+  });
+
+  it("can show edit failed message", async () => {
+    const { findByText, getByLabelText, getByText } = renderUpdateForm({
+      update: {
+        items: [],
+        loading: false,
+        selected: mockUpdate
+      }
+    });
+    const inputNoteElement = getByLabelText("Note");
+    const submitElement = getByText("Submit").closest("button");
+
+    codeSendServiceMock.editUpdate.mockRejectedValueOnce({
+      status: "error",
+      message: "failed to edit update"
+    });
+
+    const { note } = mockUpdate;
+    fireEvent.change(inputNoteElement, { target: { value: note } });
+    fireEvent.click(submitElement!);
+
+    const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
   });
 });

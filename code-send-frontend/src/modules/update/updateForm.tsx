@@ -27,7 +27,7 @@ const UpdateForm: FunctionComponent = () => {
     emptyValues: { note: "", version: "" },
     filledValues: selected,
     onCreate: createUpdate,
-    onEdit: values => editUpdate(selected?._id || "", values)
+    onEdit: values => editUpdate(selected!._id, values)
   });
 
   return (

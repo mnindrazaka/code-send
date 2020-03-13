@@ -43,13 +43,7 @@ const renderProjectForm = (initialState?: Partial<RootState>) => {
 };
 
 describe("project form", () => {
-  it("can fill correct value", () => {
-    const { inputNameElement } = renderProjectForm();
-    fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
-    expect(inputNameElement).toHaveValue(mockProject.name);
-  });
-
-  it("can show success message", async () => {
+  it("can show create success message", async () => {
     const { inputNameElement, submitElement, findByText } = renderProjectForm();
 
     codeSendServiceMock.createProject.mockResolvedValueOnce(mockProject);
@@ -60,7 +54,7 @@ describe("project form", () => {
     expect(alertElement).toBeInTheDocument();
   });
 
-  it("can show failed message", async () => {
+  it("can show create failed message", async () => {
     const { inputNameElement, submitElement, findByText } = renderProjectForm();
 
     codeSendServiceMock.createProject.mockRejectedValueOnce({
@@ -73,7 +67,7 @@ describe("project form", () => {
     expect(alertElement).toBeInTheDocument();
   });
 
-  it("can edit project", async () => {
+  it("can show edit success message", async () => {
     const { inputNameElement, submitElement, findByText } = renderProjectForm({
       project: {
         items: [],
@@ -82,11 +76,30 @@ describe("project form", () => {
       }
     });
 
-    codeSendServiceMock.createProject.mockResolvedValueOnce(mockProject);
+    codeSendServiceMock.editProject.mockResolvedValueOnce(mockProject);
     fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
     fireEvent.click(submitElement!);
 
     const alertElement = await findByText("Success");
+    expect(alertElement).toBeInTheDocument();
+  });
+
+  it("can show edit failed message", async () => {
+    const { inputNameElement, submitElement, findByText } = renderProjectForm({
+      project: {
+        items: [],
+        loading: false,
+        selected: mockProject
+      }
+    });
+
+    codeSendServiceMock.editProject.mockRejectedValueOnce({
+      status: "error",
+      message: "failed to edit update"
+    });
+    fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
+    fireEvent.click(submitElement!);
+    const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
   });
 });
