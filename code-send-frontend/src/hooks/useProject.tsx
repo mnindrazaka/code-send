@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ProjectFormValues, Project } from "interfaces/Project";
+import { ProjectFormValues } from "interfaces/Project";
 import codeSendService from "utils/api/codeSendService";
 import { useNotification } from "hooks/useNotification";
 import { useProjectState, useProjectAction } from "./useStore";
@@ -94,16 +94,4 @@ export const useEditProject = () => {
     loading,
     error
   };
-};
-
-export const useSelectProject = () => {
-  const projectAction = useProjectAction();
-  const { push } = useHistory();
-
-  const selectProject = (project: Project) => {
-    projectAction.selectProject(project);
-    push("/dashboard");
-  };
-
-  return { selectProject };
 };

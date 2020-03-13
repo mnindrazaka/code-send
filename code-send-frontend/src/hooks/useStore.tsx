@@ -10,7 +10,8 @@ import {
   editProjectRequestAction,
   editProjectSuccessAction,
   editProjectErrorAction,
-  selectProjectAction
+  selectProjectAction,
+  clearSelectedProjectAction
 } from "stores/project/actions";
 import { Project } from "interfaces/Project";
 import {
@@ -25,7 +26,9 @@ import {
   getLatestUpdateErrorAction,
   editUpdateRequestAction,
   editUpdateSuccessAction,
-  editUpdateErrorAction
+  editUpdateErrorAction,
+  selectUpdateAction,
+  clearSelectedUpdateAction
 } from "stores/update/actions";
 import { Update } from "interfaces/Update";
 
@@ -94,6 +97,11 @@ export const useProjectAction = () => {
     [dispatch]
   );
 
+  const clearSelectedProject = useCallback(
+    () => dispatch(clearSelectedProjectAction()),
+    [dispatch]
+  );
+
   return {
     getProjectRequest,
     getProjectSuccess,
@@ -104,7 +112,8 @@ export const useProjectAction = () => {
     editProjectRequest,
     editProjectSuccess,
     editProjectError,
-    selectProject
+    selectProject,
+    clearSelectedProject
   };
 };
 
@@ -178,6 +187,16 @@ export const useUpdateAction = () => {
     [dispatch]
   );
 
+  const selectUpdate = useCallback(
+    (update: Update) => dispatch(selectUpdateAction(update)),
+    [dispatch]
+  );
+
+  const clearSelectedUpdate = useCallback(
+    () => dispatch(clearSelectedUpdateAction()),
+    [dispatch]
+  );
+
   return {
     getUpdateRequest,
     getUpdateSuccess,
@@ -190,6 +209,8 @@ export const useUpdateAction = () => {
     createUpdateError,
     editUpdateRequest,
     editUpdateSuccess,
-    editUpdateError
+    editUpdateError,
+    selectUpdate,
+    clearSelectedUpdate
   };
 };

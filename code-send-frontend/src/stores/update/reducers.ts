@@ -5,6 +5,7 @@ import { combineReducers } from "utils/combineReducers";
 
 export const updateInitialState: UpdateState = {
   items: [],
+  selected: undefined,
   latest: undefined,
   loading: false,
   error: undefined
@@ -25,6 +26,20 @@ const itemsReducer: Reducer<UpdateState["items"], Action> = (
       updates[index] = payload;
       return updates;
     }
+    default:
+      return prevState;
+  }
+};
+
+const selectedReducer: Reducer<UpdateState["selected"], Action> = (
+  prevState,
+  { type, payload }
+) => {
+  switch (type) {
+    case UpdateActionTypes.Select:
+      return payload;
+    case UpdateActionTypes.ClearSelected:
+      return undefined;
     default:
       return prevState;
   }
@@ -88,6 +103,7 @@ const errorReducer: Reducer<UpdateState["error"], Action> = (
 
 export default combineReducers<UpdateState>({
   items: [itemsReducer, updateInitialState["items"]],
+  selected: [selectedReducer, updateInitialState["selected"]],
   latest: [latestReducer, updateInitialState["latest"]],
   loading: [loadingReducer, updateInitialState["loading"]],
   error: [errorReducer, updateInitialState["error"]]

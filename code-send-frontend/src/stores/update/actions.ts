@@ -49,3 +49,11 @@ export const editUpdateSuccessAction = (update: Update) => {
 export const editUpdateErrorAction = (error: string) => {
   return action(UpdateActionTypes.EditError, error);
 };
+
+export const selectUpdateAction = (update: Update) => {
+  return action(UpdateActionTypes.Select, update);
+};
+
+export const clearSelectedUpdateAction = () => {
+  return action(UpdateActionTypes.ClearSelected);
+};

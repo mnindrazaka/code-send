@@ -5,8 +5,7 @@ import { Route, Redirect, Link, Switch, useHistory } from "react-router-dom";
 import Dashboard from "modules/dashboard";
 import Update from "modules/update";
 import { NavigationMenuItem } from "interfaces/Navigation";
-import { useProjectState } from "hooks/useStore";
-import { useSelectProject } from "hooks/useProject";
+import { useProjectState, useProjectAction } from "hooks/useStore";
 import Logo from "components/logo/logo";
 
 const navigationMenuItems: NavigationMenuItem[] = [
@@ -26,7 +25,7 @@ const navigationMenuItems: NavigationMenuItem[] = [
 
 const ProjectSelector = () => {
   const { items, selected } = useProjectState();
-  const { selectProject } = useSelectProject();
+  const { selectProject } = useProjectAction();
 
   const handleChange = (value: string) => {
     const project = items.find(item => item._id === value);

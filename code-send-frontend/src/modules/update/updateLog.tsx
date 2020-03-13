@@ -6,17 +6,21 @@ import Container from "components/container";
 import { ColumnType } from "antd/lib/table";
 import { Update } from "interfaces/Update";
 import { getFormattedDate } from "utils/dateTime";
+import { useUpdateAction } from "hooks/useStore";
 
 interface TableAction {
   update: Update;
 }
 
 const TableAction: FunctionComponent<TableAction> = ({ update }) => {
+  const { selectUpdate } = useUpdateAction();
   return (
     <Row gutter={15}>
       <Col>
-        <Link to={{ pathname: "/update/edit", state: { update } }}>
-          <Button type="primary">Edit</Button>
+        <Link to="/update/edit">
+          <Button type="primary" onClick={() => selectUpdate(update)}>
+            Edit
+          </Button>
         </Link>
       </Col>
       <Col>
@@ -28,6 +32,7 @@ const TableAction: FunctionComponent<TableAction> = ({ update }) => {
 
 const UpdateLog: FunctionComponent = () => {
   const { items, loading } = useGetAllUpdate();
+  const { clearSelectedUpdate } = useUpdateAction();
 
   const columns = useMemo((): ColumnType<Update>[] => {
     return [
@@ -58,7 +63,9 @@ const UpdateLog: FunctionComponent = () => {
 
       <Container>
         <Link to="/update/create">
-          <Button type="primary">Create New Update</Button>
+          <Button type="primary" onClick={clearSelectedUpdate}>
+            Create New Update
+          </Button>
         </Link>
 
         <Table
