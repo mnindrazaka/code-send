@@ -36,8 +36,9 @@ const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
   return (
     <Card
       hoverable
+      onClick={() => selectProject(project)}
       actions={[
-        <Link to="/project/edit" onClick={() => selectProject(project)}>
+        <Link to="/project/edit">
           <EditOutlined title="Edit Project" />
         </Link>,
         <DeleteOutlined title="Delete Project" />,
@@ -45,7 +46,7 @@ const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
       ]}
     >
       <Link to="/dashboard">
-        <Row justify="center" onClick={() => selectProject(project)}>
+        <Row justify="center">
           <Col style={{ textAlign: "center" }}>
             {projectCover}
             <Typography.Title ellipsis level={4}>
