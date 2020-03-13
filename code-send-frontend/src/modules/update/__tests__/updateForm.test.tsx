@@ -6,6 +6,7 @@ import UpdateForm from "../updateForm";
 import codeSendService from "utils/api/codeSendService";
 import { Update } from "interfaces/Update";
 import initMatchMedia from "matchMedia.mock";
+import { RootState } from "stores/types";
 
 initMatchMedia();
 
@@ -24,55 +25,25 @@ const mockUpdate: Update = {
 };
 const file = new File(["mock content"], "index.bundle.js");
 
-const renderUpdateForm = () => {
+const renderUpdateForm = (initialState?: Partial<RootState>) => {
   const utils = render(
     <MemoryRouter>
-      <StoreProvider>
+      <StoreProvider initialState={initialState}>
         <UpdateForm />
       </StoreProvider>
     </MemoryRouter>
   );
-  const { getByLabelText, getByText } = utils;
-
-  const inputVersionElement = getByLabelText("Version");
-  const inputNoteElement = getByLabelText("Note");
-  const inputBundleElement = getByLabelText("Bundle");
-  const submitElement = getByText("Submit").closest("button");
-
-  return {
-    ...utils,
-    inputVersionElement,
-    inputNoteElement,
-    inputBundleElement,
-    submitElement
-  };
+  return utils;
 };
 
 describe("update form", () => {
-  it("can fill correct value", () => {
-    const {
-      inputVersionElement,
-      inputNoteElement,
-      inputBundleElement
-    } = renderUpdateForm();
-
-    const { version, note } = mockUpdate;
-    fireEvent.change(inputVersionElement, { target: { value: version } });
-    fireEvent.change(inputNoteElement, { target: { value: note } });
-    fireEvent.change(inputBundleElement, { target: { files: [file] } });
-
-    expect(inputVersionElement).toHaveValue(version);
-    expect(inputNoteElement).toHaveValue(note);
-  });
-
   it("can show success message", async () => {
-    const {
-      inputVersionElement,
-      inputNoteElement,
-      inputBundleElement,
-      submitElement,
-      findByText
-    } = renderUpdateForm();
+    const { findByText, getByLabelText, getByText } = renderUpdateForm();
+
+    const inputVersionElement = getByLabelText("Version");
+    const inputNoteElement = getByLabelText("Note");
+    const inputBundleElement = getByLabelText("Bundle");
+    const submitElement = getByText("Submit").closest("button");
 
     const { version, note } = mockUpdate;
     codeSendServiceMock.createUpdate.mockResolvedValueOnce(mockUpdate);
@@ -87,18 +58,17 @@ describe("update form", () => {
   });
 
   it("can show failed message", async () => {
-    const {
-      inputVersionElement,
-      inputNoteElement,
-      inputBundleElement,
-      submitElement,
-      findByText
-    } = renderUpdateForm();
+    const { findByText, getByLabelText, getByText } = renderUpdateForm();
+    const inputVersionElement = getByLabelText("Version");
+    const inputNoteElement = getByLabelText("Note");
+    const inputBundleElement = getByLabelText("Bundle");
+    const submitElement = getByText("Submit").closest("button");
 
     codeSendServiceMock.createUpdate.mockRejectedValueOnce({
       status: "error",
       message: "failed to create update"
     });
+
     const { version, note } = mockUpdate;
     fireEvent.change(inputVersionElement, { target: { value: version } });
     fireEvent.change(inputNoteElement, { target: { value: note } });
@@ -106,6 +76,28 @@ describe("update form", () => {
     fireEvent.click(submitElement!);
 
     const alertElement = await findByText("Failed");
+    expect(alertElement).toBeInTheDocument();
+  });
+
+  it("can edit update", async () => {
+    const { getByLabelText, getByText, findByText } = renderUpdateForm({
+      update: {
+        items: [],
+        loading: false,
+        selected: mockUpdate
+      }
+    });
+
+    const inputNoteElement = getByLabelText("Note");
+    const submitElement = getByText("Submit").closest("button");
+
+    const { note } = mockUpdate;
+    codeSendServiceMock.createUpdate.mockResolvedValueOnce(mockUpdate);
+    codeSendServiceMock.uploadUpdate.mockResolvedValueOnce(mockUpdate);
+    fireEvent.change(inputNoteElement, { target: { value: note } });
+    fireEvent.click(submitElement!);
+
+    const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
   });
 });

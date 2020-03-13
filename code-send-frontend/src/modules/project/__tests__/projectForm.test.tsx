@@ -6,6 +6,7 @@ import ProjectForm from "../projectForm";
 import codeSendService from "utils/api/codeSendService";
 import { Project } from "interfaces/Project";
 import initMatchMedia from "matchMedia.mock";
+import { RootState } from "stores/types";
 
 initMatchMedia();
 
@@ -21,10 +22,10 @@ const mockProject: Project = {
   name: "mock name"
 };
 
-const renderProjectForm = () => {
+const renderProjectForm = (initialState?: Partial<RootState>) => {
   const utils = render(
     <MemoryRouter>
-      <StoreProvider>
+      <StoreProvider initialState={initialState}>
         <ProjectForm />
       </StoreProvider>
     </MemoryRouter>
@@ -69,6 +70,23 @@ describe("project form", () => {
     fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
     fireEvent.click(submitElement!);
     const alertElement = await findByText("Failed");
+    expect(alertElement).toBeInTheDocument();
+  });
+
+  it("can edit project", async () => {
+    const { inputNameElement, submitElement, findByText } = renderProjectForm({
+      project: {
+        items: [],
+        loading: false,
+        selected: mockProject
+      }
+    });
+
+    codeSendServiceMock.createProject.mockResolvedValueOnce(mockProject);
+    fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
+    fireEvent.click(submitElement!);
+
+    const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
   });
 });
