@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 import { Button, Skeleton, PageHeader, Card, Row, Col, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { useGetAllProject } from "hooks/useProject";
-import { useProjectAction } from "hooks/useStore";
+import { useGetAllProject } from "hooks/api/useProjectApi";
+import { useProjectAction, useProjectState } from "hooks/store/useProjectStore";
 import { EditOutlined, DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import Container from "components/container";
 import { getFormattedDate } from "utils/dateTime";
@@ -62,8 +62,9 @@ const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
 };
 
 const ProjectList: FunctionComponent = () => {
-  const { items, loading } = useGetAllProject();
+  const { items, loading } = useProjectState();
   const { clearSelectedProject } = useProjectAction();
+  useGetAllProject();
 
   return (
     <div data-testid="page-project-list">

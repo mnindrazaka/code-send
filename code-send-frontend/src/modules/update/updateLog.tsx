@@ -1,12 +1,12 @@
 import React, { useMemo, FunctionComponent } from "react";
 import { Button, Table, PageHeader, Row, Col } from "antd";
 import { Link } from "react-router-dom";
-import { useGetAllUpdate } from "hooks/useUpdate";
+import { useGetAllUpdate } from "hooks/api/useUpdateApi";
 import Container from "components/container";
 import { ColumnType } from "antd/lib/table";
 import { Update } from "interfaces/Update";
 import { getFormattedDate } from "utils/dateTime";
-import { useUpdateAction } from "hooks/useStore";
+import { useUpdateAction, useUpdateState } from "hooks/store/useUpdateStore";
 
 interface TableAction {
   update: Update;
@@ -31,8 +31,9 @@ const TableAction: FunctionComponent<TableAction> = ({ update }) => {
 };
 
 const UpdateLog: FunctionComponent = () => {
-  const { items, loading } = useGetAllUpdate();
+  const { items, loading } = useUpdateState();
   const { clearSelectedUpdate } = useUpdateAction();
+  useGetAllUpdate();
 
   const columns = useMemo((): ColumnType<Update>[] => {
     return [

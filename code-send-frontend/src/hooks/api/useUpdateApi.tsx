@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { UpdateFormValues } from "interfaces/Update";
 import codeSendService from "utils/api/codeSendService";
-import { useNotification } from "./useNotification";
-import { useUpdateState, useProjectState, useUpdateAction } from "./useStore";
+import { useNotification } from "../useNotification";
+import { useUpdateAction } from "../store/useUpdateStore";
+import { useProjectState } from "../store/useProjectStore";
 import { useHistory } from "react-router-dom";
 
 export const useGetAllUpdate = () => {
-  const { items, loading, error } = useUpdateState();
   const project = useProjectState();
   const {
     getUpdateRequest,
@@ -35,12 +35,9 @@ export const useGetAllUpdate = () => {
     handleError,
     project.selected
   ]);
-
-  return { items, loading, error };
 };
 
 export const useGetLatestUpdate = () => {
-  const { latest, loading, error } = useUpdateState();
   const project = useProjectState();
   const {
     getLatestUpdateRequest,
@@ -69,12 +66,9 @@ export const useGetLatestUpdate = () => {
     handleError,
     project.selected
   ]);
-
-  return { latest, loading, error };
 };
 
 export const useCreateUpdate = () => {
-  const { loading, error } = useUpdateState();
   const project = useProjectState();
   const {
     createUpdateRequest,
@@ -105,15 +99,10 @@ export const useCreateUpdate = () => {
     }
   };
 
-  return {
-    createUpdate,
-    loading,
-    error
-  };
+  return { createUpdate };
 };
 
 export const useEditUpdate = () => {
-  const { loading, error } = useUpdateState();
   const project = useProjectState();
   const {
     editUpdateRequest,
@@ -143,9 +132,5 @@ export const useEditUpdate = () => {
     }
   };
 
-  return {
-    editUpdate,
-    loading,
-    error
-  };
+  return { editUpdate };
 };

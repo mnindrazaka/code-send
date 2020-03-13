@@ -6,13 +6,15 @@ import {
   CalendarOutlined
 } from "@ant-design/icons";
 import { ReactComponent as Empty } from "assets/images/empty.svg";
-import { useGetLatestUpdate } from "hooks/useUpdate";
+import { useGetLatestUpdate } from "hooks/api/useUpdateApi";
 import Container from "components/container";
 import { getFormattedDate } from "utils/dateTime";
 import { Link } from "react-router-dom";
+import { useUpdateState } from "hooks/store/useUpdateStore";
 
 const Page: React.FC = () => {
-  const { latest, loading } = useGetLatestUpdate();
+  const { latest, loading } = useUpdateState();
+  useGetLatestUpdate();
 
   return (
     <div data-testid="page-dashboard">

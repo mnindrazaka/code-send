@@ -1,19 +1,4 @@
-import { useContext, useCallback } from "react";
-import { storeContext } from "stores";
-import {
-  getProjectRequestAction,
-  getProjectSuccessAction,
-  getProjectErrorAction,
-  createProjectRequestAction,
-  createProjectSuccessAction,
-  createProjectErrorAction,
-  editProjectRequestAction,
-  editProjectSuccessAction,
-  editProjectErrorAction,
-  selectProjectAction,
-  clearSelectedProjectAction
-} from "stores/project/actions";
-import { Project } from "interfaces/Project";
+import { useCallback, useContext } from "react";
 import {
   getUpdateRequestAction,
   getUpdateSuccessAction,
@@ -31,101 +16,17 @@ import {
   clearSelectedUpdateAction
 } from "stores/update/actions";
 import { Update } from "interfaces/Update";
-
-export const useStore = () => {
-  const store = useContext(storeContext);
-  return store;
-};
-
-export const useProjectState = () => {
-  const {
-    state: { project }
-  } = useStore();
-  return project;
-};
-
-export const useProjectAction = () => {
-  const { dispatch } = useStore();
-
-  const getProjectRequest = useCallback(
-    () => dispatch(getProjectRequestAction()),
-    [dispatch]
-  );
-
-  const getProjectSuccess = useCallback(
-    (projects: Project[]) => dispatch(getProjectSuccessAction(projects)),
-    [dispatch]
-  );
-
-  const getProjectError = useCallback(
-    (error: string) => dispatch(getProjectErrorAction(error)),
-    [dispatch]
-  );
-
-  const createProjectRequest = useCallback(
-    () => dispatch(createProjectRequestAction()),
-    [dispatch]
-  );
-
-  const createProjectSuccess = useCallback(
-    (project: Project) => dispatch(createProjectSuccessAction(project)),
-    [dispatch]
-  );
-
-  const createProjectError = useCallback(
-    (error: string) => dispatch(createProjectErrorAction(error)),
-    [dispatch]
-  );
-
-  const editProjectRequest = useCallback(
-    () => dispatch(editProjectRequestAction()),
-    [dispatch]
-  );
-
-  const editProjectSuccess = useCallback(
-    (project: Project) => dispatch(editProjectSuccessAction(project)),
-    [dispatch]
-  );
-
-  const editProjectError = useCallback(
-    (error: string) => dispatch(editProjectErrorAction(error)),
-    [dispatch]
-  );
-
-  const selectProject = useCallback(
-    (project: Project) => dispatch(selectProjectAction(project)),
-    [dispatch]
-  );
-
-  const clearSelectedProject = useCallback(
-    () => dispatch(clearSelectedProjectAction()),
-    [dispatch]
-  );
-
-  return {
-    getProjectRequest,
-    getProjectSuccess,
-    getProjectError,
-    createProjectRequest,
-    createProjectSuccess,
-    createProjectError,
-    editProjectRequest,
-    editProjectSuccess,
-    editProjectError,
-    selectProject,
-    clearSelectedProject
-  };
-};
+import { storeContext } from "stores";
 
 export const useUpdateState = () => {
   const {
     state: { update }
-  } = useStore();
+  } = useContext(storeContext);
   return update;
 };
 
 export const useUpdateAction = () => {
-  const { dispatch } = useStore();
+  const { dispatch } = useContext(storeContext);
 
   const getUpdateRequest = useCallback(
     () => dispatch(getUpdateRequestAction()),

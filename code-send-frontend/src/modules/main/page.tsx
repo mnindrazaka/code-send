@@ -5,7 +5,7 @@ import { Route, Redirect, Link, Switch, useHistory } from "react-router-dom";
 import Dashboard from "modules/dashboard";
 import Update from "modules/update";
 import { NavigationMenuItem } from "interfaces/Navigation";
-import { useProjectState, useProjectAction } from "hooks/useStore";
+import { useProjectState, useProjectAction } from "hooks/store/useProjectStore";
 import Logo from "components/logo/logo";
 
 const navigationMenuItems: NavigationMenuItem[] = [

@@ -4,10 +4,10 @@ import { ProjectFormValues } from "interfaces/Project";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
-import { useCreateProject, useEditProject } from "hooks/useProject";
+import { useCreateProject, useEditProject } from "hooks/api/useProjectApi";
 import Container from "components/container";
 import useToggleForm from "hooks/useToggleForm";
-import { useProjectState } from "hooks/useStore";
+import { useProjectState } from "hooks/store/useProjectStore";
 
 const ProjectForm: FunctionComponent = () => {
   const { selected, loading } = useProjectState();

@@ -4,10 +4,10 @@ import { UpdateFormValues } from "interfaces/Update";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
-import { useCreateUpdate, useEditUpdate } from "hooks/useUpdate";
+import { useCreateUpdate, useEditUpdate } from "hooks/api/useUpdateApi";
 import Container from "components/container";
 import useToggleForm from "hooks/useToggleForm";
-import { useUpdateState } from "hooks/useStore";
+import { useUpdateState } from "hooks/store/useUpdateStore";
 
 const UpdateForm: FunctionComponent = () => {
   const { loading, selected } = useUpdateState();
