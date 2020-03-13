@@ -1,22 +1,26 @@
 import React, { useMemo, FunctionComponent } from "react";
 import { Button, Table, PageHeader, Row, Col } from "antd";
 import { Link } from "react-router-dom";
-import { useGetAllUpdate } from "hooks/useUpdate";
+import { useGetAllUpdate } from "hooks/api/useUpdateApi";
 import Container from "components/container";
 import { ColumnType } from "antd/lib/table";
 import { Update } from "interfaces/Update";
 import { getFormattedDate } from "utils/dateTime";
+import { useUpdateAction, useUpdateState } from "hooks/store/useUpdateStore";
 
 interface TableAction {
   update: Update;
 }
 
 const TableAction: FunctionComponent<TableAction> = ({ update }) => {
+  const { selectUpdate } = useUpdateAction();
   return (
     <Row gutter={15}>
       <Col>
-        <Link to={{ pathname: "/update/edit", state: { update } }}>
-          <Button type="primary">Edit</Button>
+        <Link to="/update/edit">
+          <Button type="primary" onClick={() => selectUpdate(update)}>
+            Edit
+          </Button>
         </Link>
       </Col>
       <Col>
@@ -27,7 +31,9 @@ const TableAction: FunctionComponent<TableAction> = ({ update }) => {
 };
 
 const UpdateLog: FunctionComponent = () => {
-  const { items, loading } = useGetAllUpdate();
+  const { items, loading } = useUpdateState();
+  const { clearSelectedUpdate } = useUpdateAction();
+  useGetAllUpdate();
 
   const columns = useMemo((): ColumnType<Update>[] => {
     return [
@@ -53,12 +59,14 @@ const UpdateLog: FunctionComponent = () => {
   }, []);
 
   return (
-    <div data-testid="page-update-log">
+    <>
       <PageHeader title="Update Logs" subTitle="Show your update logs" />
 
       <Container>
         <Link to="/update/create">
-          <Button type="primary">Create New Update</Button>
+          <Button type="primary" onClick={clearSelectedUpdate}>
+            Create New Update
+          </Button>
         </Link>
 
         <Table
@@ -69,7 +77,7 @@ const UpdateLog: FunctionComponent = () => {
           loading={loading}
         />
       </Container>
-    </div>
+    </>
   );
 };
 

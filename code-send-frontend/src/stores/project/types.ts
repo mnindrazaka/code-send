@@ -17,5 +17,6 @@ export enum ProjectActionTypes {
   EditRequest = "@Project/EditRequest",
   EditSuccess = "@Project/EditSuccess",
   EditError = "@Project/EditError",
-  Select = "@Project/Select"
+  Select = "@Project/Select",
+  ClearSelected = "@Project/ClearSelected"
 }

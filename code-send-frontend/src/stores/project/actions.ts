@@ -41,3 +41,7 @@ export const editProjectErrorAction = (error: string) => {
 export const selectProjectAction = (project: Project) => {
   return action(ProjectActionTypes.Select, project);
 };
+
+export const clearSelectedProjectAction = () => {
+  return action(ProjectActionTypes.ClearSelected);
+};

@@ -37,6 +37,8 @@ const selectedReducer: Reducer<ProjectState["selected"], Action> = (
   switch (type) {
     case ProjectActionTypes.Select:
       return payload;
+    case ProjectActionTypes.ClearSelected:
+      return undefined;
     default:
       return prevState;
   }

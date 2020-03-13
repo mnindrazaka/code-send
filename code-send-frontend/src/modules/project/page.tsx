@@ -7,29 +7,27 @@ import ProjectForm from "./projectForm";
 
 const Page: React.FC = () => {
   return (
-    <div data-testid="page-project">
-      <Layout style={{ minHeight: "100vh" }}>
-        <Layout.Header>
-          <Row justify="space-between">
-            <Col>
-              <Logo />
-            </Col>
-          </Row>
-        </Layout.Header>
-        <Layout>
-          <Layout.Content style={{ padding: "30px" }}>
-            <Switch>
-              <Route path="/project/list" component={ProjectList} />
-              <Route
-                path={["/project/create", "/project/edit"]}
-                component={ProjectForm}
-              />
-              <Route render={() => <Redirect to="/project/list" />} />
-            </Switch>
-          </Layout.Content>
-        </Layout>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Layout.Header>
+        <Row justify="space-between">
+          <Col>
+            <Logo />
+          </Col>
+        </Row>
+      </Layout.Header>
+      <Layout>
+        <Layout.Content style={{ padding: "30px" }}>
+          <Switch>
+            <Route path="/project/list" component={ProjectList} />
+            <Route
+              path={["/project/create", "/project/edit"]}
+              component={ProjectForm}
+            />
+            <Redirect to="/project/list" />
+          </Switch>
+        </Layout.Content>
       </Layout>
-    </div>
+    </Layout>
   );
 };
 

@@ -1,31 +1,23 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent } from "react";
 import { TextField, Form, FileField } from "components/formikWrapper";
-import { UpdateFormValues, Update } from "interfaces/Update";
+import { UpdateFormValues } from "interfaces/Update";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
-import { useCreateUpdate, useEditUpdate } from "hooks/useUpdate";
+import { useCreateUpdate, useEditUpdate } from "hooks/api/useUpdateApi";
 import Container from "components/container";
 import useToggleForm from "hooks/useToggleForm";
-import { useHistory } from "react-router-dom";
-
-interface UpdateFormHistory {
-  update?: Update;
-}
+import { useUpdateState } from "hooks/store/useUpdateStore";
 
 const UpdateForm: FunctionComponent = () => {
-  const { createUpdate, loading } = useCreateUpdate();
+  const { loading, selected } = useUpdateState();
+  const { createUpdate } = useCreateUpdate();
   const { editUpdate } = useEditUpdate();
-  const { state } = useHistory<UpdateFormHistory>().location;
-
-  const update = useMemo(() => {
-    return state ? state.update : undefined;
-  }, [state]);
 
   const validationSchema = yup.object().shape({
-    version: update ? yup.string() : yup.string().required(),
+    version: selected ? yup.string() : yup.string().required(),
     note: yup.string().required(),
-    bundle: update ? yup.mixed() : yup.mixed().required()
+    bundle: selected ? yup.mixed() : yup.mixed().required()
   });
 
   const { title, subTitle, initialValues, handleSubmit } = useToggleForm<
@@ -33,13 +25,13 @@ const UpdateForm: FunctionComponent = () => {
   >({
     name: "Update",
     emptyValues: { note: "", version: "" },
-    filledValues: update,
+    filledValues: selected,
     onCreate: createUpdate,
-    onEdit: values => editUpdate(update?._id || "", values)
+    onEdit: values => editUpdate(selected!._id, values)
   });
 
   return (
-    <div data-testid="page-update-form">
+    <>
       <PageHeader title={title} subTitle={subTitle} />
       <Container>
         <Formik
@@ -48,16 +40,16 @@ const UpdateForm: FunctionComponent = () => {
           onSubmit={handleSubmit}
         >
           <Form>
-            {!update && <TextField name="version" label="Version" />}
+            {!selected && <TextField name="version" label="Version" />}
             <TextField name="note" label="Note" />
-            {!update && <FileField name="bundle" label="Bundle" />}
+            {!selected && <FileField name="bundle" label="Bundle" />}
             <Button type="primary" htmlType="submit" loading={loading}>
               Submit
             </Button>
           </Form>
         </Formik>
       </Container>
-    </div>
+    </>
   );
 };
 

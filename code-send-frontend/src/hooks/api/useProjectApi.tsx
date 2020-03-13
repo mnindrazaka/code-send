@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { ProjectFormValues, Project } from "interfaces/Project";
+import { ProjectFormValues } from "interfaces/Project";
 import codeSendService from "utils/api/codeSendService";
 import { useNotification } from "hooks/useNotification";
-import { useProjectState, useProjectAction } from "./useStore";
+import { useProjectAction } from "hooks/store/useProjectStore";
 import { useHistory } from "react-router-dom";
 
 export const useGetAllProject = () => {
-  const { items, loading, error } = useProjectState();
   const {
     getProjectRequest,
     getProjectSuccess,
@@ -26,12 +25,9 @@ export const useGetAllProject = () => {
       }
     })();
   }, [getProjectRequest, getProjectSuccess, getProjectError, handleError]);
-
-  return { items, loading, error };
 };
 
 export const useCreateProject = () => {
-  const { loading, error } = useProjectState();
   const {
     createProjectRequest,
     createProjectSuccess,
@@ -53,15 +49,10 @@ export const useCreateProject = () => {
     }
   };
 
-  return {
-    createProject,
-    loading,
-    error
-  };
+  return { createProject };
 };
 
 export const useEditProject = () => {
-  const { loading, error } = useProjectState();
   const {
     editProjectRequest,
     editProjectSuccess,
@@ -89,21 +80,5 @@ export const useEditProject = () => {
     }
   };
 
-  return {
-    editProject,
-    loading,
-    error
-  };
-};
-
-export const useSelectProject = () => {
-  const projectAction = useProjectAction();
-  const { push } = useHistory();
-
-  const selectProject = (project: Project) => {
-    projectAction.selectProject(project);
-    push("/dashboard");
-  };
-
-  return { selectProject };
+  return { editProject };
 };

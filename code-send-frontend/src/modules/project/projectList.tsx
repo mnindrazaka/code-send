@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
 import { Button, Skeleton, PageHeader, Card, Row, Col, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { useGetAllProject, useSelectProject } from "hooks/useProject";
+import { useGetAllProject } from "hooks/api/useProjectApi";
+import { useProjectAction, useProjectState } from "hooks/store/useProjectStore";
 import { EditOutlined, DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import Container from "components/container";
 import { getFormattedDate } from "utils/dateTime";
@@ -18,7 +19,7 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
-  const { selectProject } = useSelectProject();
+  const { selectProject } = useProjectAction();
 
   const projectCover = React.useMemo(() => {
     const covers = [
@@ -35,38 +36,46 @@ const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
   return (
     <Card
       hoverable
+      onClick={() => selectProject(project)}
       actions={[
-        <Link to={{ pathname: "/project/edit", state: { project } }}>
-          <EditOutlined title="edit project" />
+        <Link to="/project/edit">
+          <EditOutlined title="Edit Project" />
         </Link>,
-        <DeleteOutlined title="delete project" />,
+        <DeleteOutlined title="Delete Project" />,
         <MoreOutlined />
       ]}
     >
-      <Row justify="center" onClick={() => selectProject(project)}>
-        <Col style={{ textAlign: "center" }}>
-          {projectCover}
-          <Typography.Title ellipsis level={4}>
-            {project.name}
-          </Typography.Title>
-          <Typography.Text>
-            {getFormattedDate(project.createdAt)}
-          </Typography.Text>
-        </Col>
-      </Row>
+      <Link to="/dashboard">
+        <Row justify="center">
+          <Col style={{ textAlign: "center" }}>
+            {projectCover}
+            <Typography.Title ellipsis level={4}>
+              {project.name}
+            </Typography.Title>
+            <Typography.Text>
+              {getFormattedDate(project.createdAt)}
+            </Typography.Text>
+          </Col>
+        </Row>
+      </Link>
     </Card>
   );
 };
 
 const ProjectList: FunctionComponent = () => {
-  const { items, loading } = useGetAllProject();
+  const { items, loading } = useProjectState();
+  const { clearSelectedProject } = useProjectAction();
+  useGetAllProject();
+
   return (
-    <div data-testid="page-project-list">
+    <>
       <PageHeader title="Projects" subTitle="Show your project list" />
 
       <Container>
         <Link to="/project/create">
-          <Button type="primary">Create New Project</Button>
+          <Button type="primary" onClick={clearSelectedProject}>
+            Create New Project
+          </Button>
         </Link>
 
         <Skeleton loading={loading} active>
@@ -79,7 +88,7 @@ const ProjectList: FunctionComponent = () => {
           </Row>
         </Skeleton>
       </Container>
-    </div>
+    </>
   );
 };
 

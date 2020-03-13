@@ -1,26 +1,18 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent } from "react";
 import { TextField, Form } from "components/formikWrapper";
-import { ProjectFormValues, Project } from "interfaces/Project";
+import { ProjectFormValues } from "interfaces/Project";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, PageHeader } from "antd";
-import { useCreateProject, useEditProject } from "hooks/useProject";
+import { useCreateProject, useEditProject } from "hooks/api/useProjectApi";
 import Container from "components/container";
-import { useHistory } from "react-router-dom";
 import useToggleForm from "hooks/useToggleForm";
-
-interface ProjectFormHistory {
-  project?: Project;
-}
+import { useProjectState } from "hooks/store/useProjectStore";
 
 const ProjectForm: FunctionComponent = () => {
-  const { createProject, loading } = useCreateProject();
+  const { selected, loading } = useProjectState();
+  const { createProject } = useCreateProject();
   const { editProject } = useEditProject();
-  const { state } = useHistory<ProjectFormHistory>().location;
-
-  const project = useMemo(() => {
-    return state ? state.project : undefined;
-  }, [state]);
 
   const validationSchema = yup.object().shape({
     name: yup.string().required()
@@ -31,13 +23,13 @@ const ProjectForm: FunctionComponent = () => {
   >({
     name: "Project",
     emptyValues: { name: "" },
-    filledValues: project,
+    filledValues: selected,
     onCreate: createProject,
-    onEdit: values => editProject(project?._id || "", values)
+    onEdit: values => editProject(selected!._id, values)
   });
 
   return (
-    <div data-testid="page-project-form">
+    <>
       <PageHeader title={title} subTitle={subTitle} />
       <Container>
         <Formik
@@ -53,7 +45,7 @@ const ProjectForm: FunctionComponent = () => {
           </Form>
         </Formik>
       </Container>
-    </div>
+    </>
   );
 };
 
