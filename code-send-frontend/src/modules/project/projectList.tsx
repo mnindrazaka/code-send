@@ -37,14 +37,10 @@ const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
     <Card
       hoverable
       actions={[
-        <Link
-          to="/project/edit"
-          onClick={() => selectProject(project)}
-          data-testid="link-project-edit"
-        >
-          <EditOutlined title="edit project" />
+        <Link to="/project/edit" onClick={() => selectProject(project)}>
+          <EditOutlined title="Edit Project" />
         </Link>,
-        <DeleteOutlined title="delete project" />,
+        <DeleteOutlined title="Delete Project" />,
         <MoreOutlined />
       ]}
     >
@@ -71,7 +67,7 @@ const ProjectList: FunctionComponent = () => {
   useGetAllProject();
 
   return (
-    <div data-testid="page-project-list">
+    <>
       <PageHeader title="Projects" subTitle="Show your project list" />
 
       <Container>
@@ -91,7 +87,7 @@ const ProjectList: FunctionComponent = () => {
           </Row>
         </Skeleton>
       </Container>
-    </div>
+    </>
   );
 };
 

@@ -29,7 +29,7 @@ const ProjectForm: FunctionComponent = () => {
   });
 
   return (
-    <div data-testid="page-project-form">
+    <>
       <PageHeader title={title} subTitle={subTitle} />
       <Container>
         <Formik
@@ -45,7 +45,7 @@ const ProjectForm: FunctionComponent = () => {
           </Form>
         </Formik>
       </Container>
-    </div>
+    </>
   );
 };
 

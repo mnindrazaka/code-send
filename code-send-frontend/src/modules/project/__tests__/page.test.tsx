@@ -54,8 +54,8 @@ describe("project page", () => {
 
   it("can move to project edit", async () => {
     codeSendServiceMock.getallProjects.mockResolvedValueOnce([mockProject]);
-    const { findByTestId, findByText } = renderProjectPage();
-    const editButtonElement = await findByTestId("link-project-edit");
+    const { findByTitle, findByText } = renderProjectPage();
+    const editButtonElement = await findByTitle("Edit Project");
     fireEvent.click(editButtonElement);
     const projectFormElement = await findByText("Edit Project");
     expect(projectFormElement).toBeInTheDocument();

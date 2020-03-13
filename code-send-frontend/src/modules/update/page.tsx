@@ -5,16 +5,11 @@ import UpdateForm from "./updateForm";
 
 const Page: React.FC = () => {
   return (
-    <div data-testid="page-update">
-      <Switch>
-        <Route path="/update/log" component={UpdateLog} />
-        <Route
-          path={["/update/create", "/update/edit"]}
-          component={UpdateForm}
-        />
-        <Route render={() => <Redirect to="/update/log" />} />
-      </Switch>
-    </div>
+    <Switch>
+      <Route path="/update/log" component={UpdateLog} />
+      <Route path={["/update/create", "/update/edit"]} component={UpdateForm} />
+      <Redirect to="/update/log" />
+    </Switch>
   );
 };
 

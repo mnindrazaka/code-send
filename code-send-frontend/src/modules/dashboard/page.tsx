@@ -17,7 +17,7 @@ const Page: React.FC = () => {
   useGetLatestUpdate();
 
   return (
-    <div data-testid="page-dashboard">
+    <>
       <PageHeader
         title="Latest Update"
         subTitle="Show your latest update information"
@@ -78,7 +78,7 @@ const Page: React.FC = () => {
           </Card>
         )}
       </Container>
-    </div>
+    </>
   );
 };
 

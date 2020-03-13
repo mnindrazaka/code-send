@@ -31,7 +31,7 @@ const UpdateForm: FunctionComponent = () => {
   });
 
   return (
-    <div data-testid="page-update-form">
+    <>
       <PageHeader title={title} subTitle={subTitle} />
       <Container>
         <Formik
@@ -49,7 +49,7 @@ const UpdateForm: FunctionComponent = () => {
           </Form>
         </Formik>
       </Container>
-    </div>
+    </>
   );
 };
 

@@ -59,7 +59,7 @@ const UpdateLog: FunctionComponent = () => {
   }, []);
 
   return (
-    <div data-testid="page-update-log">
+    <>
       <PageHeader title="Update Logs" subTitle="Show your update logs" />
 
       <Container>
@@ -77,7 +77,7 @@ const UpdateLog: FunctionComponent = () => {
           loading={loading}
         />
       </Container>
-    </div>
+    </>
   );
 };
 

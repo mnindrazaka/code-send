@@ -38,16 +38,16 @@ const renderMainPage = () => {
 
 describe("main", () => {
   it("can move to dashboard page", async () => {
-    const { history, findByTestId } = renderMainPage();
+    const { history, findByText } = renderMainPage();
     history.push("/dashboard");
-    const pageElement = await findByTestId("page-dashboard");
+    const pageElement = await findByText("Latest Update");
     expect(pageElement).toBeInTheDocument();
   });
 
   it("can move to update page", async () => {
-    const { history, findByTestId } = renderMainPage();
+    const { history, findByText } = renderMainPage();
     history.push("/update");
-    const pageElement = await findByTestId("page-update");
+    const pageElement = await findByText("Update Logs");
     expect(pageElement).toBeInTheDocument();
   });
 });
