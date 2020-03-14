@@ -1,12 +1,12 @@
-import { NativeModules } from 'react-native';
+import { NativeModules } from 'react-native'
 
-const { CodeSend } = NativeModules;
+const { CodeSend } = NativeModules
 
-export function setActiveBundle(bundleId) {
+export function setActiveBundle(bundleId: string) {
   CodeSend.setActiveBundle(bundleId)
 }
 
-export function registerBundle(bundleId, relativePath) {
+export function registerBundle(bundleId: string, relativePath: string) {
   CodeSend.registerBundle(bundleId, relativePath)
 }
 
