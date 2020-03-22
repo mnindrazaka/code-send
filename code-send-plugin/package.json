@@ -23,12 +23,16 @@
   "license": "MIT",
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
-  "peerDependencies": {
+  "devDependencies": {
+    "@types/react-native": "^0.61.22",
     "react": "^16.9.0",
     "react-native": "^0.61.5"
   },
-  "devDependencies": {
-    "@types/react-native": "^0.61.22",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "react-native-fs": "^2.16.6"
+  },
+  "peerDependencies": {
     "react": "^16.9.0",
     "react-native": "^0.61.5"
   }

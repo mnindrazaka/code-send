@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "ESNext",
+    "moduleResolution": "Node",
     "lib": ["ESNext", "DOM"],
     "allowJs": true,
     "skipLibCheck": true,
