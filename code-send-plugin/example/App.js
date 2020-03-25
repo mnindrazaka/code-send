@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useCheckUpdate, useApplyUpdate } from "code-send"
 
-export default class App extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>☆CodeSend example☆</Text>
-      </View>
-    );
-  }
+const App = () => {
+  const { update } = useCheckUpdate("123")
+  if (update) useApplyUpdate(update)
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcome}>☆CodeSend example☆</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -29,3 +31,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+export default App

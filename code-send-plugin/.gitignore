@@ -42,4 +42,4 @@ buck-out/
 *.keystore
 
 # typescript
-.lib
+lib

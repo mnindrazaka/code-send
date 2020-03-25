@@ -1,4 +1,4 @@
-import { Update } from "interfaces/Update";
+import { Update } from "../../interfaces/Update";
 import Service from "./service";
 
 const baseURL = "http://code-send.herokuapp.com";

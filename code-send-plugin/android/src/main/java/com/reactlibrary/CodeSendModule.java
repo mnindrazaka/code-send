@@ -42,6 +42,8 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getActiveBundle(Promise promise) {
+        if(!this.bundlePrefs.contains("filename")) return;
+
         WritableMap updateMap = Arguments.createMap();
         updateMap.putString("_id", this.bundlePrefs.getString("update._id", ""));
         updateMap.putString("createdAt", this.bundlePrefs.getString("update.createdAt", ""));
