@@ -10,20 +10,17 @@ import { useGetLatestUpdate } from "hooks/api/useUpdateApi";
 import Container from "components/container";
 import { getFormattedDate } from "utils/dateTime";
 import { Link } from "react-router-dom";
+import { useProjectState } from "hooks/store/useProjectStore";
 import { useUpdateState } from "hooks/store/useUpdateStore";
 
 const Page: React.FC = () => {
+  const { selected } = useProjectState();
   const { latest, loading } = useUpdateState();
   useGetLatestUpdate();
 
   return (
     <>
-      <PageHeader
-        title="Latest Update"
-        subTitle="Show your latest update information"
-        backIcon
-      />
-
+      <PageHeader title={selected?.name} subTitle={selected?._id} />
       <Container>
         {latest || loading ? (
           <Row gutter={16}>
