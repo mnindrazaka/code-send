@@ -49,6 +49,7 @@ const renderMainPage = () => {
   );
 
   return {
+    mockProject,
     history,
     ...utils
   };
@@ -56,9 +57,9 @@ const renderMainPage = () => {
 
 describe("main", () => {
   it("can move to dashboard page", async () => {
-    const { history, findByText } = renderMainPage();
+    const { history, findByText, mockProject } = renderMainPage();
     history.push("/dashboard");
-    const pageElement = await findByText("Latest Update");
+    const pageElement = await findByText(mockProject.name);
     expect(pageElement).toBeInTheDocument();
   });
 
