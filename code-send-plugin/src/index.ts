@@ -1,1 +1,1 @@
-export { useCheckUpdate, useApplyUpdate } from "hooks/useUpdate";
+export { useCheckUpdate, useApplyUpdate } from "./hooks/useUpdate";

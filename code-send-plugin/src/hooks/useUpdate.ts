@@ -1,7 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import codeSendService from "utils/api/codeSendService";
-import { getActiveBundle, setActiveBundle, reloadBundle } from "utils/bundle";
-import { Update } from "interfaces/Update";
+import codeSendService from "../utils/api/codeSendService";
+import {
+  getActiveBundle,
+  setActiveBundle,
+  reloadBundle
+} from "../utils/bundle";
+import { Update } from "../interfaces/Update";
 import { downloadFile, DocumentDirectoryPath } from "react-native-fs";
 
 export const useCheckUpdate = (projectId: string) => {
@@ -24,7 +28,10 @@ export const useCheckUpdate = (projectId: string) => {
         setLoading(true);
         const update = await codeSendService.getLatestUpdate(projectId);
         const activeBundle = await getActiveBundle();
-        if (isDateNewer(update.createdAt, activeBundle.update.createdAt))
+        if (
+          !activeBundle ||
+          isDateNewer(update.createdAt, activeBundle.update.createdAt)
+        )
           setUpdate(update);
       } catch (error) {
         setError(error.message);

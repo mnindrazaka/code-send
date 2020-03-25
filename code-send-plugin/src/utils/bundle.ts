@@ -1,8 +1,8 @@
 import { NativeModules } from "react-native";
-import { Bundle } from "interfaces/Bundle";
+import { Bundle } from "../interfaces/Bundle";
 const { CodeSend } = NativeModules;
 
-export function getActiveBundle(): Promise<Bundle> {
+export function getActiveBundle(): Promise<Bundle | undefined> {
   return CodeSend.getActiveBundle();
 }
 

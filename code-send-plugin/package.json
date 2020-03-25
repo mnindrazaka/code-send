@@ -3,7 +3,7 @@
   "title": "Code Send",
   "version": "1.0.0",
   "description": "Hot code update plugin",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build"
