@@ -6,7 +6,7 @@ import { StoreProvider } from "stores";
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <StoreProvider>
         <Switch>
           <Route path="/project" component={Project} />
