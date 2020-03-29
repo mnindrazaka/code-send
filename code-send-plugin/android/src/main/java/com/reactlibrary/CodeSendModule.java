@@ -10,6 +10,8 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.google.gson.Gson;
 
+import java.io.File;
+
 public class CodeSendModule extends ReactContextBaseJavaModule {
     public interface OnReloadRequestedListener {
         void onReloadRequested();
@@ -28,7 +30,9 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         Gson gson = new Gson();
         String bundleJson = bundlePrefs.getString("bundlePrefs", "");
         Bundle bundle = gson.fromJson(bundleJson, Bundle.class);
-        return bundle.getFilename();
+
+        File file = new File(ctx.getFilesDir(), bundle.getFilename());
+        return file.getAbsolutePath();
     }
 
     public CodeSendModule(ReactApplicationContext reactContext) {

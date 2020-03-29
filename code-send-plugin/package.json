@@ -1,7 +1,7 @@
 {
   "name": "code-send",
   "title": "Code Send",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Hot code update plugin",
   "main": "lib/index.js",
   "scripts": {
