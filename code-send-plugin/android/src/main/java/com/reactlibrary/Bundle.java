@@ -1,9 +1,10 @@
 package com.reactlibrary;
 
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 
 public class Bundle {
-
     private String filename;
     private Update update;
 
@@ -17,11 +18,14 @@ public class Bundle {
         this.update = new Update(bundleMap.getMap("update"));
     }
 
-    public String getFilename() {
-        return filename;
+    public WritableMap toMap() {
+        WritableMap bundleMap = new WritableNativeMap();
+        bundleMap.putString("filename", this.filename);
+        bundleMap.putMap("update", this.update.toMap());
+        return bundleMap;
     }
 
-    public Update getUpdate() {
-        return update;
+    public String getFilename() {
+        return filename;
     }
 }

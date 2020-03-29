@@ -13,7 +13,3 @@ export function setActiveBundle(bundle: Bundle) {
 export function reloadBundle() {
   CodeSend.reloadBundle();
 }
-
-export function registerBundle(bundleId: string, relativePath: string) {
-  CodeSend.registerBundle(bundleId, relativePath);
-}

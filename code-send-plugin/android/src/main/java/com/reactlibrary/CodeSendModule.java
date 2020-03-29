@@ -3,32 +3,38 @@ package com.reactlibrary;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableMap;
+import com.google.gson.Gson;
 
 public class CodeSendModule extends ReactContextBaseJavaModule {
-
     public interface OnReloadRequestedListener {
         void onReloadRequested();
     }
 
     private final ReactApplicationContext reactContext;
     private final SharedPreferences bundlePrefs;
+    private final String BUNDLE_PREFS_KEY = "bundlePrefs";
+    private final String ACTIVE_BUNDLE_KEY = "activeBundle";
     private OnReloadRequestedListener listener;
 
+    // TODO: refactor this line
     public static String launchResolveBundlePath(Context ctx) {
-        return "active bundle absolute path";
+        SharedPreferences bundlePrefs = ctx.getSharedPreferences("bundlePrefs", Context.MODE_PRIVATE);
+        if(!bundlePrefs.contains("activeBundle")) return null;
+        Gson gson = new Gson();
+        String bundleJson = bundlePrefs.getString("bundlePrefs", "");
+        Bundle bundle = gson.fromJson(bundleJson, Bundle.class);
+        return bundle.getFilename();
     }
 
     public CodeSendModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        this.bundlePrefs = reactContext.getSharedPreferences("_bundles", Context.MODE_PRIVATE);
+        this.bundlePrefs = reactContext.getSharedPreferences(this.BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
     }
 
     public OnReloadRequestedListener getListener() {
@@ -46,35 +52,26 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getActiveBundle(Promise promise) {
-        if(!this.bundlePrefs.contains("filename")) return;
-
-        WritableMap updateMap = Arguments.createMap();
-        updateMap.putString("_id", this.bundlePrefs.getString("update._id", ""));
-        updateMap.putString("createdAt", this.bundlePrefs.getString("update.createdAt", ""));
-        updateMap.putString("updatedAt", this.bundlePrefs.getString("update.updatedAt", ""));
-        updateMap.putString("version", this.bundlePrefs.getString("update.version", ""));
-        updateMap.putString("note", this.bundlePrefs.getString("update.note", ""));
-        updateMap.putString("bundleUrl", this.bundlePrefs.getString("update.bundleUrl", ""));
-
-        WritableMap bundleMap = Arguments.createMap();
-        bundleMap.putString("filename", this.bundlePrefs.getString("filename", null));
-        bundleMap.putMap("update", updateMap);
-
-        promise.resolve(bundleMap);
+        if(!this.bundlePrefs.contains(this.ACTIVE_BUNDLE_KEY)) return;
+        Gson gson = new Gson();
+        String bundleJson = this.bundlePrefs.getString(this.ACTIVE_BUNDLE_KEY, "");
+        Bundle bundle = gson.fromJson(bundleJson, Bundle.class);
+        promise.resolve(bundle.toMap());
     }
 
     @ReactMethod
     public void setActiveBundle(ReadableMap bundleMap) {
-        SharedPreferences.Editor editor = this.bundlePrefs.edit();
         Bundle bundle = new Bundle(bundleMap);
-        editor.putString("filename", bundle.getFilename());
-        editor.putString("update._id", bundle.getUpdate().get_id());
-        editor.putString("update.createdAt", bundle.getUpdate().getCreatedAt());
-        editor.putString("update.updatedAt", bundle.getUpdate().getUpdatedAt());
-        editor.putString("update.version", bundle.getUpdate().getVersion());
-        editor.putString("update.note", bundle.getUpdate().getNote());
-        editor.putString("update.bundleUrl", bundle.getUpdate().getBundleUrl());
+        Gson gson = new Gson();
+        String bundleJson = gson.toJson(bundle);
+
+        SharedPreferences.Editor editor = this.bundlePrefs.edit();
+        editor.putString(this.ACTIVE_BUNDLE_KEY, bundleJson);
         editor.apply();
     }
 
+    @ReactMethod
+    public void reloadBundle() {
+        if (this.listener != null) this.listener.onReloadRequested();
+    }
 }

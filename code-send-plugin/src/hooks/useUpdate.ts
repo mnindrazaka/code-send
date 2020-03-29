@@ -45,10 +45,10 @@ export const useCheckUpdate = (projectId: string) => {
 };
 
 export const useApplyUpdate = async (update: Update) => {
-  const filename = `${update.version}.bundle`;
+  const filename = `${DocumentDirectoryPath}/${update.version}.bundle`;
   await downloadFile({
     fromUrl: update.bundleUrl,
-    toFile: `${DocumentDirectoryPath}/${filename}`
+    toFile: filename
   }).promise;
   setActiveBundle({ filename, update });
   reloadBundle();
