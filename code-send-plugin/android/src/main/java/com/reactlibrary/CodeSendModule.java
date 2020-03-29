@@ -56,7 +56,9 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getActiveBundle(Promise promise) {
-        promise.resolve(bundleService.getActiveBundle().toMap());
+        Bundle activeBundle = bundleService.getActiveBundle();
+        if (activeBundle == null) return;
+        promise.resolve(activeBundle.toMap());
     }
 
     @ReactMethod

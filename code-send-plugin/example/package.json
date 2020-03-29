@@ -12,7 +12,7 @@
     "postinstall": "node ../scripts/examples_postinstall.js"
   },
   "dependencies": {
-    "code-send": "^1.0.3",
+    "code-send": "^1.0.7",
     "react": "16.9.0",
     "react-native": "0.61.5"
   },

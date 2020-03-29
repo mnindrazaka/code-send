@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useCheckUpdate, useApplyUpdate } from "code-send"
 
 const App = () => {
-  const { update } = useCheckUpdate("123")
+  const { update } = useCheckUpdate("5e7fe2afa491f60003847d6b")
   if (update) useApplyUpdate(update)
 
   return (
