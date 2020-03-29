@@ -29,8 +29,7 @@
     "react-native": "^0.61.5"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "react-native-fs": "^2.16.6"
+    "axios": "^0.19.2"
   },
   "peerDependencies": {
     "react": "^16.9.0",

@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.google.gson.Gson;
 import com.reactlibrary.models.Bundle;
+import com.reactlibrary.models.Update;
 import com.reactlibrary.services.BundleService;
 import com.reactlibrary.services.DownloadService;
 
@@ -20,34 +21,28 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         void onReloadRequested();
     }
 
-    private final ReactApplicationContext reactContext;
     private final BundleService bundleService;
     private final DownloadService downloadService;
     private OnReloadRequestedListener listener;
 
-    // TODO: refactor this line
+    // TODO: refactor this method
     public static String launchResolveBundlePath(Context ctx) {
         SharedPreferences bundlePrefs = ctx.getSharedPreferences("bundlePrefs", Context.MODE_PRIVATE);
         if(!bundlePrefs.contains("activeBundle")) return null;
         Gson gson = new Gson();
         String bundleJson = bundlePrefs.getString("bundlePrefs", "");
         Bundle bundle = gson.fromJson(bundleJson, Bundle.class);
-
-        File file = new File(ctx.getFilesDir(), bundle.getFilename());
-        return file.getAbsolutePath();
+        return bundle.getFilename();
     }
 
     public CodeSendModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
-        String BUNDLE_PREFS_KEY = "bundlePrefs";
-        SharedPreferences bundlePrefs = reactContext.getSharedPreferences(BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
-        this.bundleService = new BundleService(bundlePrefs);
-        this.downloadService = new DownloadService();
+        this.bundleService = new BundleService(reactContext);
+        this.downloadService = new DownloadService(reactContext);
     }
 
     public OnReloadRequestedListener getListener() {
-        return this.listener;
+        return listener;
     }
 
     public void setListener(OnReloadRequestedListener listener) {
@@ -70,8 +65,8 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void downloadBundle(String bundleUrl, Promise promise) {
-        downloadService.downloadBundle(reactContext, bundleUrl, promise);
+    public void downloadBundle(ReadableMap updateMap, Promise promise) {
+        downloadService.downloadBundle(new Update(updateMap), promise);
     }
 
     @ReactMethod

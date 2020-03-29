@@ -34,4 +34,16 @@ public class Update extends Api {
         updateMap.putString("bundleUrl", this.bundleUrl);
         return updateMap;
     }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public String getBundleUrl() {
+        return bundleUrl;
+    }
 }
