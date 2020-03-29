@@ -21,6 +21,10 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     private final SharedPreferences bundlePrefs;
     private OnReloadRequestedListener listener;
 
+    public static String launchResolveBundlePath(Context ctx) {
+        return "active bundle absolute path";
+    }
+
     public CodeSendModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
