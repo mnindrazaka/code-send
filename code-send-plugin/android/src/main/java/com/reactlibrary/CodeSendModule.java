@@ -9,6 +9,9 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.google.gson.Gson;
+import com.reactlibrary.models.Bundle;
+import com.reactlibrary.services.BundleService;
+import com.reactlibrary.services.DownloadService;
 
 import java.io.File;
 
@@ -18,9 +21,8 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     }
 
     private final ReactApplicationContext reactContext;
-    private final SharedPreferences bundlePrefs;
-    private final String BUNDLE_PREFS_KEY = "bundlePrefs";
-    private final String ACTIVE_BUNDLE_KEY = "activeBundle";
+    private final BundleService bundleService;
+    private final DownloadService downloadService;
     private OnReloadRequestedListener listener;
 
     // TODO: refactor this line
@@ -38,7 +40,10 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     public CodeSendModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        this.bundlePrefs = reactContext.getSharedPreferences(this.BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
+        String BUNDLE_PREFS_KEY = "bundlePrefs";
+        SharedPreferences bundlePrefs = reactContext.getSharedPreferences(BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
+        this.bundleService = new BundleService(bundlePrefs);
+        this.downloadService = new DownloadService();
     }
 
     public OnReloadRequestedListener getListener() {
@@ -56,22 +61,17 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getActiveBundle(Promise promise) {
-        if(!this.bundlePrefs.contains(this.ACTIVE_BUNDLE_KEY)) return;
-        Gson gson = new Gson();
-        String bundleJson = this.bundlePrefs.getString(this.ACTIVE_BUNDLE_KEY, "");
-        Bundle bundle = gson.fromJson(bundleJson, Bundle.class);
-        promise.resolve(bundle.toMap());
+        promise.resolve(bundleService.getActiveBundle().toMap());
     }
 
     @ReactMethod
     public void setActiveBundle(ReadableMap bundleMap) {
-        Bundle bundle = new Bundle(bundleMap);
-        Gson gson = new Gson();
-        String bundleJson = gson.toJson(bundle);
+        bundleService.setActiveBundle(new Bundle(bundleMap));
+    }
 
-        SharedPreferences.Editor editor = this.bundlePrefs.edit();
-        editor.putString(this.ACTIVE_BUNDLE_KEY, bundleJson);
-        editor.apply();
+    @ReactMethod
+    public void downloadBundle(String bundleUrl, Promise promise) {
+        downloadService.downloadBundle(reactContext, bundleUrl, promise);
     }
 
     @ReactMethod

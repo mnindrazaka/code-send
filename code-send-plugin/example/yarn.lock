@@ -1894,10 +1894,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-code-send@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/code-send/-/code-send-1.0.2.tgz#2061024ca3411f4d423ab9beaccae10e0c954394"
-  integrity sha512-nrSik9ZzPHWlTwMfiZYOO34kZxtqDCgjPJKe6Q25Tu3reAwqhKhK+6gSTYgC/pXwfruSG6WGUHwqA2WuAEMRIw==
+code-send@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/code-send/-/code-send-1.0.3.tgz#2839073420a2b4ec86cf4f9f8a38ea87f9d7de93"
+  integrity sha512-PTf7tbqyRenLR5ME18jvCdFF5ZGHE/jjf6YlL/3q5PFElsO/om7Us2hhAPz7jkTqUuI3pQmeUpePytVni2LWXA==
   dependencies:
     axios "^0.19.2"
     react-native-fs "^2.16.6"

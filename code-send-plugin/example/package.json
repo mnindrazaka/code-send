@@ -6,12 +6,13 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/index.android.bundle --assets-dest android/app/src/main/res",
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "node ../scripts/examples_postinstall.js"
   },
   "dependencies": {
-    "code-send": "^1.0.2",
+    "code-send": "^1.0.3",
     "react": "16.9.0",
     "react-native": "0.61.5"
   },
