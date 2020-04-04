@@ -1,7 +1,7 @@
 {
   "name": "code-send",
   "title": "Code Send",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "description": "Hot code update plugin",
   "main": "lib/index.js",
   "scripts": {
@@ -29,8 +29,7 @@
     "react-native": "^0.61.5"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "react-native-fs": "^2.16.6"
+    "axios": "^0.19.2"
   },
   "peerDependencies": {
     "react": "^16.9.0",

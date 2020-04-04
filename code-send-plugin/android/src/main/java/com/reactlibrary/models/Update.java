@@ -1,6 +1,8 @@
-package com.reactlibrary;
+package com.reactlibrary.models;
 
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 
 public class Update extends Api {
 
@@ -22,27 +24,26 @@ public class Update extends Api {
         this.bundleUrl = updateMap.getString("bundleUrl");
     }
 
-    public String getVersion() {
-        return version;
+    public WritableMap toMap() {
+        WritableMap updateMap = new WritableNativeMap();
+        updateMap.putString("_id", this._id);
+        updateMap.putString("createdAt", this.createdAt);
+        updateMap.putString("updatedAt", this.updatedAt);
+        updateMap.putString("version", this.version);
+        updateMap.putString("note", this.note);
+        updateMap.putString("bundleUrl", this.bundleUrl);
+        return updateMap;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public String getVersion() {
+        return version;
     }
 
     public String getNote() {
         return note;
     }
 
-    public void setNote(String note) {
-        this.note = note;
-    }
-
     public String getBundleUrl() {
         return bundleUrl;
-    }
-
-    public void setBundleUrl(String bundleUrl) {
-        this.bundleUrl = bundleUrl;
     }
 }

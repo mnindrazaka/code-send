@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.reactlibrary.models;
 
 import com.facebook.react.bridge.ReadableMap;
 

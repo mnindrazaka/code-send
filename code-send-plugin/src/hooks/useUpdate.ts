@@ -3,10 +3,10 @@ import codeSendService from "../utils/api/codeSendService";
 import {
   getActiveBundle,
   setActiveBundle,
+  downloadBundle,
   reloadBundle
 } from "../utils/bundle";
 import { Update } from "../interfaces/Update";
-import { downloadFile, DocumentDirectoryPath } from "react-native-fs";
 
 export const useCheckUpdate = (projectId: string) => {
   const [update, setUpdate] = useState<Update>();
@@ -45,11 +45,19 @@ export const useCheckUpdate = (projectId: string) => {
 };
 
 export const useApplyUpdate = async (update: Update) => {
-  const filename = `${update.version}.bundle`;
-  await downloadFile({
-    fromUrl: update.bundleUrl,
-    toFile: `${DocumentDirectoryPath}/${filename}`
-  }).promise;
-  setActiveBundle({ filename, update });
-  reloadBundle();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+
+  try {
+    setLoading(true);
+    const filename = await downloadBundle(update);
+    setActiveBundle({ filename, update });
+    reloadBundle();
+  } catch (error) {
+    setError(error);
+  } finally {
+    setLoading(false);
+  }
+
+  return { loading, error };
 };

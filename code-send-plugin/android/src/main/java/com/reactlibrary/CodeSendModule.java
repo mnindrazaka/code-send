@@ -3,32 +3,46 @@ package com.reactlibrary;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableMap;
+import com.google.gson.Gson;
+import com.reactlibrary.models.Bundle;
+import com.reactlibrary.models.Update;
+import com.reactlibrary.services.BundleService;
+import com.reactlibrary.services.DownloadService;
+
+import java.io.File;
 
 public class CodeSendModule extends ReactContextBaseJavaModule {
-
     public interface OnReloadRequestedListener {
         void onReloadRequested();
     }
 
-    private final ReactApplicationContext reactContext;
-    private final SharedPreferences bundlePrefs;
+    private final BundleService bundleService;
+    private final DownloadService downloadService;
     private OnReloadRequestedListener listener;
+
+    // TODO: refactor this method
+    public static String launchResolveBundlePath(Context ctx) {
+        SharedPreferences bundlePrefs = ctx.getSharedPreferences("bundlePrefs", Context.MODE_PRIVATE);
+        if(!bundlePrefs.contains("activeBundle")) return null;
+        Gson gson = new Gson();
+        String bundleJson = bundlePrefs.getString("bundlePrefs", "");
+        Bundle bundle = gson.fromJson(bundleJson, Bundle.class);
+        return bundle.getFilename();
+    }
 
     public CodeSendModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
-        this.bundlePrefs = reactContext.getSharedPreferences("_bundles", Context.MODE_PRIVATE);
+        this.bundleService = new BundleService(reactContext);
+        this.downloadService = new DownloadService(reactContext);
     }
 
     public OnReloadRequestedListener getListener() {
-        return this.listener;
+        return listener;
     }
 
     public void setListener(OnReloadRequestedListener listener) {
@@ -42,35 +56,23 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getActiveBundle(Promise promise) {
-        if(!this.bundlePrefs.contains("filename")) return;
-
-        WritableMap updateMap = Arguments.createMap();
-        updateMap.putString("_id", this.bundlePrefs.getString("update._id", ""));
-        updateMap.putString("createdAt", this.bundlePrefs.getString("update.createdAt", ""));
-        updateMap.putString("updatedAt", this.bundlePrefs.getString("update.updatedAt", ""));
-        updateMap.putString("version", this.bundlePrefs.getString("update.version", ""));
-        updateMap.putString("note", this.bundlePrefs.getString("update.note", ""));
-        updateMap.putString("bundleUrl", this.bundlePrefs.getString("update.bundleUrl", ""));
-
-        WritableMap bundleMap = Arguments.createMap();
-        bundleMap.putString("filename", this.bundlePrefs.getString("filename", null));
-        bundleMap.putMap("update", updateMap);
-
-        promise.resolve(bundleMap);
+        Bundle activeBundle = bundleService.getActiveBundle();
+        if (activeBundle == null) return;
+        promise.resolve(activeBundle.toMap());
     }
 
     @ReactMethod
     public void setActiveBundle(ReadableMap bundleMap) {
-        SharedPreferences.Editor editor = this.bundlePrefs.edit();
-        Bundle bundle = new Bundle(bundleMap);
-        editor.putString("filename", bundle.getFilename());
-        editor.putString("update._id", bundle.getUpdate().get_id());
-        editor.putString("update.createdAt", bundle.getUpdate().getCreatedAt());
-        editor.putString("update.updatedAt", bundle.getUpdate().getUpdatedAt());
-        editor.putString("update.version", bundle.getUpdate().getVersion());
-        editor.putString("update.note", bundle.getUpdate().getNote());
-        editor.putString("update.bundleUrl", bundle.getUpdate().getBundleUrl());
-        editor.apply();
+        bundleService.setActiveBundle(new Bundle(bundleMap));
     }
 
+    @ReactMethod
+    public void downloadBundle(ReadableMap updateMap, Promise promise) {
+        downloadService.downloadBundle(new Update(updateMap), promise);
+    }
+
+    @ReactMethod
+    public void reloadBundle() {
+        if (this.listener != null) this.listener.onReloadRequested();
+    }
 }
