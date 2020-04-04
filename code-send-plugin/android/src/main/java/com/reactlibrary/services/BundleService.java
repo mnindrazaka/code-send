@@ -8,11 +8,11 @@ import com.google.gson.Gson;
 import com.reactlibrary.models.Bundle;
 
 public class BundleService {
-    private final String ACTIVE_BUNDLE_KEY = "activeBundle";
+    public static final String ACTIVE_BUNDLE_KEY = "activeBundle";
+    public static final  String BUNDLE_PREFS_KEY = "bundlePrefs";
     private final SharedPreferences bundlePrefs;
 
     public BundleService(ReactApplicationContext reactContext) {
-        String BUNDLE_PREFS_KEY = "bundlePrefs";
         bundlePrefs = reactContext.getSharedPreferences(BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
     }
 

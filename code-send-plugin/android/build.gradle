@@ -49,6 +49,7 @@ android {
         targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         abortOnError false
@@ -79,6 +80,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     testImplementation 'junit:junit:4.12'
     testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:core:1.2.0'
 }
 
 def configureReactNativePom(def pom) {
