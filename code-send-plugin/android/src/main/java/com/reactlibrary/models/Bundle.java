@@ -1,5 +1,6 @@
 package com.reactlibrary.models;
 
+import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
@@ -19,7 +20,7 @@ public class Bundle {
     }
 
     public WritableMap toMap() {
-        WritableMap bundleMap = new WritableNativeMap();
+        WritableMap bundleMap = new JavaOnlyMap();
         bundleMap.putString("filename", this.filename);
         bundleMap.putMap("update", this.update.toMap());
         return bundleMap;
@@ -27,5 +28,9 @@ public class Bundle {
 
     public String getFilename() {
         return filename;
+    }
+
+    public Update getUpdate() {
+        return update;
     }
 }

@@ -53,6 +53,9 @@ android {
     lintOptions {
         abortOnError false
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 repositories {
@@ -74,6 +77,8 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
     implementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "com.google.truth:truth:1.0.1"
 }
 
 def configureReactNativePom(def pom) {
