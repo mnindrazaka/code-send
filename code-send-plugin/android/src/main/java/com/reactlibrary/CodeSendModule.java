@@ -12,17 +12,15 @@ import com.google.gson.Gson;
 import com.reactlibrary.models.Bundle;
 import com.reactlibrary.models.Update;
 import com.reactlibrary.services.BundleService;
-import com.reactlibrary.services.DownloadService;
-
-import java.io.File;
+import com.reactlibrary.services.DownloadTask;
 
 public class CodeSendModule extends ReactContextBaseJavaModule {
     public interface OnReloadRequestedListener {
         void onReloadRequested();
     }
 
+    private final ReactApplicationContext reactContext;
     private final BundleService bundleService;
-    private final DownloadService downloadService;
     private OnReloadRequestedListener listener;
 
     // TODO: refactor this method
@@ -37,8 +35,8 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     public CodeSendModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        this.reactContext = reactContext;
         this.bundleService = new BundleService(reactContext);
-        this.downloadService = new DownloadService(reactContext);
     }
 
     public OnReloadRequestedListener getListener() {
@@ -68,7 +66,8 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void downloadBundle(ReadableMap updateMap, Promise promise) {
-        downloadService.downloadBundle(new Update(updateMap), promise);
+        DownloadTask downloadTask = new DownloadTask(reactContext, new Update(updateMap), promise);
+        downloadTask.execute();
     }
 
     @ReactMethod
