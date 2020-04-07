@@ -17,7 +17,11 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... sUrl) {
-        return downloadService.download();
+        try {
+            return downloadService.download();
+        } catch (Exception e) {
+            return e.toString();
+        }
     }
 
     @Override
