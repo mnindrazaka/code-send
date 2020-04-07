@@ -35,14 +35,10 @@ public class DownloadService {
         return new File(getStorageDirectory(), getFilename());
     }
 
-    private void openConnection(String stringUrl) {
-        try {
-            URL url = new URL(stringUrl);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void openConnection(String stringUrl) throws IOException {
+        URL url = new URL(stringUrl);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.connect();
     }
 
     private void closeConnection() {
@@ -51,49 +47,33 @@ public class DownloadService {
         }
     }
 
-    private void openInputOutput() {
-        try {
-            getFile().getParentFile().mkdirs();
-            input = connection.getInputStream();
-            output = new FileOutputStream(getFile());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void openInputOutput() throws IOException {
+        getFile().getParentFile().mkdirs();
+        input = connection.getInputStream();
+        output = new FileOutputStream(getFile());
     }
 
-    private void closeInputOutput() {
-        try {
-            if (output != null)
-                output.close();
-            if (input != null)
-                input.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void closeInputOutput() throws IOException {
+        if (output != null)
+            output.close();
+        if (input != null)
+            input.close();
     }
 
-    private void downloadFile() {
-        try {
-            byte[] data = new byte[4096];
-            int count;
-            while ((count = input.read(data)) != -1) {
-                System.out.println("data ditulis");
-                output.write(data, 0, count);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void downloadFile() throws IOException {
+        byte[] data = new byte[4096];
+        int count;
+        while ((count = input.read(data)) != -1)
+            output.write(data, 0, count);
     }
 
-    public String download() {
+    public String download() throws Exception {
         try {
             openConnection(update.getBundleUrl());
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-                return "Server returned HTTP " +  connection.getResponseCode() + " " + connection.getResponseMessage();
+                throw new Exception("Server returned HTTP " +  connection.getResponseCode() + " " + connection.getResponseMessage());
             openInputOutput();
             downloadFile();
-        } catch (Exception e) {
-            return e.toString();
         } finally {
             closeInputOutput();
             closeConnection();
