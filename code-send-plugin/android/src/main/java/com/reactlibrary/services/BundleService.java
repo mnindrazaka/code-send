@@ -30,4 +30,10 @@ public class BundleService {
         editor.putString(ACTIVE_BUNDLE_KEY, bundleJson);
         editor.apply();
     }
+
+    public void clearActiveBundle() {
+        SharedPreferences.Editor editor = bundlePrefs.edit();
+        editor.remove(ACTIVE_BUNDLE_KEY);
+        editor.apply();
+    }
 }

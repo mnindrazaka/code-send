@@ -11,6 +11,10 @@ export function setActiveBundle(bundle: Bundle) {
   CodeSend.setActiveBundle(bundle);
 }
 
+export function clearActiveBundle() {
+  CodeSend.clearActiveBundle();
+}
+
 export function downloadBundle(update: Update): Promise<string> {
   return CodeSend.downloadBundle(update);
 }
