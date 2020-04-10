@@ -29,7 +29,6 @@ public class BundleServiceTest {
 
     @Test
     public void canGetActiveBundle() {
-        SharedPreferences bundlePrefs = reactContext.getSharedPreferences(BundleService.BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
         Update update = new Update(
                 "mockId",
                 "mockCreatedAt",
@@ -39,12 +38,8 @@ public class BundleServiceTest {
                 "mockBundleUrl"
         );
         Bundle bundle = new Bundle("mockFilename", update);
-        Gson gson = new Gson();
-        String bundleJson = gson.toJson(bundle);
-        SharedPreferences.Editor editor = bundlePrefs.edit();
-        editor.putString(BundleService.ACTIVE_BUNDLE_KEY, bundleJson);
-        editor.apply();
         BundleService bundleService = new BundleService(reactContext);
+        bundleService.setActiveBundle(bundle);
 
         assertThat(bundleService.getActiveBundle().getFilename()).isEqualTo("mockFilename");
         assertThat(bundleService.getActiveBundle().getUpdate().get_id()).isEqualTo("mockId");
@@ -57,31 +52,8 @@ public class BundleServiceTest {
 
     @Test
     public void canReturnNullIfActiveBundleNotFound() {
-        reactContext.getSharedPreferences(BundleService.BUNDLE_PREFS_KEY, Context.MODE_PRIVATE).edit().clear().apply();
         BundleService bundleService = new BundleService(reactContext);
+        bundleService.clearActiveBundle();
         assertThat(bundleService.getActiveBundle()).isNull();
-    }
-
-    @Test
-    public void canSetActiveBundle() {
-        BundleService bundleService = new BundleService(reactContext);
-        Update update = new Update(
-                "mockId",
-                "mockCreatedAt",
-                "mockUpdatedAt",
-                "mockVersion",
-                "mockNote",
-                "mockBundleUrl"
-        );
-        Bundle bundle = new Bundle("mockFilename", update);
-        bundleService.setActiveBundle(bundle);
-
-        assertThat(bundleService.getActiveBundle().getFilename()).isEqualTo("mockFilename");
-        assertThat(bundleService.getActiveBundle().getUpdate().get_id()).isEqualTo("mockId");
-        assertThat(bundleService.getActiveBundle().getUpdate().getCreatedAt()).isEqualTo("mockCreatedAt");
-        assertThat(bundleService.getActiveBundle().getUpdate().getUpdatedAt()).isEqualTo("mockUpdatedAt");
-        assertThat(bundleService.getActiveBundle().getUpdate().getVersion()).isEqualTo("mockVersion");
-        assertThat(bundleService.getActiveBundle().getUpdate().getNote()).isEqualTo("mockNote");
-        assertThat(bundleService.getActiveBundle().getUpdate().getBundleUrl()).isEqualTo("mockBundleUrl");
     }
 }

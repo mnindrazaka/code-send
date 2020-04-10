@@ -163,6 +163,7 @@ public class CodeSendModuleTest {
         };
 
         CodeSendModule codeSendModule = new CodeSendModule(reactContext);
+        codeSendModule.clearActiveBundle();
         codeSendModule.getActiveBundle(promise);
     }
 
