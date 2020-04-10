@@ -9,9 +9,13 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.reactlibrary.CodeSendModule;
+import com.reactlibrary.models.Update;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+
 import static com.google.common.truth.Truth.assertThat;
 
 public class CodeSendModuleTest {
@@ -25,7 +29,7 @@ public class CodeSendModuleTest {
 
     @Test
     public void canGetActiveBundle() {
-        JavaOnlyMap updateMap = new JavaOnlyMap();
+        WritableMap updateMap = new JavaOnlyMap();
         updateMap.putString("_id", "mockId");
         updateMap.putString("createdAt", "mockCreatedAt");
         updateMap.putString("updatedAt", "mockUpdatedAt");
@@ -33,7 +37,7 @@ public class CodeSendModuleTest {
         updateMap.putString("note", "mockNote");
         updateMap.putString("bundleUrl", "mockBundleUrl");
 
-        final JavaOnlyMap bundleMap = new JavaOnlyMap();
+        final WritableMap bundleMap = new JavaOnlyMap();
         bundleMap.putString("filename", "mockFilename");
         bundleMap.putMap("update", updateMap);
 
@@ -160,5 +164,77 @@ public class CodeSendModuleTest {
 
         CodeSendModule codeSendModule = new CodeSendModule(reactContext);
         codeSendModule.getActiveBundle(promise);
+    }
+
+    @Test
+    public void canDownloadBundle() {
+        WritableMap updateMap = new JavaOnlyMap();
+        updateMap.putString("_id", "mockId");
+        updateMap.putString("createdAt", "mockCreatedAt");
+        updateMap.putString("updatedAt", "mockUpdatedAt");
+        updateMap.putString("version", "mockVersion");
+        updateMap.putString("note", "mockNote");
+        updateMap.putString("bundleUrl", "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0");
+
+        Promise promise = new Promise() {
+            @Override
+            public void resolve(@Nullable Object value) {
+                File expectedFile = new File(reactContext.getFilesDir().getAbsolutePath() + "/bundle", "0.1.bundle");
+                assertThat(value).isEqualTo(expectedFile.getAbsolutePath());
+            }
+
+            @Override
+            public void reject(String code, String message) {
+
+            }
+
+            @Override
+            public void reject(String code, Throwable throwable) {
+
+            }
+
+            @Override
+            public void reject(String code, String message, Throwable throwable) {
+
+            }
+
+            @Override
+            public void reject(Throwable throwable) {
+
+            }
+
+            @Override
+            public void reject(Throwable throwable, WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, @NonNull WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, Throwable throwable, WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, String message, @NonNull WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String message) {
+
+            }
+        };
+
+        CodeSendModule codeSendModule = new CodeSendModule(reactContext);
+        codeSendModule.downloadBundle(updateMap, promise);
     }
 }
