@@ -1,6 +1,5 @@
 import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
 import com.reactlibrary.models.Api;
 
 import org.junit.Test;
