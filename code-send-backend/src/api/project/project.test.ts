@@ -13,14 +13,21 @@ describe("project", () => {
   afterEach(async () => await closeDB(true));
 
   it("can get all project", async () => {
-    const res = await request.get("/project").send();
-    expect(res.body).to.be.an("array");
+    const geAllProjectResponse = await request.get("/project").send();
+    expect(geAllProjectResponse.body).to.have.length(1);
   });
 
   it("can create project", async () => {
-    const res = await request.post("/project").send({ name: "sample-project" });
-    expect(res.body).to.has.property("_id");
-    expect(res.body).to.has.property("name");
+    const createProjectResponse = await request
+      .post("/project")
+      .send({ name: "sample-project" });
+    expect(createProjectResponse.body).to.has.property("_id");
+    expect(createProjectResponse.body)
+      .to.has.property("name")
+      .equal("sample-project");
+
+    const geAllProjectResponse = await request.get("/project").send();
+    expect(geAllProjectResponse.body).to.have.length(2);
   });
 
   it("can edit project", async () => {
@@ -31,6 +38,22 @@ describe("project", () => {
       .put(`/project/${projectId}`)
       .send({ name: "wonderful-app" });
 
-    expect(editProjectResponse.body.name).to.equal("wonderful-app");
+    expect(editProjectResponse.body).to.has.property("_id");
+    expect(editProjectResponse.body)
+      .to.has.property("name")
+      .equal("wonderful-app");
+  });
+
+  it("can throw error if edited project not found", async () => {
+    const editProjectResponse = await request
+      .put(`/project/5e7fe2afa491a60003842d5a`)
+      .send({ name: "wonderful-app" });
+
+    expect(editProjectResponse.body)
+      .to.has.property("status")
+      .equal("error");
+    expect(editProjectResponse.body)
+      .to.has.property("message")
+      .equal("project not found");
   });
 });

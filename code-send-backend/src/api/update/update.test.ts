@@ -13,33 +13,63 @@ describe("update", () => {
   afterEach(async () => await closeDB(true));
 
   it("can get all update", async () => {
-    const project = await projectModel.findOne();
-    const res = await request.get(`/project/${project?._id}/update`).send();
-    expect(res.body)
+    const getAllProjectResponse = await request.get("/project").send();
+    const projectId = getAllProjectResponse.body[0]._id;
+
+    const getAllUpdateResponse = await request
+      .get(`/project/${projectId}/update`)
+      .send();
+    expect(getAllUpdateResponse.body)
       .to.be.an("array")
       .length(1);
   });
 
   it("can get latest update", async () => {
-    const project = await projectModel.findOne();
-    const res = await request
-      .get(`/project/${project?._id}/update/latest`)
+    const getAllProjectResponse = await request.get("/project").send();
+    const projectId = getAllProjectResponse.body[0]._id;
+
+    const getLatestUpdateResponse = await request
+      .get(`/project/${projectId}/update/latest`)
       .send();
-    expect(res.body).to.has.property("_id");
-    expect(res.body).to.has.property("version");
-    expect(res.body).to.has.property("note");
+    expect(getLatestUpdateResponse.body).to.has.property("_id");
+    expect(getLatestUpdateResponse.body)
+      .to.has.property("version")
+      .equal("0.1");
+    expect(getLatestUpdateResponse.body)
+      .to.has.property("note")
+      .equal("first update");
+  });
+
+  it("can throw error if latest update not found", async () => {
+    const getLatestUpdateResponse = await request
+      .get(`/project/5e7fe2afa491a60003842d5a/update/latest`)
+      .send();
+    expect(getLatestUpdateResponse.body)
+      .to.has.property("status")
+      .equal("error");
+    expect(getLatestUpdateResponse.body)
+      .to.has.property("message")
+      .equal("update not found");
   });
 
   it("can create update", async () => {
-    const project = await projectModel.findOne();
-    const res = await request.post(`/project/${project?._id}/update`).send({
-      version: "0.1",
-      note: "first release"
-    });
+    const getAllProjectResponse = await request.get("/project").send();
+    const projectId = getAllProjectResponse.body[0]._id;
 
-    expect(res.body).to.has.property("_id");
-    expect(res.body).to.has.property("version");
-    expect(res.body).to.has.property("note");
+    const createUpdateResponse = await request
+      .post(`/project/${projectId}/update`)
+      .send({
+        version: "0.2",
+        note: "second release"
+      });
+
+    expect(createUpdateResponse.body).to.has.property("_id");
+    expect(createUpdateResponse.body)
+      .to.has.property("version")
+      .equal("0.2");
+    expect(createUpdateResponse.body)
+      .to.has.property("note")
+      .equal("second release");
   });
 
   it("can edit update", async () => {
@@ -55,6 +85,23 @@ describe("update", () => {
       .put(`/project/${projectId}/update/${updateId}`)
       .send({ note: "wonderful update" });
 
-    expect(editUpdateResponse.body.note).to.equal("wonderful update");
+    expect(editUpdateResponse.body)
+      .has.property("note")
+      .equal("wonderful update");
+  });
+
+  it("can throw error if edited update not found", async () => {
+    const getAllProjectResponse = await request.get("/project").send();
+    const projectId = getAllProjectResponse.body[0]._id;
+
+    const editUpdateResponse = await request
+      .put(`/project/${projectId}/update/5e7fe2afa491a60003842d5a`)
+      .send({ note: "wonderful update" });
+    expect(editUpdateResponse.body)
+      .to.has.property("status")
+      .equal("error");
+    expect(editUpdateResponse.body)
+      .to.has.property("message")
+      .equal("update not found");
   });
 });
