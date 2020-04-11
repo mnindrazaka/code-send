@@ -1,26 +1,29 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import bundleManager from "../utils/bundleManager";
 import { Update } from "../interfaces/Update";
 
-const useApplyUpdate = async (update: Update) => {
+const useApplyUpdate = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [filename, setFilename] = useState<string>();
   const [error, setError] = useState<string>();
 
-  try {
-    setLoading(true);
-    const filename = await bundleManager.downloadBundle(update);
-    bundleManager.setActiveBundle({ filename, update });
-    bundleManager.reloadBundle();
-    setSuccess(true);
-  } catch (error) {
-    setError(error);
-    setSuccess(false);
-  } finally {
-    setLoading(false);
-  }
+  const applyUpdate = useCallback(async (update: Update) => {
+    try {
+      setLoading(true);
+      const filename = await bundleManager.downloadBundle(update);
+      bundleManager.setActiveBundle({ filename, update });
+      bundleManager.reloadBundle();
+      setFilename(filename);
+      setError(undefined);
+    } catch (error) {
+      setError(error);
+      setFilename(undefined);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  return { loading, success, error };
+  return { filename, loading, error, applyUpdate };
 };
 
 export default useApplyUpdate;

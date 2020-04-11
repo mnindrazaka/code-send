@@ -32,6 +32,7 @@ describe("useCheckUpdate", () => {
     await waitForNextUpdate();
     expect(result.current.update).toBe(update);
     expect(result.current.error).toBe(undefined);
+    expect(result.current.loading).toBe(false);
   });
 
   it("can return latest update if active bundle date is older", async () => {
@@ -63,6 +64,7 @@ describe("useCheckUpdate", () => {
     await waitForNextUpdate();
     expect(result.current.update).toBe(update);
     expect(result.current.error).toBe(undefined);
+    expect(result.current.loading).toBe(false);
   });
 
   it("can return undefined if active bundle date is the same or newer", async () => {
@@ -93,6 +95,7 @@ describe("useCheckUpdate", () => {
     await waitForNextUpdate();
     expect(result.current.update).toBe(undefined);
     expect(result.current.error).toBe(undefined);
+    expect(result.current.loading).toBe(false);
   });
 
   it("can return error if server throw error", async () => {
@@ -106,5 +109,6 @@ describe("useCheckUpdate", () => {
     await waitForNextUpdate();
     expect(result.current.update).toBe(undefined);
     expect(result.current.error).toBe("no update available");
+    expect(result.current.loading).toBe(false);
   });
 });
