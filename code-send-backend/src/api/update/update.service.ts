@@ -9,7 +9,17 @@ export default class UpdateService {
   };
 
   getLatestUpdate = (projectId: string) => {
-    return updateModel.findOne({ project: projectId }).sort({ _id: -1 });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const update = await updateModel
+          .findOne({ project: projectId })
+          .sort({ _id: -1 });
+        if (update) resolve(update);
+        else reject({ message: "update not found" });
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 
   createUpdate = (projectId: string, update: UpdateRequest) => {
@@ -18,15 +28,35 @@ export default class UpdateService {
   };
 
   editUpdate = (updateId: string, update: UpdateRequest) => {
-    return updateModel.findByIdAndUpdate(updateId, update, { new: true });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const editedUpdate = await updateModel.findByIdAndUpdate(
+          updateId,
+          update,
+          { new: true }
+        );
+        if (editedUpdate) resolve(editedUpdate);
+        else reject({ message: "update not found" });
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 
   uploadBundle = async (updateId: string, bundleBuffer: Buffer) => {
-    const url = await uploadBundle(bundleBuffer);
-    return updateModel.findByIdAndUpdate(
-      updateId,
-      { bundleUrl: url },
-      { new: true }
-    );
+    return new Promise(async (resolve, reject) => {
+      try {
+        const url = await uploadBundle(bundleBuffer);
+        const editedUpdate = await updateModel.findByIdAndUpdate(
+          updateId,
+          { bundleUrl: url },
+          { new: true }
+        );
+        if (editedUpdate) resolve(editedUpdate);
+        else reject({ message: "update not found" });
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 }

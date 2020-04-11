@@ -31,7 +31,7 @@ export async function mockingDatabaseRecord() {
 
   await updateModel.create({
     version: "0.1",
-    note: "first release",
+    note: "first update",
     bundleUrl: "http://localhost",
     project: project._id
   });

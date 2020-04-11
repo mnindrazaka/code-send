@@ -11,6 +11,18 @@ export default class ProjectService {
   };
 
   editProject = (projectId: string, project: ProjectRequest) => {
-    return projectModel.findByIdAndUpdate(projectId, project, { new: true });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const editedProject = await projectModel.findByIdAndUpdate(
+          projectId,
+          project,
+          { new: true }
+        );
+        if (editedProject) resolve(editedProject);
+        else reject({ message: "project not found" });
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 }
