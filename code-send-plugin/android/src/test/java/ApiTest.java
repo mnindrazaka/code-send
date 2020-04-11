@@ -9,13 +9,13 @@ public class ApiTest {
     @Test
     public void canCreateObjectFromMap() {
         WritableMap apiMap = new JavaOnlyMap();
-        apiMap.putString("_id", "mockId");
-        apiMap.putString("createdAt", "mockCreatedAt");
-        apiMap.putString("updatedAt", "mockUpdatedAt");
+        apiMap.putString("_id", "5e527g78786873jga");
+        apiMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
+        apiMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
         Api api = new Api(apiMap);
 
-        assertThat(api.get_id()).isEqualTo("mockId");
-        assertThat(api.getCreatedAt()).isEqualTo("mockCreatedAt");
-        assertThat(api.getUpdatedAt()).isEqualTo("mockUpdatedAt");
+        assertThat(api.get_id()).isEqualTo("5e527g78786873jga");
+        assertThat(api.getCreatedAt()).isEqualTo("2020-03-29T21:59:47.213Z");
+        assertThat(api.getUpdatedAt()).isEqualTo("2020-03-29T21:59:47.213Z");
     }
 }

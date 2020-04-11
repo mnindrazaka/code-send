@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { StoreProvider } from "stores";
 import UpdateForm from "../updateForm";
@@ -16,15 +16,14 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 >;
 
 const mockUpdate: Update = {
-  _id: "mock id",
-  version: "mock version",
-  note: "mock note",
-  createdAt: "mock created at",
-  updatedAt: "mock updated at",
-  bundleUrl: "mock bundle url"
+  _id: "54a5f44a44fsf33a",
+  version: "0.1",
+  note: "first update",
+  createdAt: "2020-03-29T21:59:47.213Z",
+  updatedAt: "2020-03-29T21:59:47.213Z",
+  bundleUrl: "https://bundle.com/download"
 };
 const file = new File(["mock content"], "index.bundle.js");
-
 const renderUpdateForm = (initialState?: Partial<RootState>) => {
   const utils = render(
     <MemoryRouter>
@@ -39,7 +38,6 @@ const renderUpdateForm = (initialState?: Partial<RootState>) => {
 describe("update form", () => {
   it("can show create success message", async () => {
     const { findByText, getByLabelText, getByText } = renderUpdateForm();
-
     const inputVersionElement = getByLabelText("Version");
     const inputNoteElement = getByLabelText("Note");
     const inputBundleElement = getByLabelText("Bundle");
@@ -48,10 +46,19 @@ describe("update form", () => {
     const { version, note } = mockUpdate;
     codeSendServiceMock.createUpdate.mockResolvedValueOnce(mockUpdate);
     codeSendServiceMock.uploadUpdate.mockResolvedValueOnce(mockUpdate);
-    fireEvent.change(inputVersionElement, { target: { value: version } });
-    fireEvent.change(inputNoteElement, { target: { value: note } });
-    fireEvent.change(inputBundleElement, { target: { files: [file] } });
-    fireEvent.click(submitElement!);
+
+    await act(async () => {
+      fireEvent.change(inputVersionElement, { target: { value: version } });
+    });
+    await act(async () => {
+      fireEvent.change(inputNoteElement, { target: { value: note } });
+    });
+    await act(async () => {
+      fireEvent.change(inputBundleElement, { target: { files: [file] } });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
 
     const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
@@ -68,12 +75,20 @@ describe("update form", () => {
       status: "error",
       message: "failed to create update"
     });
-
     const { version, note } = mockUpdate;
-    fireEvent.change(inputVersionElement, { target: { value: version } });
-    fireEvent.change(inputNoteElement, { target: { value: note } });
-    fireEvent.change(inputBundleElement, { target: { files: [file] } });
-    fireEvent.click(submitElement!);
+
+    await act(async () => {
+      fireEvent.change(inputVersionElement, { target: { value: version } });
+    });
+    await act(async () => {
+      fireEvent.change(inputNoteElement, { target: { value: note } });
+    });
+    await act(async () => {
+      fireEvent.change(inputBundleElement, { target: { files: [file] } });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
 
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
@@ -90,11 +105,15 @@ describe("update form", () => {
 
     const inputNoteElement = getByLabelText("Note");
     const submitElement = getByText("Submit").closest("button");
-
-    const { note } = mockUpdate;
     codeSendServiceMock.editUpdate.mockResolvedValueOnce(mockUpdate);
-    fireEvent.change(inputNoteElement, { target: { value: note } });
-    fireEvent.click(submitElement!);
+    const { note } = mockUpdate;
+
+    await act(async () => {
+      fireEvent.change(inputNoteElement, { target: { value: note } });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
 
     const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
@@ -115,10 +134,14 @@ describe("update form", () => {
       status: "error",
       message: "failed to edit update"
     });
-
     const { note } = mockUpdate;
-    fireEvent.change(inputNoteElement, { target: { value: note } });
-    fireEvent.click(submitElement!);
+
+    await act(async () => {
+      fireEvent.change(inputNoteElement, { target: { value: note } });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
 
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();

@@ -9,7 +9,6 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
 import com.reactlibrary.CodeSendModule;
-import com.reactlibrary.models.Update;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,15 +29,15 @@ public class CodeSendModuleTest {
     @Test
     public void canGetActiveBundle() {
         WritableMap updateMap = new JavaOnlyMap();
-        updateMap.putString("_id", "mockId");
-        updateMap.putString("createdAt", "mockCreatedAt");
-        updateMap.putString("updatedAt", "mockUpdatedAt");
-        updateMap.putString("version", "mockVersion");
-        updateMap.putString("note", "mockNote");
-        updateMap.putString("bundleUrl", "mockBundleUrl");
+        updateMap.putString("_id", "57jg739gk388g4g89ut4");
+        updateMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("version", "0.1");
+        updateMap.putString("note", "first update");
+        updateMap.putString("bundleUrl", "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0");
 
         final WritableMap bundleMap = new JavaOnlyMap();
-        bundleMap.putString("filename", "mockFilename");
+        bundleMap.putString("filename", "/data/data/package/files/bundle/0.1.bundle");
         bundleMap.putMap("update", updateMap);
 
         Promise promise = new Promise() {
@@ -170,11 +169,11 @@ public class CodeSendModuleTest {
     @Test
     public void canDownloadBundle() {
         WritableMap updateMap = new JavaOnlyMap();
-        updateMap.putString("_id", "mockId");
-        updateMap.putString("createdAt", "mockCreatedAt");
-        updateMap.putString("updatedAt", "mockUpdatedAt");
-        updateMap.putString("version", "mockVersion");
-        updateMap.putString("note", "mockNote");
+        updateMap.putString("_id", "57jg739gk388g4g89ut4");
+        updateMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("version", "0.1");
+        updateMap.putString("note", "first update");
         updateMap.putString("bundleUrl", "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0");
 
         Promise promise = new Promise() {

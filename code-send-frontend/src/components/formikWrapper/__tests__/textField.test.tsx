@@ -1,6 +1,5 @@
 import React from "react";
-import "@testing-library/react/dont-cleanup-after-each";
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, act } from "@testing-library/react";
 import { TextField } from "../textField";
 import { renderFormik } from "../utils";
 import initMatchMedia from "matchMedia.mock";
@@ -10,22 +9,30 @@ initMatchMedia();
 const name = "username";
 const label = "Username";
 
-const { getByLabelText, findByText } = renderFormik(
-  <TextField label={label} name={name} />,
-  name
-);
+const renderTextField = () => {
+  const utils = renderFormik(<TextField label={label} name={name} />, name);
+  return utils;
+};
 
 describe("text field", () => {
   it("can change text value", async () => {
+    const { getByLabelText } = renderTextField();
     const inputElement = getByLabelText(label);
-    fireEvent.change(inputElement, { target: { value: "mockValue" } });
-    expect(inputElement).toHaveValue("mockValue");
+    await act(async () => {
+      fireEvent.change(inputElement, { target: { value: "mnindrazaka" } });
+    });
+    expect(inputElement).toHaveValue("mnindrazaka");
   });
 
   it("can show error message", async () => {
+    const { getByLabelText, findByText } = renderTextField();
     const inputElement = getByLabelText(label);
-    fireEvent.change(inputElement, { target: { value: "mockValue" } });
-    fireEvent.change(inputElement, { target: { value: "" } });
+    await act(async () => {
+      fireEvent.change(inputElement, { target: { value: "mnindrazaka" } });
+    });
+    await act(async () => {
+      fireEvent.change(inputElement, { target: { value: "" } });
+    });
     const errorElement = await findByText("input required");
     expect(errorElement).toBeInTheDocument();
   });

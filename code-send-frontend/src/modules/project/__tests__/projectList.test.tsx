@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { StoreProvider } from "stores";
 import ProjectList from "../projectList";
@@ -26,10 +26,10 @@ const renderProjectList = () => {
 };
 
 const mockProject: Project = {
-  _id: "mock id",
-  createdAt: "mock created at",
-  updatedAt: "mock updated at",
-  name: "mock name"
+  _id: "52a4af3f4ea3fa3",
+  createdAt: "2020-03-29T21:59:47.213Z",
+  updatedAt: "2020-03-29T21:59:47.213Z",
+  name: "awesome project"
 };
 
 describe("project list", () => {
@@ -43,7 +43,9 @@ describe("project list", () => {
     const cardElements = await findAllByText(mockProject.name);
 
     cardElements.forEach(cardElement => {
-      fireEvent.click(cardElement);
+      act(() => {
+        fireEvent.click(cardElement);
+      });
     });
 
     expect(cardElements.length).toEqual(3);

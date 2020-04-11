@@ -38,25 +38,33 @@ const UpdateLog: FunctionComponent = () => {
   const columns = useMemo((): ColumnType<Update>[] => {
     return [
       {
+        key: "date",
         title: "Relase Date",
         render: (value, record) => (
           <span>{getFormattedDate(record.createdAt)}</span>
         )
       },
       {
+        key: "version",
         title: "Version",
         dataIndex: "version"
       },
       {
+        key: "note",
         title: "Note",
         dataIndex: "note"
       },
       {
+        key: "action",
         title: "",
         render: (value, record) => <TableAction update={record} />
       }
     ];
   }, []);
+  const dataSource = useMemo(
+    () => items.map(item => ({ ...item, key: item._id })),
+    [items]
+  );
 
   return (
     <>
@@ -70,7 +78,7 @@ const UpdateLog: FunctionComponent = () => {
         </Link>
 
         <Table
-          dataSource={items}
+          dataSource={dataSource}
           columns={columns}
           style={{ marginTop: 15 }}
           data-testid="table-update-log"

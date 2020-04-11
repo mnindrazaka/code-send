@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Page from "../page";
 import initMatchMedia from "matchMedia.mock";
@@ -15,10 +15,10 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 >;
 
 const mockProject: Project = {
-  _id: "mock id",
-  createdAt: "mock created at",
-  updatedAt: "mock updated at",
-  name: "mock name"
+  _id: "53a3f3aeg2a3s",
+  createdAt: "2020-03-29T21:59:47.213Z",
+  updatedAt: "2020-03-29T21:59:47.213Z",
+  name: "awesome project"
 };
 
 const renderProjectPage = () => {
@@ -47,7 +47,9 @@ describe("project page", () => {
     const createButtonElement = (
       await findByText("Create New Project")
     ).closest("button")!;
-    fireEvent.click(createButtonElement);
+    act(() => {
+      fireEvent.click(createButtonElement);
+    });
     const projectFormElement = await findByText("Create Project");
     expect(projectFormElement).toBeInTheDocument();
   });
@@ -56,7 +58,9 @@ describe("project page", () => {
     codeSendServiceMock.getallProjects.mockResolvedValueOnce([mockProject]);
     const { findByTitle, findByText } = renderProjectPage();
     const editButtonElement = await findByTitle("Edit Project");
-    fireEvent.click(editButtonElement);
+    act(() => {
+      fireEvent.click(editButtonElement);
+    });
     const projectFormElement = await findByText("Edit Project");
     expect(projectFormElement).toBeInTheDocument();
   });

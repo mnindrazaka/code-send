@@ -1,40 +1,28 @@
-import React, { ChangeEvent } from "react";
-import { render, fireEvent } from "@testing-library/react";
+import React from "react";
+import { render, fireEvent, act } from "@testing-library/react";
 import Page from "../page";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import initMatchMedia from "matchMedia.mock";
 import { StoreProvider } from "stores";
-import { SelectProps } from "antd/lib/select";
-import { Select } from "antd";
 
 initMatchMedia();
 
-jest.mock(
-  "antd/lib/select",
-  () => ({ placeholder, onChange }: SelectProps<string>) => {
-    const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-      if (onChange) onChange(event.target.value, []);
-    };
-
-    return (
-      <select
-        onChange={handleChange}
-        placeholder={placeholder as string}
-      ></select>
-    );
-  }
-);
-
 const renderMainPage = () => {
   const mockProject = {
-    _id: "mock id",
-    createdAt: "mock created at",
-    updatedAt: "mock updated at",
-    name: "mock name"
+    _id: "656a6ge554e5egyhha5",
+    createdAt: "2020-03-29T21:59:47.213Z",
+    updatedAt: "2020-03-29T21:59:47.213Z",
+    name: "awesome project"
+  };
+  const mockProject2 = {
+    _id: "5462642672572y526525",
+    createdAt: "2020-03-29T21:59:47.213Z",
+    updatedAt: "2020-03-29T21:59:47.213Z",
+    name: "awesome project 2"
   };
   const mockProjectState = {
-    items: [mockProject],
+    items: [mockProject, mockProject2],
     loading: false,
     selected: mockProject
   };
@@ -50,6 +38,7 @@ const renderMainPage = () => {
 
   return {
     mockProject,
+    mockProject2,
     history,
     ...utils
   };
@@ -59,8 +48,8 @@ describe("main", () => {
   it("can move to dashboard page", async () => {
     const { history, findByText, mockProject } = renderMainPage();
     history.push("/dashboard");
-    const pageElement = await findByText(mockProject.name);
-    expect(pageElement).toBeInTheDocument();
+    const pageSubTitleElement = await findByText(mockProject._id);
+    expect(pageSubTitleElement).toBeInTheDocument();
   });
 
   it("can move to update page", async () => {
@@ -71,16 +60,14 @@ describe("main", () => {
   });
 
   it("can change project", async () => {
-    const { findByPlaceholderText } = renderMainPage();
-
-    const projectSelectorElement = await findByPlaceholderText(
-      "Select Project"
-    );
-
-    fireEvent.change(projectSelectorElement, {
-      target: { value: "mock id" }
+    const { findByRole, findByText, mockProject2 } = renderMainPage();
+    const projectSelectorElement = await findByRole("combobox");
+    act(() => {
+      fireEvent.change(projectSelectorElement, {
+        target: { value: mockProject2._id }
+      });
     });
-
-    expect(projectSelectorElement).toBeInTheDocument();
+    const pageSubTitleElement = await findByText(mockProject2._id);
+    expect(pageSubTitleElement).toBeInTheDocument();
   });
 });
