@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { StoreProvider } from "stores";
 import ProjectForm from "../projectForm";
@@ -16,10 +16,10 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 >;
 
 const mockProject: Project = {
-  _id: "mock id",
-  createdAt: "mock created at",
-  updatedAt: "mock updated at",
-  name: "mock name"
+  _id: "52a4rw3a3rw4raw33",
+  createdAt: "2020-03-29T21:59:47.213Z",
+  updatedAt: "2020-03-29T21:59:47.213Z",
+  name: "awesome project"
 };
 
 const renderProjectForm = (initialState?: Partial<RootState>) => {
@@ -31,10 +31,8 @@ const renderProjectForm = (initialState?: Partial<RootState>) => {
     </MemoryRouter>
   );
   const { getByLabelText, getByText } = utils;
-
   const inputNameElement = getByLabelText("Name");
   const submitElement = getByText("Submit").closest("button");
-
   return {
     ...utils,
     inputNameElement,
@@ -45,10 +43,16 @@ const renderProjectForm = (initialState?: Partial<RootState>) => {
 describe("project form", () => {
   it("can show create success message", async () => {
     const { inputNameElement, submitElement, findByText } = renderProjectForm();
-
     codeSendServiceMock.createProject.mockResolvedValueOnce(mockProject);
-    fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
-    fireEvent.click(submitElement!);
+
+    await act(async () => {
+      fireEvent.change(inputNameElement, {
+        target: { value: mockProject.name }
+      });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
 
     const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
@@ -56,13 +60,20 @@ describe("project form", () => {
 
   it("can show create failed message", async () => {
     const { inputNameElement, submitElement, findByText } = renderProjectForm();
-
     codeSendServiceMock.createProject.mockRejectedValueOnce({
       status: "error",
       message: "failed to create update"
     });
-    fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
-    fireEvent.click(submitElement!);
+
+    await act(async () => {
+      fireEvent.change(inputNameElement, {
+        target: { value: mockProject.name }
+      });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
+
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
   });
@@ -77,8 +88,15 @@ describe("project form", () => {
     });
 
     codeSendServiceMock.editProject.mockResolvedValueOnce(mockProject);
-    fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
-    fireEvent.click(submitElement!);
+
+    await act(async () => {
+      fireEvent.change(inputNameElement, {
+        target: { value: mockProject.name }
+      });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
 
     const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
@@ -97,8 +115,16 @@ describe("project form", () => {
       status: "error",
       message: "failed to edit update"
     });
-    fireEvent.change(inputNameElement, { target: { value: mockProject.name } });
-    fireEvent.click(submitElement!);
+
+    await act(async () => {
+      fireEvent.change(inputNameElement, {
+        target: { value: mockProject.name }
+      });
+    });
+    await act(async () => {
+      fireEvent.click(submitElement!);
+    });
+
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
   });

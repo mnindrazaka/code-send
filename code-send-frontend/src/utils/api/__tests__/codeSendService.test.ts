@@ -11,7 +11,7 @@ describe("code send service", () => {
   });
 
   it("can create project", () => {
-    const project = { name: "mock name" };
+    const project = { name: "awesome project" };
     codeSendService.createProject(project);
     expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
       "/project",
@@ -20,8 +20,8 @@ describe("code send service", () => {
   });
 
   it("can edit project", () => {
-    const projectId = "mock project id";
-    const project = { name: "mock name" };
+    const projectId = "52a45a4637654f5s4";
+    const project = { name: "awesome project" };
     codeSendService.editProject(projectId, project);
     expect(ServiceMock.mock.instances[0].put).toHaveBeenCalledWith(
       `/project/${projectId}`,
@@ -30,7 +30,7 @@ describe("code send service", () => {
   });
 
   it("can get all updates", () => {
-    const projectId = "mock project id";
+    const projectId = "52a45a4637654f5s4";
     codeSendService.getAllUpdates(projectId);
     expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith(
       `/project/${projectId}/update`
@@ -38,7 +38,7 @@ describe("code send service", () => {
   });
 
   it("can get latest update", () => {
-    const projectId = "mock project id";
+    const projectId = "52a45a4637654f5s4";
     codeSendService.getLatestUpdate(projectId);
     expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith(
       `/project/${projectId}/update/latest`
@@ -46,8 +46,8 @@ describe("code send service", () => {
   });
 
   it("can create update", () => {
-    const projectId = "mock project id";
-    const update = { note: "mock note", version: "mock version" };
+    const projectId = "52a45a4637654f5s4";
+    const update = { note: "first update", version: "0.1" };
     codeSendService.createUpdate(projectId, update);
     expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
       `/project/${projectId}/update`,
@@ -56,9 +56,9 @@ describe("code send service", () => {
   });
 
   it("can edit update", () => {
-    const projectId = "mock project id";
-    const updateId = "mock update id";
-    const update = { note: "mock note", version: "mock version" };
+    const projectId = "52a45a4637654f5s4";
+    const updateId = "5fzsf67sz7fs5f7s";
+    const update = { note: "first update", version: "0.1" };
     codeSendService.editUpdate(projectId, updateId, update);
     expect(ServiceMock.mock.instances[0].put).toHaveBeenCalledWith(
       `/project/${projectId}/update/${updateId}`,
@@ -67,8 +67,8 @@ describe("code send service", () => {
   });
 
   it("can upload update", () => {
-    const projectId = "mock id";
-    const updateId = "mock id";
+    const projectId = "52a45a4637654f5s4";
+    const updateId = "5fzsf67sz7fs5f7s";
     const bundle = new Blob([]);
     const formData = new FormData();
     formData.append("bundle", bundle);

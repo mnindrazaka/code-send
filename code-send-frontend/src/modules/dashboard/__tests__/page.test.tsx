@@ -27,12 +27,12 @@ const renderDashboardPage = () => {
 describe("dashboard page", () => {
   it("can render correct version", async () => {
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce({
-      _id: "mock id",
-      createdAt: "mock created at",
-      updatedAt: "mock updated at",
+      _id: "524a2sd4d2d2h88a54",
+      createdAt: "2020-03-29T21:59:47.213Z",
+      updatedAt: "2020-03-29T21:59:47.213Z",
       version: "0.1",
-      note: "latest update",
-      bundleUrl: "mock bundle url"
+      note: "first update",
+      bundleUrl: "https://bundle.com/download"
     });
     const { findByText } = renderDashboardPage();
     const versionTextElement = await findByText("0.1");

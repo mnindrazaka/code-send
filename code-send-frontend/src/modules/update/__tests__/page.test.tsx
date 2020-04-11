@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Page from "../page";
 import initMatchMedia from "matchMedia.mock";
@@ -14,12 +14,12 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
   typeof codeSendService
 >;
 const mockUpdate: Update = {
-  _id: "mock id",
-  version: "mock version",
-  note: "mock note",
-  createdAt: "mock created at",
-  updatedAt: "mock updated at",
-  bundleUrl: "mock bundle url"
+  _id: "52a56a56w5r6w5t4",
+  createdAt: "2020-03-29T21:59:47.213Z",
+  updatedAt: "2020-03-29T21:59:47.213Z",
+  version: "0.1",
+  note: "first update",
+  bundleUrl: "https://bundle.com"
 };
 
 const renderUpdatePage = () => {
@@ -48,8 +48,9 @@ describe("update page", () => {
     const createButtonElement = (await findByText("Create New Update")).closest(
       "button"
     )!;
-    fireEvent.click(createButtonElement);
-
+    act(() => {
+      fireEvent.click(createButtonElement);
+    });
     const updateFormElement = await findByText("Create Update");
     expect(updateFormElement).toBeInTheDocument();
   });
@@ -58,8 +59,9 @@ describe("update page", () => {
     codeSendServiceMock.getAllUpdates.mockResolvedValueOnce([mockUpdate]);
     const { findByText } = renderUpdatePage();
     const editButtonElement = (await findByText("Edit")).closest("button")!;
-    fireEvent.click(editButtonElement);
-
+    act(() => {
+      fireEvent.click(editButtonElement);
+    });
     const updateFormElement = await findByText("Edit Update");
     expect(updateFormElement).toBeInTheDocument();
   });

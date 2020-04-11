@@ -5,6 +5,9 @@ import { StoreProvider } from "stores";
 import UpdateLog from "../updateLog";
 import codeSendService from "utils/api/codeSendService";
 import { Update } from "interfaces/Update";
+import initMatchMedia from "matchMedia.mock";
+
+initMatchMedia();
 
 jest.mock("utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -23,12 +26,12 @@ const renderUpdateLog = () => {
 };
 
 const mockUpdate: Update = {
-  _id: "mock id",
-  createdAt: "mock created at",
-  updatedAt: "mock updated at",
-  bundleUrl: "mock bundle url",
-  version: "mock version",
-  note: "mock note"
+  _id: "52ga4a5f44w3a4f34",
+  createdAt: "2020-03-29T21:59:47.213Z",
+  updatedAt: "2020-03-29T21:59:47.213Z",
+  bundleUrl: "https://bundle.com/download",
+  version: "0.1",
+  note: "first update"
 };
 
 describe("update log", () => {
@@ -49,7 +52,6 @@ describe("update log", () => {
       status: "error",
       message: "failed to get update"
     });
-
     const { findByText } = renderUpdateLog();
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
