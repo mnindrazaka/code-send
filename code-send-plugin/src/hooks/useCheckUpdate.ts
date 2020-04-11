@@ -27,8 +27,10 @@ const useCheckUpdate = (projectId: string) => {
         if (
           !activeBundle ||
           isDateNewer(update.createdAt, activeBundle.update.createdAt)
-        )
+        ) {
           setUpdate(update);
+          setError(undefined);
+        }
       } catch (error) {
         setError(error.message);
       } finally {

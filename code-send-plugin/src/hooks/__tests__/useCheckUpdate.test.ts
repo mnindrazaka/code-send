@@ -15,99 +15,93 @@ const bundleManagerMock = bundleManager as jest.Mocked<typeof bundleManager>;
 describe("useCheckUpdate", () => {
   it("can return latest update if no active bundle", async () => {
     const update: Update = {
-      _id: "mockId",
-      createdAt: "mockCreatedAt",
-      updatedAt: "mockUpdatedAt",
-      version: "mockVersion",
-      note: "mockNote",
-      bundleUrl: "mockBundleUrl"
+      _id: "5e7fe2afa491f60003847d6b",
+      createdAt: "2020-03-29T21:59:47.213Z",
+      updatedAt: "2020-03-29T21:59:47.213Z",
+      version: "0.1",
+      note: "first update",
+      bundleUrl: "https://bundle.com/download"
     };
+
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(undefined);
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("mockProjectId")
+      useCheckUpdate("85eu3k693hf983y52huw883279")
     );
-
     await waitForNextUpdate();
     expect(result.current.update).toBe(update);
+    expect(result.current.error).toBe(undefined);
   });
 
-  it("can return latest update if active bundle older", async () => {
+  it("can return latest update if active bundle date is older", async () => {
     const update: Update = {
-      _id: "mockId",
+      _id: "5e7fe2afa491f60003847d6b",
       createdAt: "2020-03-29T21:59:47.213Z",
-      updatedAt: "mockUpdatedAt",
-      version: "mockVersion",
-      note: "mockNote",
-      bundleUrl: "mockBundleUrl"
+      updatedAt: "2020-03-29T21:59:47.213Z",
+      version: "0.2",
+      note: "second update",
+      bundleUrl: "https://bundle.com/download"
     };
+
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
-      filename: "mockFilename",
+      filename: "/data/data/package/files/0.1.bundle",
       update: {
-        ...update,
-        createdAt: "2020-03-28T21:59:47.213Z"
+        _id: "65hgh3iu89ue83jgij39wy89t36",
+        createdAt: "2020-03-28T21:59:47.213Z",
+        updatedAt: "2020-03-28T21:59:47.213Z",
+        version: "0.1",
+        note: "first update",
+        bundleUrl: "https://bundle.com/download"
       }
     });
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("mockProjectId")
+      useCheckUpdate("85eu3k693hf983y52huw883279")
     );
     await waitForNextUpdate();
     expect(result.current.update).toBe(update);
+    expect(result.current.error).toBe(undefined);
   });
 
-  it("can return undefined if active bundle is newer", async () => {
+  it("can return undefined if active bundle date is the same or newer", async () => {
     const update: Update = {
-      _id: "mockId",
+      _id: "546753285632859869423",
       createdAt: "2020-03-29T21:59:47.213Z",
-      updatedAt: "mockUpdatedAt",
-      version: "mockVersion",
-      note: "mockNote",
-      bundleUrl: "mockBundleUrl"
+      updatedAt: "2020-03-29T21:59:47.213Z",
+      version: "0.1",
+      note: "first update",
+      bundleUrl: "https://bundle.com/download"
     };
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
-      filename: "mockFilename",
+      filename: "/data/data/package/files/0.1.bundle",
       update: {
-        ...update,
-        createdAt: "2020-03-30T21:59:47.213Z"
+        _id: "546753285632859869423",
+        createdAt: "2020-03-29T21:59:47.213Z",
+        updatedAt: "2020-03-29T21:59:47.213Z",
+        version: "0.1",
+        note: "first update",
+        bundleUrl: "https://bundle.com/download"
       }
     });
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("mockProjectId")
+      useCheckUpdate("85eu3k693hf983y52huw883279")
     );
     await waitForNextUpdate();
     expect(result.current.update).toBe(undefined);
+    expect(result.current.error).toBe(undefined);
   });
 
-  // it("can return error if latest update not found");
-
-  it("can return error if no response from server", async () => {
-    const update: Update = {
-      _id: "mockId",
-      createdAt: "2020-03-29T21:59:47.213Z",
-      updatedAt: "mockUpdatedAt",
-      version: "mockVersion",
-      note: "mockNote",
-      bundleUrl: "mockBundleUrl"
-    };
+  it("can return error if server throw error", async () => {
     codeSendServiceMock.getLatestUpdate.mockRejectedValueOnce({
       status: "error",
       message: "no update available"
     });
-    bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
-      filename: "mockFilename",
-      update: {
-        ...update,
-        createdAt: "2020-03-30T21:59:47.213Z"
-      }
-    });
-
     const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("mockProjectId")
+      useCheckUpdate("85eu3k693hf983y52huw883279")
     );
     await waitForNextUpdate();
     expect(result.current.update).toBe(undefined);
