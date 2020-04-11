@@ -46,7 +46,7 @@ describe("useCheckUpdate", () => {
 
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
-      filename: "/data/data/package/files/0.1.bundle",
+      filename: "/data/data/package/files/bundle/0.1.bundle",
       update: {
         _id: "65hgh3iu89ue83jgij39wy89t36",
         createdAt: "2020-03-28T21:59:47.213Z",
@@ -76,7 +76,7 @@ describe("useCheckUpdate", () => {
     };
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
-      filename: "/data/data/package/files/0.1.bundle",
+      filename: "/data/data/package/files/bundle/0.1.bundle",
       update: {
         _id: "546753285632859869423",
         createdAt: "2020-03-29T21:59:47.213Z",

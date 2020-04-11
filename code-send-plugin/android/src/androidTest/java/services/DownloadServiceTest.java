@@ -28,11 +28,11 @@ public class DownloadServiceTest {
     @Test
     public void canDownloadUpdate() {
         Update update = new Update(
-                "mockId",
-                "mockCreatedAt",
-                "mockUpdatedAt",
+                "54hg2e73igk6n3ki3yu",
+                "2020-03-29T21:59:47.213Z",
+                "2020-03-29T21:59:47.213Z",
                 "0.1",
-                "mockNote",
+                "first update",
                 "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0"
         );
         DownloadService downloadService = new DownloadService(reactContext, update);
@@ -50,12 +50,12 @@ public class DownloadServiceTest {
     @Test
     public void canThrowWrongURLFormat() {
         Update update = new Update(
-                "mockId",
-                "mockCreatedAt",
-                "mockUpdatedAt",
+                "54hg2e73igk6n3ki3yu",
+                "2020-03-29T21:59:47.213Z",
+                "2020-03-29T21:59:47.213Z",
                 "0.1",
-                "mockNote",
-                "mockUrl"
+                "first update",
+                "http//wrongUrlFormat.com"
         );
         DownloadService downloadService = new DownloadService(reactContext, update);
         String errorMessage = "";
@@ -70,11 +70,11 @@ public class DownloadServiceTest {
     @Test
     public void canThrowServerResponseFailedMessage() {
         Update update = new Update(
-                "mockId",
-                "mockCreatedAt",
-                "mockUpdatedAt",
+                "54hg2e73igk6n3ki3yu",
+                "2020-03-29T21:59:47.213Z",
+                "2020-03-29T21:59:47.213Z",
                 "0.1",
-                "mockNote",
+                "first update",
                 "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/randomMockFile"
         );
         DownloadService downloadService = new DownloadService(reactContext, update);
