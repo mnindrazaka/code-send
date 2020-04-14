@@ -7,10 +7,12 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.reactlibrary.models.Update;
 
 public class DownloadTask extends AsyncTask<String, Integer, String> {
+    private ReactApplicationContext reactContext;
     private DownloadService downloadService;
     private Promise promise;
 
     public DownloadTask(ReactApplicationContext reactContext,  Update update, Promise promise) {
+        this.reactContext = reactContext;
         this.downloadService = new DownloadService(reactContext, update);
         this.promise = promise;
     }
@@ -26,6 +28,10 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        promise.resolve(result);
+        if (result.contains(reactContext.getFilesDir().getAbsolutePath())) {
+            promise.resolve(result);
+        } else {
+            promise.reject(result);
+        }
     }
 }

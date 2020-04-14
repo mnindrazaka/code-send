@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.net.MalformedURLException;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -231,6 +232,77 @@ public class CodeSendModuleTest {
             @Override
             public void reject(String message) {
 
+            }
+        };
+
+        CodeSendModule codeSendModule = new CodeSendModule(reactContext);
+        codeSendModule.downloadBundle(updateMap, promise);
+    }
+
+    @Test
+    public void canThrowWrongURLFormat() {
+        WritableMap updateMap = new JavaOnlyMap();
+        updateMap.putString("_id", "57jg739gk388g4g89ut4");
+        updateMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("version", "0.1");
+        updateMap.putString("note", "first update");
+        updateMap.putString("bundleUrl", "http//wrongUrlFormat.com");
+
+        Promise promise = new Promise() {
+            @Override
+            public void resolve(@Nullable Object value) {
+
+            }
+
+            @Override
+            public void reject(String code, String message) {
+
+            }
+
+            @Override
+            public void reject(String code, Throwable throwable) {
+
+            }
+
+            @Override
+            public void reject(String code, String message, Throwable throwable) {
+
+            }
+
+            @Override
+            public void reject(Throwable throwable) {
+
+            }
+
+            @Override
+            public void reject(Throwable throwable, WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, @NonNull WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, Throwable throwable, WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, String message, @NonNull WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
+
+            }
+
+            @Override
+            public void reject(String message) {
+                assertThat(message).contains(new MalformedURLException().toString());
             }
         };
 
