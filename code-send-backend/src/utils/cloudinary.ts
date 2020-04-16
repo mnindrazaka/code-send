@@ -16,5 +16,5 @@ export const uploadBundle = (bundleBuffer: Buffer) => {
     .upload(base64String, {
       resource_type: "raw"
     })
-    .then(value => value.url);
+    .then(value => value.secure_url);
 };
