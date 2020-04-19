@@ -5,18 +5,6 @@ import useCodeSend from "code-send"
 const App = () => {
   const { error, loading, update } = useCodeSend("5e7fe2afa491f60003847d6b")
 
-  React.useEffect(() => {
-    alert(`error ${error}`)
-  }, [error])
-
-  React.useEffect(() => {
-    alert(`loading ${loading}`)
-  }, [loading])
-
-  React.useEffect(() => {
-    alert(`update ${JSON.stringify(update)}`)
-  }, [update])
-
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>CodeSend initial app</Text>
