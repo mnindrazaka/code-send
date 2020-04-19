@@ -2,6 +2,7 @@ package com.reactlibrary;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -19,16 +20,16 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         void onReloadRequested();
     }
 
-    private final ReactApplicationContext reactContext;
+    private static ReactApplicationContext reactContext;
     private final BundleService bundleService;
     private OnReloadRequestedListener listener;
 
     // TODO: refactor this method
     public static String launchResolveBundlePath(Context ctx) {
-        SharedPreferences bundlePrefs = ctx.getSharedPreferences("bundlePrefs", Context.MODE_PRIVATE);
-        if(!bundlePrefs.contains("activeBundle")) return null;
+        SharedPreferences bundlePrefs = ctx.getSharedPreferences(BundleService.BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
+        if(!bundlePrefs.contains(BundleService.ACTIVE_BUNDLE_KEY)) return null;
         Gson gson = new Gson();
-        String bundleJson = bundlePrefs.getString("bundlePrefs", "");
+        String bundleJson = bundlePrefs.getString(BundleService.ACTIVE_BUNDLE_KEY, "");
         Bundle bundle = gson.fromJson(bundleJson, Bundle.class);
         return bundle.getFilename();
     }
@@ -77,5 +78,10 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void reloadBundle() {
         if (this.listener != null) this.listener.onReloadRequested();
+    }
+
+    @ReactMethod
+    public void toast(String message) {
+        Toast.makeText(reactContext, message, Toast.LENGTH_LONG).show();
     }
 }

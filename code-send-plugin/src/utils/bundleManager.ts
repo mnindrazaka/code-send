@@ -23,10 +23,15 @@ const reloadBundle = () => {
   CodeSend.reloadBundle();
 };
 
+const toast = (message: string) => {
+  CodeSend.toast(message);
+};
+
 export default {
   getActiveBundle,
   setActiveBundle,
   clearActiveBundle,
   downloadBundle,
-  reloadBundle
+  reloadBundle,
+  toast
 };
