@@ -1889,10 +1889,8 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-code-send@^1.0.7:
+code-send@../:
   version "1.0.7"
-  resolved "https://registry.yarnpkg.com/code-send/-/code-send-1.0.7.tgz#c411b5fa80ba3f8acb359694fca0c7f86c63ffdd"
-  integrity sha512-YPH2EmKa9lK/ONeDg6ZkjLyWGbOWpyr449pl/HWQmVOgjhMQ6vh4HXdEDKr8HqVRz5XfYOISfi7KFmKZla/l/Q==
   dependencies:
     axios "^0.19.2"
 

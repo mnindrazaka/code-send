@@ -1,6 +1,5 @@
 package com.reactlibrary.models;
 
-import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
@@ -26,7 +25,7 @@ public class Update extends Api {
     }
 
     public WritableMap toMap() {
-        WritableMap updateMap = new JavaOnlyMap();
+        WritableMap updateMap = new WritableNativeMap();
         updateMap.putString("_id", this._id);
         updateMap.putString("createdAt", this.createdAt);
         updateMap.putString("updatedAt", this.updatedAt);

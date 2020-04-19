@@ -9,6 +9,8 @@ const useCodeSend = (projectId: string) => {
   useEffect(() => {
     if (update && !loading && !error) applyUpdate(update);
   }, [update, error]);
+
+  return { update, error, loading };
 };
 
 export default useCodeSend;
