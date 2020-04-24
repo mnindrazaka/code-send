@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react-hooks";
 import bundleManager from "../../utils/bundleManager";
 import codeSendService from "../../utils/api/codeSendService";
 import useCheckUpdate from "../useCheckUpdate";
@@ -24,12 +24,11 @@ describe("useCheckUpdate", () => {
     };
 
     codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
-    bundleManagerMock.getActiveBundle.mockResolvedValueOnce(undefined);
+    bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
 
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("85eu3k693hf983y52huw883279")
-    );
-    await waitForNextUpdate();
+    const { result } = renderHook(() => useCheckUpdate());
+    await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
+
     expect(result.current.update).toBe(update);
     expect(result.current.error).toBe(undefined);
     expect(result.current.loading).toBe(false);
@@ -58,10 +57,9 @@ describe("useCheckUpdate", () => {
       }
     });
 
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("85eu3k693hf983y52huw883279")
-    );
-    await waitForNextUpdate();
+    const { result } = renderHook(() => useCheckUpdate());
+    await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
+
     expect(result.current.update).toBe(update);
     expect(result.current.error).toBe(undefined);
     expect(result.current.loading).toBe(false);
@@ -89,10 +87,9 @@ describe("useCheckUpdate", () => {
       }
     });
 
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("85eu3k693hf983y52huw883279")
-    );
-    await waitForNextUpdate();
+    const { result } = renderHook(() => useCheckUpdate());
+    await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
+
     expect(result.current.update).toBe(undefined);
     expect(result.current.error).toBe(undefined);
     expect(result.current.loading).toBe(false);
@@ -103,10 +100,9 @@ describe("useCheckUpdate", () => {
       status: "error",
       message: "no update available"
     });
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useCheckUpdate("85eu3k693hf983y52huw883279")
-    );
-    await waitForNextUpdate();
+    const { result } = renderHook(() => useCheckUpdate());
+    await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
+
     expect(result.current.update).toBe(undefined);
     expect(result.current.error).toBe("no update available");
     expect(result.current.loading).toBe(false);

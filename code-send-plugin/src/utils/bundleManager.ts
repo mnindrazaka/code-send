@@ -3,7 +3,7 @@ import { Bundle } from "../interfaces/Bundle";
 import { Update } from "../interfaces/Update";
 const { CodeSend } = NativeModules;
 
-const getActiveBundle = (): Promise<Bundle | undefined> => {
+const getActiveBundle = (): Promise<Bundle | null> => {
   return CodeSend.getActiveBundle();
 };
 

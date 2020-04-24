@@ -1,20 +1,59 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useCheckUpdate from "./useCheckUpdate";
 import useApplyUpdate from "./useApplyUpdate";
-import bundleManager from "../utils/bundleManager";
+import { Bundle } from "../interfaces/Bundle";
+
+type Status = "standby" | "checking" | "downloading";
 
 const useCodeSend = (projectId: string) => {
-  const { update, error, loading } = useCheckUpdate(projectId);
-  const { applyUpdate } = useApplyUpdate();
+  const [status, setStatus] = useState<Status>("standby");
+  const [error, setError] = useState<string>();
+  const [bundle, setBundle] = useState<Bundle>();
 
-  bundleManager.toast("tolong dong yang ini jalan");
+  const {
+    update,
+    loading: checkLoading,
+    error: checkError,
+    checkUpdate
+  } = useCheckUpdate();
+  const {
+    filename,
+    loading: applyLoading,
+    error: applyError,
+    applyUpdate
+  } = useApplyUpdate();
 
   useEffect(() => {
-    bundleManager.toast("testing apakah berjalan");
-    if (update && !loading && !error) applyUpdate(update);
-  }, [update, loading, error]);
+    checkUpdate(projectId);
+  }, [projectId]);
 
-  return { update, error, loading };
+  useEffect(() => {
+    if (update) applyUpdate(update);
+  }, [update]);
+
+  useEffect(() => {
+    if (update && filename) setBundle({ filename, update });
+  }, [update, filename]);
+
+  useEffect(() => {
+    if (checkLoading) setStatus("checking");
+    else setStatus("standby");
+  }, [checkLoading]);
+
+  useEffect(() => {
+    if (applyLoading) setStatus("downloading");
+    else setStatus("standby");
+  }, [applyLoading]);
+
+  useEffect(() => {
+    setError(checkError);
+  }, [checkError]);
+
+  useEffect(() => {
+    setError(applyError);
+  }, [applyError]);
+
+  return { bundle, error, status };
 };
 
 export default useCodeSend;
