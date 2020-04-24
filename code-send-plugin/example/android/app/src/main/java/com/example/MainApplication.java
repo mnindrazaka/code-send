@@ -2,12 +2,12 @@ package com.example;
 
 import android.app.Application;
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactlibrary.CodeSendPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -39,11 +39,11 @@ public class MainApplication extends Application implements ReactApplication {
           return "index";
         }
 
-          @Nullable
-          @Override
-          protected String getJSBundleFile() {
-              return CodeSendModule.launchResolveBundlePath(MainApplication.this);
-          }
+        @Nullable
+        @Override
+        protected String getJSBundleFile() {
+            return CodeSendModule.launchResolveBundlePath(MainApplication.this);
+        }
       };
 
   @Override
@@ -56,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    Toast.makeText(this, "actived bundle file : " + CodeSendModule.launchResolveBundlePath(MainApplication.this), Toast.LENGTH_LONG).show();
   }
 
   /**

@@ -48,7 +48,8 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/example/"
+      "/example/",
+      "/lib/"
     ],
     "preset": "react-native"
   }
