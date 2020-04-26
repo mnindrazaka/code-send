@@ -2,7 +2,6 @@ package com.reactlibrary;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -14,14 +13,15 @@ import com.reactlibrary.models.Bundle;
 import com.reactlibrary.models.Update;
 import com.reactlibrary.services.BundleService;
 import com.reactlibrary.services.DownloadTask;
+import com.reactlibrary.services.InteractionService;
 
 public class CodeSendModule extends ReactContextBaseJavaModule {
     public interface OnReloadRequestedListener {
         void onReloadRequested();
     }
 
-    private static ReactApplicationContext reactContext;
     private final BundleService bundleService;
+    private final InteractionService interactionService;
     private OnReloadRequestedListener listener;
 
     // TODO: refactor this method
@@ -34,10 +34,10 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         return bundle.getFilename();
     }
 
-    public CodeSendModule(ReactApplicationContext reactContext) {
-        super(reactContext);
-        this.reactContext = reactContext;
-        this.bundleService = new BundleService(reactContext);
+    public CodeSendModule(ReactApplicationContext reactApplicationContext) {
+        super(reactApplicationContext);
+        this.bundleService = new BundleService(reactApplicationContext);
+        this.interactionService = new InteractionService(reactApplicationContext);
     }
 
     public OnReloadRequestedListener getListener() {
@@ -71,7 +71,7 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void downloadBundle(ReadableMap updateMap, Promise promise) {
-        DownloadTask downloadTask = new DownloadTask(reactContext, new Update(updateMap), promise);
+        DownloadTask downloadTask = new DownloadTask(getReactApplicationContext(), new Update(updateMap), promise);
         downloadTask.execute();
     }
 
@@ -81,7 +81,7 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void toast(String message) {
-        Toast.makeText(reactContext, message, Toast.LENGTH_LONG).show();
+    public void showMessage(String message) {
+        interactionService.showMessage(message);
     }
 }

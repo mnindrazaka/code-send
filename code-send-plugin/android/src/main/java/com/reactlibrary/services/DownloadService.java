@@ -1,5 +1,7 @@
 package com.reactlibrary.services;
 
+import androidx.core.util.Consumer;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.reactlibrary.models.Update;
 
@@ -17,6 +19,7 @@ public class DownloadService {
     private InputStream input;
     private OutputStream output;
     private HttpURLConnection connection;
+
 
     public DownloadService(ReactApplicationContext reactContext, Update update) {
         this.reactContext = reactContext;
@@ -63,8 +66,12 @@ public class DownloadService {
     private void downloadFile() throws IOException {
         byte[] data = new byte[4096];
         int count;
-        while ((count = input.read(data)) != -1)
+        long total = 0;
+        int lengthOfFile = connection.getContentLength();
+        while ((count = input.read(data)) != -1) {
+            total += count;
             output.write(data, 0, count);
+        }
     }
 
     public String download() throws Exception {
