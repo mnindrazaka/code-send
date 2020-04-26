@@ -19,18 +19,11 @@ public class DownloadService {
     private InputStream input;
     private OutputStream output;
     private HttpURLConnection connection;
-    private Consumer<Integer> callback;
 
 
     public DownloadService(ReactApplicationContext reactContext, Update update) {
         this.reactContext = reactContext;
         this.update = update;
-    }
-
-    public DownloadService(ReactApplicationContext reactContext, Update update, Consumer<Integer> callback) {
-        this.reactContext = reactContext;
-        this.update = update;
-        this.callback = callback;
     }
 
     private String getFilename() {
@@ -78,9 +71,6 @@ public class DownloadService {
         while ((count = input.read(data)) != -1) {
             total += count;
             output.write(data, 0, count);
-            if (callback != null) {
-                callback.accept((int)((total*100)/lengthOfFile));
-            }
         }
     }
 

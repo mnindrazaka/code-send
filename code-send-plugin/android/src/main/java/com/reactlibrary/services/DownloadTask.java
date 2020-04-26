@@ -17,12 +17,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 
     public DownloadTask(ReactApplicationContext reactContext,  Update update, Promise promise) {
         this.reactContext = reactContext;
-        this.downloadService = new DownloadService(reactContext, update, new Consumer<Integer>() {
-            @Override
-            public void accept(Integer progress) {
-                publishProgress(progress);
-            }
-        });
+        this.downloadService = new DownloadService(reactContext, update);
         this.promise = promise;
         this.progressDialog = new ProgressDialog(reactContext);
         this.progressDialog.setMessage("Downloading update...");

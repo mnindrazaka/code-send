@@ -2,7 +2,6 @@ package com.reactlibrary;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -21,7 +20,6 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         void onReloadRequested();
     }
 
-    private static ReactApplicationContext reactContext;
     private final BundleService bundleService;
     private final InteractionService interactionService;
     private OnReloadRequestedListener listener;
@@ -36,11 +34,10 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         return bundle.getFilename();
     }
 
-    public CodeSendModule(ReactApplicationContext reactContext) {
-        super(reactContext);
-        this.reactContext = reactContext;
-        this.bundleService = new BundleService(reactContext);
-        this.interactionService = new InteractionService(reactContext);
+    public CodeSendModule(ReactApplicationContext reactApplicationContext) {
+        super(reactApplicationContext);
+        this.bundleService = new BundleService(reactApplicationContext);
+        this.interactionService = new InteractionService(reactApplicationContext);
     }
 
     public OnReloadRequestedListener getListener() {
@@ -74,7 +71,7 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void downloadBundle(ReadableMap updateMap, Promise promise) {
-        DownloadTask downloadTask = new DownloadTask(reactContext, new Update(updateMap), promise);
+        DownloadTask downloadTask = new DownloadTask(getReactApplicationContext(), new Update(updateMap), promise);
         downloadTask.execute();
     }
 
