@@ -14,6 +14,7 @@ import com.reactlibrary.models.Bundle;
 import com.reactlibrary.models.Update;
 import com.reactlibrary.services.BundleService;
 import com.reactlibrary.services.DownloadTask;
+import com.reactlibrary.services.InteractionService;
 
 public class CodeSendModule extends ReactContextBaseJavaModule {
     public interface OnReloadRequestedListener {
@@ -22,6 +23,7 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     private static ReactApplicationContext reactContext;
     private final BundleService bundleService;
+    private final InteractionService interactionService;
     private OnReloadRequestedListener listener;
 
     // TODO: refactor this method
@@ -38,6 +40,7 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         super(reactContext);
         this.reactContext = reactContext;
         this.bundleService = new BundleService(reactContext);
+        this.interactionService = new InteractionService(reactContext);
     }
 
     public OnReloadRequestedListener getListener() {
@@ -81,7 +84,7 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void toast(String message) {
-        Toast.makeText(reactContext, message, Toast.LENGTH_LONG).show();
+    public void showMessage(String message) {
+        interactionService.showMessage(message);
     }
 }
