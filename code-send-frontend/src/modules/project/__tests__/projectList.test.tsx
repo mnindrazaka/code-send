@@ -61,4 +61,45 @@ describe("project list", () => {
     const alertElement = await findByText("Failed");
     expect(alertElement).toBeInTheDocument();
   });
+
+  it("can show delete success message", async () => {
+    codeSendServiceMock.getallProjects.mockResolvedValueOnce([mockProject]);
+    codeSendServiceMock.deleteProject.mockResolvedValueOnce(mockProject);
+
+    const { findByTitle, findByText } = renderProjectList();
+    const deleteButtonElement = await findByTitle("Delete Project");
+    await act(async () => {
+      fireEvent.click(deleteButtonElement);
+    });
+
+    const yesButtonElement = await (await findByText("Yes")).closest("button")!;
+    await act(async () => {
+      fireEvent.click(yesButtonElement);
+    });
+
+    const alertElement = await findByText("Success");
+    expect(alertElement).toBeInTheDocument();
+  });
+
+  it("can show delete failed message", async () => {
+    codeSendServiceMock.getallProjects.mockResolvedValueOnce([mockProject]);
+    codeSendServiceMock.deleteProject.mockRejectedValueOnce({
+      status: "error",
+      message: "failed to delete project"
+    });
+    const { findByTitle, findByText } = renderProjectList();
+
+    const deleteButtonElement = await findByTitle("Delete Project");
+    await act(async () => {
+      fireEvent.click(deleteButtonElement);
+    });
+
+    const yesButtonElement = await (await findByText("Yes")).closest("button")!;
+    await act(async () => {
+      fireEvent.click(yesButtonElement);
+    });
+
+    const alertElement = await findByText("Failed");
+    expect(alertElement).toBeInTheDocument();
+  });
 });

@@ -17,6 +17,10 @@ const editProject = (projectId: string, project: ProjectFormValues) => {
   return service.put<Project>(`/project/${projectId}`, project);
 };
 
+const deleteProject = (projectId: string) => {
+  return service.delete<Project>(`/project/${projectId}`);
+};
+
 const getAllUpdates = (projectId: string) => {
   return service.get<Update[]>(`/project/${projectId}/update`);
 };
@@ -54,6 +58,7 @@ export default {
   getallProjects,
   createProject,
   editProject,
+  deleteProject,
   getAllUpdates,
   getLatestUpdate,
   createUpdate,

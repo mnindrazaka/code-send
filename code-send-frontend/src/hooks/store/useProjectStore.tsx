@@ -10,7 +10,10 @@ import {
   editProjectSuccessAction,
   editProjectErrorAction,
   selectProjectAction,
-  clearSelectedProjectAction
+  clearSelectedProjectAction,
+  deleteProjectRequestAction,
+  deleteProjectSuccessAction,
+  deleteProjectErrorAction
 } from "stores/project/actions";
 import { Project } from "interfaces/Project";
 import { storeContext } from "stores";
@@ -70,6 +73,21 @@ export const useProjectAction = () => {
     [dispatch]
   );
 
+  const deleteProjectRequest = useCallback(
+    () => dispatch(deleteProjectRequestAction()),
+    [dispatch]
+  );
+
+  const deleteProjectSuccess = useCallback(
+    (id: string) => dispatch(deleteProjectSuccessAction(id)),
+    [dispatch]
+  );
+
+  const deleteProjectError = useCallback(
+    (error: string) => dispatch(deleteProjectErrorAction(error)),
+    [dispatch]
+  );
+
   const selectProject = useCallback(
     (project: Project) => dispatch(selectProjectAction(project)),
     [dispatch]
@@ -90,6 +108,9 @@ export const useProjectAction = () => {
     editProjectRequest,
     editProjectSuccess,
     editProjectError,
+    deleteProjectRequest,
+    deleteProjectSuccess,
+    deleteProjectError,
     selectProject,
     clearSelectedProject
   };
