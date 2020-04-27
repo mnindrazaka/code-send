@@ -8,5 +8,6 @@ const baseUrl = "/project";
 projectRouter.get(baseUrl, projectController.index);
 projectRouter.post(baseUrl, projectController.store);
 projectRouter.put(`${baseUrl}/:projectId`, projectController.edit);
+projectRouter.delete(`${baseUrl}/:projectId`, projectController.destroy);
 
 export default projectRouter;

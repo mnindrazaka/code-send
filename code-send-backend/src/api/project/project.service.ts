@@ -25,4 +25,16 @@ export default class ProjectService {
       }
     });
   };
+
+  deleteProject = (projectId: string) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const deletedProject = await projectModel.findByIdAndDelete(projectId);
+        if (deletedProject) resolve(deletedProject);
+        else reject({ message: "project not found" });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
 }

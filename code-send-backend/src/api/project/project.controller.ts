@@ -31,4 +31,14 @@ export default class ProjectController {
       next(new HttpException(500, error.message));
     }
   };
+
+  destroy = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { projectId } = req.params;
+      const project = await projectService.deleteProject(projectId);
+      res.send(project);
+    } catch (error) {
+      next(new HttpException(500, error.message));
+    }
+  };
 }
