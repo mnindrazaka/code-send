@@ -1,7 +1,16 @@
 import React, { FunctionComponent } from "react";
-import { Button, Skeleton, PageHeader, Card, Row, Col, Typography } from "antd";
+import {
+  Button,
+  Skeleton,
+  PageHeader,
+  Card,
+  Row,
+  Col,
+  Typography,
+  Popconfirm
+} from "antd";
 import { Link } from "react-router-dom";
-import { useGetAllProject } from "hooks/api/useProjectApi";
+import { useGetAllProject, useDeleteProject } from "hooks/api/useProjectApi";
 import { useProjectAction, useProjectState } from "hooks/store/useProjectStore";
 import { EditOutlined, DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import Container from "components/container";
@@ -20,6 +29,7 @@ interface ProjectCardProps {
 
 const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
   const { selectProject } = useProjectAction();
+  const { deleteProject } = useDeleteProject();
 
   const projectCover = React.useMemo(() => {
     const covers = [
@@ -41,7 +51,14 @@ const ProjectCard: FunctionComponent<ProjectCardProps> = ({ project }) => {
         <Link to="/project/edit">
           <EditOutlined title="Edit Project" />
         </Link>,
-        <DeleteOutlined title="Delete Project" />,
+        <Popconfirm
+          title="Are you sure delete this project ?"
+          onConfirm={() => deleteProject(project._id)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <DeleteOutlined title="Delete Project" />
+        </Popconfirm>,
         <MoreOutlined />
       ]}
     >

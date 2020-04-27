@@ -38,6 +38,18 @@ export const editProjectErrorAction = (error: string) => {
   return action(ProjectActionTypes.EditError, error);
 };
 
+export const deleteProjectRequestAction = () => {
+  return action(ProjectActionTypes.DeleteRequest);
+};
+
+export const deleteProjectSuccessAction = (id: string) => {
+  return action(ProjectActionTypes.DeleteSuccess, id);
+};
+
+export const deleteProjectErrorAction = (error: string) => {
+  return action(ProjectActionTypes.DeleteError, error);
+};
+
 export const selectProjectAction = (project: Project) => {
   return action(ProjectActionTypes.Select, project);
 };

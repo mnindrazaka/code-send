@@ -19,12 +19,12 @@ const itemsReducer: Reducer<ProjectState["items"], Action> = (
       return [...payload];
     case ProjectActionTypes.CreateSuccess:
       return [...prevState, payload];
-    case ProjectActionTypes.EditSuccess: {
-      const projects = [...prevState];
-      const index = projects.findIndex(project => project._id === payload._id);
-      projects[index] = payload;
-      return projects;
-    }
+    case ProjectActionTypes.EditSuccess:
+      return prevState.map(project =>
+        project._id === payload._id ? payload : project
+      );
+    case ProjectActionTypes.DeleteSuccess:
+      return prevState.filter(project => project._id !== payload);
     default:
       return prevState;
   }
@@ -52,6 +52,7 @@ const loadingReducer: Reducer<ProjectState["loading"], Action> = (
     case ProjectActionTypes.GetRequest:
     case ProjectActionTypes.CreateRequest:
     case ProjectActionTypes.EditRequest:
+    case ProjectActionTypes.DeleteRequest:
       return true;
     case ProjectActionTypes.GetSuccess:
     case ProjectActionTypes.GetError:
@@ -59,6 +60,8 @@ const loadingReducer: Reducer<ProjectState["loading"], Action> = (
     case ProjectActionTypes.CreateError:
     case ProjectActionTypes.EditSuccess:
     case ProjectActionTypes.EditError:
+    case ProjectActionTypes.DeleteSuccess:
+    case ProjectActionTypes.DeleteError:
       return false;
     default:
       return prevState;
@@ -77,6 +80,7 @@ const errorReducer: Reducer<ProjectState["error"], Action> = (
     case ProjectActionTypes.GetSuccess:
     case ProjectActionTypes.CreateSuccess:
     case ProjectActionTypes.EditSuccess:
+    case ProjectActionTypes.DeleteError:
       return undefined;
     default:
       return prevState;

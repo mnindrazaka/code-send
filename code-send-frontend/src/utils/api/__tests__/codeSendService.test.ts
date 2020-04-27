@@ -29,6 +29,14 @@ describe("code send service", () => {
     );
   });
 
+  it("can delete project", () => {
+    const projectId = "52a45a4637654f5s4";
+    codeSendService.deleteProject(projectId);
+    expect(ServiceMock.mock.instances[0].delete).toHaveBeenCalledWith(
+      `/project/${projectId}`
+    );
+  });
+
   it("can get all updates", () => {
     const projectId = "52a45a4637654f5s4";
     codeSendService.getAllUpdates(projectId);

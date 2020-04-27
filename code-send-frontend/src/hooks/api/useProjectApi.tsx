@@ -82,3 +82,26 @@ export const useEditProject = () => {
 
   return { editProject };
 };
+
+export const useDeleteProject = () => {
+  const {
+    deleteProjectRequest,
+    deleteProjectSuccess,
+    deleteProjectError
+  } = useProjectAction();
+  const { handleSuccess, handleError } = useNotification();
+
+  const deleteProject = async (projectId: string) => {
+    try {
+      deleteProjectRequest();
+      await codeSendService.deleteProject(projectId);
+      deleteProjectSuccess(projectId);
+      handleSuccess("Success", "Your project is successfully deleted");
+    } catch (error) {
+      deleteProjectError(error.message);
+      handleError("Failed", error.message);
+    }
+  };
+
+  return { deleteProject };
+};
