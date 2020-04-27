@@ -43,10 +43,14 @@ export default class UpdateService {
     });
   };
 
-  uploadBundle = async (updateId: string, bundleBuffer: Buffer) => {
+  uploadBundle = async (
+    projectId: string,
+    updateId: string,
+    bundleBuffer: Buffer
+  ) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const url = await uploadBundle(bundleBuffer);
+        const url = await uploadBundle(projectId, updateId, bundleBuffer);
         const editedUpdate = await updateModel.findByIdAndUpdate(
           updateId,
           { bundleUrl: url },

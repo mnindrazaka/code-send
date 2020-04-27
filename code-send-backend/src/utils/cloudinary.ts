@@ -8,13 +8,18 @@ export const initCloudinaryConfig = () => {
   });
 };
 
-export const uploadBundle = (bundleBuffer: Buffer) => {
+export const uploadBundle = (
+  projectId: string,
+  updateId: string,
+  bundleBuffer: Buffer
+) => {
   const bufferString = bundleBuffer.toString("base64");
   const base64String = `data:application/javascript;base64,${bufferString}`;
 
   return cloudinary.v2.uploader
     .upload(base64String, {
-      resource_type: "raw"
+      resource_type: "raw",
+      public_id: `${projectId}/${updateId}.js`
     })
     .then(value => value.secure_url);
 };

@@ -46,9 +46,13 @@ export default class UpdateController {
 
   uploadBundle = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { updateId } = req.params;
+      const { projectId, updateId } = req.params;
       const bundleBuffer = req.file.buffer;
-      const update = await updateService.uploadBundle(updateId, bundleBuffer);
+      const update = await updateService.uploadBundle(
+        projectId,
+        updateId,
+        bundleBuffer
+      );
       res.send(update);
     } catch (error) {
       next(new HttpException(500, error.message));
