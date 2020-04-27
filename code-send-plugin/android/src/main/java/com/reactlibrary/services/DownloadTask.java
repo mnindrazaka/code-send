@@ -1,9 +1,6 @@
 package com.reactlibrary.services;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-
-import androidx.core.util.Consumer;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -13,24 +10,16 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
     private ReactApplicationContext reactContext;
     private DownloadService downloadService;
     private Promise promise;
-    private ProgressDialog progressDialog;
 
     public DownloadTask(ReactApplicationContext reactContext,  Update update, Promise promise) {
         this.reactContext = reactContext;
         this.downloadService = new DownloadService(reactContext, update);
         this.promise = promise;
-        this.progressDialog = new ProgressDialog(reactContext);
-        this.progressDialog.setMessage("Downloading update...");
-        this.progressDialog.setIndeterminate(false);
-        this.progressDialog.setMax(100);
-        this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        this.progressDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog.show();
     }
 
     @Override
@@ -44,7 +33,6 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        progressDialog.dismiss();
         if (result.contains(reactContext.getFilesDir().getAbsolutePath())) {
             promise.resolve(result);
         } else {

@@ -1,4 +1,5 @@
 package com.reactlibrary.services;
+
 import android.widget.Toast;
 import com.facebook.react.bridge.ReactApplicationContext;
 
@@ -12,6 +13,4 @@ public class InteractionService {
     public void showMessage(String message) {
         Toast.makeText(reactContext, message, Toast.LENGTH_LONG).show();
     }
-
-    public void showNotification() { }
 }
