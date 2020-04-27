@@ -1,5 +1,4 @@
 import cloudinary from "cloudinary";
-import axios from "axios";
 
 const config = {
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
