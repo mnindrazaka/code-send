@@ -44,6 +44,22 @@ describe("project", () => {
       .equal("wonderful-app");
   });
 
+  it("can delete project", async () => {
+    const geAllProjectResponse = await request.get("/project").send();
+    const projectId = geAllProjectResponse.body[0]._id;
+
+    const deleteProjectResponse = await request
+      .delete(`/project/${projectId}`)
+      .send();
+
+    expect(deleteProjectResponse.body)
+      .to.has.property("_id")
+      .equal(projectId);
+
+    const getAllProjectResponse2 = await request.get("/project").send();
+    expect(getAllProjectResponse2.body).to.have.length(0);
+  });
+
   it("can throw error if edited project not found", async () => {
     const editProjectResponse = await request
       .put(`/project/5e7fe2afa491a60003842d5a`)

@@ -1,11 +1,14 @@
 import cloudinary from "cloudinary";
+import axios from "axios";
+
+const config = {
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+};
 
 export const initCloudinaryConfig = () => {
-  cloudinary.v2.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-  });
+  cloudinary.v2.config(config);
 };
 
 export const uploadBundle = (
