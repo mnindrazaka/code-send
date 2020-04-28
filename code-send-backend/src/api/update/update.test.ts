@@ -2,7 +2,6 @@ import supertest from "supertest";
 import app from "app";
 import { expect } from "chai";
 import { connectDB, closeDB, mockingDatabaseRecord } from "utils/database";
-import projectModel from "api/project/project.model";
 const request = supertest(app);
 
 describe("update", () => {
@@ -38,6 +37,18 @@ describe("update", () => {
     expect(getLatestUpdateResponse.body)
       .to.has.property("note")
       .equal("first update");
+    expect(getLatestUpdateResponse.body)
+      .to.has.property("location")
+      .to.has.property("latitude")
+      .equal(-7.93917);
+    expect(getLatestUpdateResponse.body)
+      .to.has.property("location")
+      .to.has.property("longitude")
+      .equal(112.95278);
+    expect(getLatestUpdateResponse.body)
+      .to.has.property("location")
+      .to.has.property("name")
+      .equal("Jawa Timur, Indonesia");
   });
 
   it("can throw error if latest update not found", async () => {

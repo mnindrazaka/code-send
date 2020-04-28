@@ -32,6 +32,11 @@ export async function mockingDatabaseRecord() {
   await updateModel.create({
     version: "0.1",
     note: "first update",
+    location: {
+      latitude: -7.93917,
+      longitude: 112.95278,
+      name: "Jawa Timur, Indonesia"
+    },
     bundleUrl: "http://localhost",
     project: project._id
   });

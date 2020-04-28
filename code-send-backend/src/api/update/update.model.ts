@@ -7,6 +7,11 @@ const updateSchema = new Schema(
   {
     version: String,
     note: String,
+    location: {
+      latitude: Number,
+      longitude: Number,
+      name: String
+    },
     bundleUrl: String,
     project: {
       type: Schema.Types.ObjectId,
