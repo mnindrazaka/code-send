@@ -1,9 +1,9 @@
 import { geocoding } from "utils/geocoding";
-import { Place } from "./geocoding.types";
+import { Location } from "./geocoding.types";
 
 export default class GeocodingService {
   forward = (query: string) => {
-    return new Promise<Place[]>(async (resolve, reject) => {
+    return new Promise<Location[]>(async (resolve, reject) => {
       try {
         const { body } = await geocoding
           .forwardGeocode({
