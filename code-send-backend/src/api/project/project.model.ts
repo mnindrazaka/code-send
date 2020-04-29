@@ -1,7 +1,7 @@
 import { Document, Schema, model } from "mongoose";
 import { Project } from "./project.type";
 
-type ProjectDocument = Project & Document;
+export type ProjectDocument = Project & Document;
 
 const projectSchema = new Schema(
   {
