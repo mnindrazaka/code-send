@@ -1,7 +1,7 @@
 import { Schema, model, Document } from "mongoose";
 import { Update } from "./update.type";
 
-type UpdateDocument = Update & Document;
+export type UpdateDocument = Update & Document;
 
 const updateSchema = new Schema(
   {
