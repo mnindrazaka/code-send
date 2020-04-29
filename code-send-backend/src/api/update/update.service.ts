@@ -1,15 +1,20 @@
-import updateModel from "./update.model";
+import updateModel, { UpdateDocument } from "./update.model";
 import { UpdateRequest } from "./update.type";
 import { Types } from "mongoose";
 import { uploadBundle } from "utils/cloudinary";
+import GeocodingService from "api/geocoding/geocoding.service";
 
 export default class UpdateService {
   getAllUpdates = (projectId: string) => {
     return updateModel.find({ project: projectId });
   };
 
+  getUpdateById = (updateId: string) => {
+    return updateModel.findById(updateId);
+  };
+
   getLatestUpdate = (projectId: string) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<UpdateDocument>(async (resolve, reject) => {
       try {
         const update = await updateModel
           .findOne({ project: projectId })
@@ -28,7 +33,7 @@ export default class UpdateService {
   };
 
   editUpdate = (updateId: string, update: UpdateRequest) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<UpdateDocument>(async (resolve, reject) => {
       try {
         const editedUpdate = await updateModel.findByIdAndUpdate(
           updateId,
@@ -43,12 +48,12 @@ export default class UpdateService {
     });
   };
 
-  uploadBundle = async (
+  uploadBundle = (
     projectId: string,
     updateId: string,
     bundleBuffer: Buffer
   ) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<UpdateDocument>(async (resolve, reject) => {
       try {
         const url = await uploadBundle(projectId, updateId, bundleBuffer);
         const editedUpdate = await updateModel.findByIdAndUpdate(
@@ -58,6 +63,43 @@ export default class UpdateService {
         );
         if (editedUpdate) resolve(editedUpdate);
         else reject({ message: "update not found" });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  checkUpdate = (
+    projectId: string,
+    updateId: string,
+    latitude: number,
+    longitude: number
+  ) => {
+    return new Promise<UpdateDocument>(async (resolve, reject) => {
+      try {
+        const currentUpdate = await this.getUpdateById(updateId);
+        const latestUpdate = await this.getLatestUpdate(projectId);
+
+        if (!currentUpdate?.createdAt) return;
+        const isUpdateNewer =
+          new Date(latestUpdate.createdAt) > new Date(currentUpdate.createdAt);
+        if (!isUpdateNewer) return;
+
+        if (latestUpdate.location) {
+          const geocodingService = new GeocodingService();
+          const userLocationName = await geocodingService.reverse(
+            latitude,
+            longitude
+          );
+          const latestUpdateLocationName = await geocodingService.reverse(
+            latestUpdate.location.latitude,
+            latestUpdate.location.longitude
+          );
+          if (userLocationName === latestUpdateLocationName)
+            resolve(latestUpdate);
+        } else {
+          resolve(latestUpdate);
+        }
       } catch (error) {
         reject(error);
       }

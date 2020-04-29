@@ -28,4 +28,21 @@ export default class GeocodingService {
       }
     });
   };
+
+  reverse = (latitude: number, longitude: number) => {
+    return new Promise<string>(async (resolve, reject) => {
+      try {
+        const { body } = await geocoding
+          .reverseGeocode({
+            query: [longitude, latitude],
+            mode: "mapbox.places",
+            types: ["region"]
+          })
+          .send();
+        resolve(body.features[0].place_name);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
 }
