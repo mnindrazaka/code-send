@@ -9,8 +9,7 @@ const updateSchema = new Schema(
     note: String,
     location: {
       latitude: Number,
-      longitude: Number,
-      name: String
+      longitude: Number
     },
     bundleUrl: String,
     project: {
