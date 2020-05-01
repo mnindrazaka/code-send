@@ -75,7 +75,7 @@ export default class UpdateService {
     latitude: number,
     longitude: number
   ) => {
-    return new Promise<UpdateDocument>(async (resolve, reject) => {
+    return new Promise<UpdateDocument | undefined>(async (resolve, reject) => {
       try {
         const currentUpdate = await this.getUpdateById(updateId);
         const latestUpdate = await this.getLatestUpdate(projectId);
