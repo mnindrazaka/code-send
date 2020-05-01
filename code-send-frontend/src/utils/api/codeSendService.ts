@@ -1,5 +1,6 @@
 import { ProjectFormValues, Project } from "interfaces/Project";
 import { UpdateFormValues, Update } from "interfaces/Update";
+import { Location } from "interfaces/Geocoding";
 import Service from "./service";
 
 const baseURL = process.env.REACT_APP_CODE_SEND_SERVICE_URL as string;
@@ -53,6 +54,14 @@ const uploadUpdate = (projectId: string, updateId: string, bundle: Blob) => {
   );
 };
 
+const forwardGeocoding = (query: string) => {
+  return service.post<Location[]>("/geocoding/forward", { query });
+};
+
+const reverseGeocoding = (latitude: number, longitude: number) => {
+  return service.post<string>("/geocoding/reverse", { latitude, longitude });
+};
+
 export default {
   baseURL,
   getallProjects,
@@ -63,5 +72,7 @@ export default {
   getLatestUpdate,
   createUpdate,
   editUpdate,
-  uploadUpdate
+  uploadUpdate,
+  forwardGeocoding,
+  reverseGeocoding
 };
