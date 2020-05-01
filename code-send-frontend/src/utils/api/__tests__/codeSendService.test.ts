@@ -87,4 +87,21 @@ describe("code send service", () => {
       formData
     );
   });
+
+  it("can do forward geocoding", () => {
+    const query = "jawa";
+    codeSendService.forwardGeocoding(query);
+    expect(
+      ServiceMock.mock.instances[0].post
+    ).toHaveBeenCalledWith(`/geocoding/forward`, { query });
+  });
+
+  it("can do reverse geocoding", () => {
+    const latitude = -7.756928;
+    const longitude = 113.211502;
+    codeSendService.reverseGeocoding(latitude, longitude);
+    expect(
+      ServiceMock.mock.instances[0].post
+    ).toHaveBeenCalledWith(`/geocoding/reverse`, { latitude, longitude });
+  });
 });
