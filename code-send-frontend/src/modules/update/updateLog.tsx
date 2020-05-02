@@ -55,6 +55,12 @@ const UpdateLog: FunctionComponent = () => {
         dataIndex: "note"
       },
       {
+        key: "location",
+        title: "Location",
+        render: (value, record) =>
+          record.location ? record.location.name : "Global"
+      },
+      {
         key: "action",
         title: "",
         render: (value, record) => <TableAction update={record} />
