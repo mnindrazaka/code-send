@@ -13,7 +13,7 @@ export const LocationField: React.FC<LocationFieldProps> = ({
   name,
   label
 }) => {
-  const [field, meta, helper] = useField({ name });
+  const [, meta, helper] = useField({ name });
   const [query, setQuery] = useState<string>("");
   const [locations, setLocations] = useState<Location[]>([]);
 
@@ -25,13 +25,6 @@ export const LocationField: React.FC<LocationFieldProps> = ({
     return () => clearTimeout(timeout);
   }, [query]);
 
-  useEffect(() => {
-    const location = locations.find(
-      location => location.name.toLowerCase() === query.toLowerCase()
-    );
-    helper.setValue(location);
-  }, [query, locations]);
-
   const handleSearch = useCallback((value: string) => {
     setQuery(value);
   }, []);
@@ -39,6 +32,16 @@ export const LocationField: React.FC<LocationFieldProps> = ({
   const handleSelect = useCallback((value: string) => {
     setQuery(value);
   }, []);
+
+  const handleChange = useCallback(
+    (value: string) => {
+      const location = locations.find(
+        location => location.name.toLowerCase() === value.toLowerCase()
+      );
+      helper.setValue(location);
+    },
+    [locations, helper]
+  );
 
   return (
     <Form.Item
@@ -52,6 +55,7 @@ export const LocationField: React.FC<LocationFieldProps> = ({
         id={name}
         onSearch={handleSearch}
         onSelect={handleSelect}
+        onChange={handleChange}
         value={query}
       >
         {locations.map(location => (
