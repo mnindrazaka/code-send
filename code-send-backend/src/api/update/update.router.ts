@@ -15,5 +15,6 @@ updateRouter.put(
   upload("bundle"),
   updateController.uploadBundle
 );
+updateRouter.post(`${baseUrl}/check`, updateController.check);
 
 export default updateRouter;

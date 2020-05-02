@@ -58,4 +58,20 @@ export default class UpdateController {
       next(new HttpException(500, error.message));
     }
   };
+
+  check = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { projectId } = req.params;
+      const { updateId, latitude, longitude } = req.body;
+      const update = await updateService.checkUpdate(
+        projectId,
+        updateId,
+        latitude,
+        longitude
+      );
+      res.send(update);
+    } catch (error) {
+      next(new HttpException(500, error.message));
+    }
+  };
 }

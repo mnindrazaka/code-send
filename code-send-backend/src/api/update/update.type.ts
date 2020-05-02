@@ -6,7 +6,7 @@ export interface Update {
   updatedAt: string;
   version: string;
   note: string;
-  location?: Omit<Location, "name">;
+  location?: Location;
   bundleUrl: string;
 }
 
