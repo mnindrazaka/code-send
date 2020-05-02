@@ -1,5 +1,7 @@
-import moment from "moment/moment";
-
 export const getFormattedDate = (dateTime: string) => {
-  return moment(dateTime).format("L");
+  const date = new Date(dateTime);
+  const day = ("0" + date.getDate()).slice(-2);
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 };
