@@ -88,6 +88,23 @@ describe("code send service", () => {
     );
   });
 
+  it("can check update", () => {
+    const projectId = "52a45a4637654f5s4";
+    const updateId = "5fzsf67sz7fs5f7s";
+    const latitude = -7.756928;
+    const longitude = 113.211502;
+
+    codeSendService.checkUpdate(projectId, latitude, longitude, updateId);
+    expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
+      `/project/${projectId}/update/check`,
+      {
+        latitude,
+        longitude,
+        updateId
+      }
+    );
+  });
+
   it("can do forward geocoding", () => {
     const query = "jawa";
     codeSendService.forwardGeocoding(query);
