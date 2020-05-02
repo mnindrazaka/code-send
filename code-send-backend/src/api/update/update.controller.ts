@@ -65,9 +65,9 @@ export default class UpdateController {
       const { updateId, latitude, longitude } = req.body;
       const update = await updateService.checkUpdate(
         projectId,
-        updateId,
         latitude,
-        longitude
+        longitude,
+        updateId
       );
       res.send(update);
     } catch (error) {

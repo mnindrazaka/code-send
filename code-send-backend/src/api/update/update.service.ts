@@ -71,18 +71,20 @@ export default class UpdateService {
 
   checkUpdate = (
     projectId: string,
-    updateId: string,
     latitude: number,
-    longitude: number
+    longitude: number,
+    updateId?: string
   ) => {
     return new Promise<UpdateDocument | undefined>(async (resolve, reject) => {
       try {
-        const currentUpdate = await this.getUpdateById(updateId);
+        const currentUpdate = updateId
+          ? await this.getUpdateById(updateId)
+          : null;
         const latestUpdate = await this.getLatestUpdate(projectId);
 
-        if (!currentUpdate?.createdAt) return;
-        const isUpdateNewer =
-          new Date(latestUpdate.createdAt) > new Date(currentUpdate.createdAt);
+        const isUpdateNewer = currentUpdate
+          ? new Date(latestUpdate.createdAt) > new Date(currentUpdate.createdAt)
+          : true;
         if (!isUpdateNewer) return;
 
         if (latestUpdate.location) {
