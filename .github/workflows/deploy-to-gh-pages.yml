@@ -13,8 +13,8 @@ jobs:
       - name: Build
         run: |
           cd code-send-frontend
-          npm install
-          REACT_APP_CODE_SEND_SERVICE_URL=${{ secrets.CODE_SEND_SERVICE_URL }} npm run build
+          yarn
+          REACT_APP_CODE_SEND_SERVICE_URL=${{ secrets.CODE_SEND_SERVICE_URL }} yarn build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
