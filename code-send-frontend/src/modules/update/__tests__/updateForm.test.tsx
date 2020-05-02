@@ -36,7 +36,7 @@ const renderUpdateForm = (initialState?: Partial<RootState>) => {
 };
 
 describe("update form", () => {
-  it("can show create success message", async () => {
+  it("can show create global update success message", async () => {
     const { findByText, getByLabelText, getByText } = renderUpdateForm();
     const inputVersionElement = getByLabelText("Version");
     const inputNoteElement = getByLabelText("Note");
@@ -62,6 +62,18 @@ describe("update form", () => {
 
     const alertElement = await findByText("Success");
     expect(alertElement).toBeInTheDocument();
+  });
+
+  it("can show input location if checkbox is checked", async () => {
+    const { findByLabelText, getByLabelText } = renderUpdateForm();
+    const checkboxRegionalElement = getByLabelText(
+      "Release update only on particular location"
+    );
+    await act(async () => {
+      fireEvent.click(checkboxRegionalElement);
+    });
+    const inputLocationElement = await findByLabelText("Location");
+    expect(inputLocationElement).toBeInTheDocument();
   });
 
   it("can show create failed message", async () => {
