@@ -54,6 +54,18 @@ const uploadUpdate = (projectId: string, updateId: string, bundle: Blob) => {
   );
 };
 
+const checkUpdate = (
+  projectId: string,
+  latitude: number,
+  longitude: number,
+  updateId?: string
+) => {
+  return service.post<Update | undefined>(
+    `/project/${projectId}/update/check`,
+    { latitude, longitude, updateId }
+  );
+};
+
 const forwardGeocoding = (query: string) => {
   return service.post<Location[]>("/geocoding/forward", { query });
 };
@@ -73,6 +85,7 @@ export default {
   createUpdate,
   editUpdate,
   uploadUpdate,
+  checkUpdate,
   forwardGeocoding,
   reverseGeocoding
 };

@@ -4,8 +4,16 @@ import Service from "./service";
 const baseURL = "http://code-send.herokuapp.com";
 const service = new Service(baseURL);
 
-const getLatestUpdate = (projectId: string) => {
-  return service.get<Update>(`/project/${projectId}/update/latest`);
+const checkUpdate = (
+  projectId: string,
+  latitude: number,
+  longitude: number,
+  updateId?: string
+) => {
+  return service.post<Update | undefined>(
+    `/project/${projectId}/update/check`,
+    { latitude, longitude, updateId }
+  );
 };
 
-export default { getLatestUpdate };
+export default { checkUpdate };

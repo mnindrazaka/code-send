@@ -8,24 +8,17 @@ const useCheckUpdate = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
-  const isDateNewer = useCallback(
-    (dateOneString: string, dateTwoString: string) => {
-      const dateOne = new Date(dateOneString);
-      const dateTwo = new Date(dateTwoString);
-      return dateOne > dateTwo;
-    },
-    []
-  );
-
   const checkUpdate = useCallback(async (projectId: string) => {
     try {
       setLoading(true);
-      const update = await codeSendService.getLatestUpdate(projectId);
       const activeBundle = await bundleManager.getActiveBundle();
-      if (
-        !activeBundle ||
-        isDateNewer(update.createdAt, activeBundle.update.createdAt)
-      ) {
+      const update = await codeSendService.checkUpdate(
+        projectId,
+        -7.756928,
+        113.211502,
+        activeBundle?.update._id
+      );
+      if (update) {
         setUpdate(update);
         setError(undefined);
       }
