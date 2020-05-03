@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import projectModel from "api/project/project.model";
 import updateModel from "api/update/update.model";
+import userModel from "api/user/user.model";
 
 const mongoMemoryServer = new MongoMemoryServer();
 const { USERNAME, PASSWORD } = process.env;
@@ -25,6 +26,11 @@ export async function closeDB(isUsingMemory?: boolean) {
 }
 
 export async function mockingDatabaseRecord() {
+  await userModel.create({
+    username: "mnindrazaka",
+    password: "mnindrazaka"
+  });
+
   const project = await projectModel.create({
     name: "project-1"
   });
