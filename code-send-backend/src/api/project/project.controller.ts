@@ -1,15 +1,11 @@
 import { Response, NextFunction } from "express";
-import { AuthenticatedRequest } from "api/type";
+import { Request } from "api/type";
 import ProjectService from "./project.service";
 import HttpException from "utils/httpException";
 const projectService = new ProjectService();
 
 export default class ProjectController {
-  index = async (
-    req: AuthenticatedRequest,
-    res: Response,
-    next: NextFunction
-  ) => {
+  index = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user._id;
       const projects = await projectService.getAllProjects(userId);
@@ -19,11 +15,7 @@ export default class ProjectController {
     }
   };
 
-  store = async (
-    req: AuthenticatedRequest,
-    res: Response,
-    next: NextFunction
-  ) => {
+  store = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user._id;
       const project = await projectService.createProject(userId, req.body);
@@ -33,11 +25,7 @@ export default class ProjectController {
     }
   };
 
-  edit = async (
-    req: AuthenticatedRequest,
-    res: Response,
-    next: NextFunction
-  ) => {
+  edit = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { projectId } = req.params;
       const project = await projectService.editProject(projectId, req.body);
@@ -47,11 +35,7 @@ export default class ProjectController {
     }
   };
 
-  destroy = async (
-    req: AuthenticatedRequest,
-    res: Response,
-    next: NextFunction
-  ) => {
+  destroy = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { projectId } = req.params;
       const project = await projectService.deleteProject(projectId);

@@ -1,6 +1,5 @@
-import { Request } from "express";
-import { User } from "./user/user.type";
+import { Request as ExpressRequest } from "express";
 
-export interface AuthenticatedRequest extends Request {
-  user: User;
+export interface Request extends ExpressRequest {
+  [key: string]: any;
 }
