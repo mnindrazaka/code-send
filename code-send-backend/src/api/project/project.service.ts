@@ -1,13 +1,15 @@
 import projectModel, { ProjectDocument } from "./project.model";
 import { ProjectRequest } from "./project.type";
+import { Types } from "mongoose";
 
 export default class ProjectService {
-  getAllProjects = () => {
-    return projectModel.find();
+  getAllProjects = (userId: string) => {
+    return projectModel.find({ user: userId });
   };
 
-  createProject = (project: ProjectRequest) => {
-    return projectModel.create(project);
+  createProject = (userId: string, project: ProjectRequest) => {
+    const user = new Types.ObjectId(userId);
+    return projectModel.create({ ...project, user });
   };
 
   editProject = (projectId: string, project: ProjectRequest) => {

@@ -27,13 +27,24 @@ export async function closeDB(isUsingMemory?: boolean) {
 }
 
 export async function mockingDatabaseRecord() {
-  await userModel.create({
+  const user = await userModel.create({
     username: "mnindrazaka",
     password: await bcrypt.hash("mnindrazaka")
   });
 
+  const user2 = await userModel.create({
+    username: "joko",
+    password: await bcrypt.hash("joko")
+  });
+
   const project = await projectModel.create({
-    name: "project-1"
+    name: "project-1",
+    user: user._id
+  });
+
+  await projectModel.create({
+    name: "project-2",
+    user: user2._id
   });
 
   await updateModel.create({

@@ -1,10 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { AuthenticatedRequest } from "api/type";
 import UpdateService from "./update.service";
 import HttpException from "utils/httpException";
 const updateService = new UpdateService();
 
 export default class UpdateController {
-  index = async (req: Request, res: Response, next: NextFunction) => {
+  index = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { projectId } = req.params;
       const updates = await updateService.getAllUpdates(projectId);
@@ -14,7 +19,11 @@ export default class UpdateController {
     }
   };
 
-  latest = async (req: Request, res: Response, next: NextFunction) => {
+  latest = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { projectId } = req.params;
       const update = await updateService.getLatestUpdate(projectId);
@@ -24,7 +33,11 @@ export default class UpdateController {
     }
   };
 
-  store = async (req: Request, res: Response, next: NextFunction) => {
+  store = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { projectId } = req.params;
       const update = await updateService.createUpdate(projectId, req.body);
@@ -34,7 +47,11 @@ export default class UpdateController {
     }
   };
 
-  edit = async (req: Request, res: Response, next: NextFunction) => {
+  edit = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { updateId } = req.params;
       const update = await updateService.editUpdate(updateId, req.body);
@@ -44,7 +61,11 @@ export default class UpdateController {
     }
   };
 
-  uploadBundle = async (req: Request, res: Response, next: NextFunction) => {
+  uploadBundle = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { projectId, updateId } = req.params;
       const bundleBuffer = req.file.buffer;
@@ -59,7 +80,11 @@ export default class UpdateController {
     }
   };
 
-  check = async (req: Request, res: Response, next: NextFunction) => {
+  check = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { projectId } = req.params;
       const { updateId, latitude, longitude } = req.body;

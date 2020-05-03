@@ -5,6 +5,10 @@ import jwt from "jsonwebtoken";
 import HttpException from "utils/httpException";
 
 export default class UserService {
+  getUserByUsername = (username: string) => {
+    return userModel.findOne({ username });
+  };
+
   createUser = (user: UserRequest) => {
     return new Promise<UserDocument>(async (resolve, reject) => {
       try {

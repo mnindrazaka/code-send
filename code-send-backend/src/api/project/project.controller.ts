@@ -1,28 +1,43 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { AuthenticatedRequest } from "api/type";
 import ProjectService from "./project.service";
 import HttpException from "utils/httpException";
 const projectService = new ProjectService();
 
 export default class ProjectController {
-  index = async (req: Request, res: Response, next: NextFunction) => {
+  index = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
-      const projects = await projectService.getAllProjects();
+      const userId = req.user._id;
+      const projects = await projectService.getAllProjects(userId);
       res.send(projects);
     } catch (error) {
       next(new HttpException(500, error.message));
     }
   };
 
-  store = async (req: Request, res: Response, next: NextFunction) => {
+  store = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
-      const project = await projectService.createProject(req.body);
+      const userId = req.user._id;
+      const project = await projectService.createProject(userId, req.body);
       res.send(project);
     } catch (error) {
       next(new HttpException(500, error.message));
     }
   };
 
-  edit = async (req: Request, res: Response, next: NextFunction) => {
+  edit = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { projectId } = req.params;
       const project = await projectService.editProject(projectId, req.body);
@@ -32,7 +47,11 @@ export default class ProjectController {
     }
   };
 
-  destroy = async (req: Request, res: Response, next: NextFunction) => {
+  destroy = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { projectId } = req.params;
       const project = await projectService.deleteProject(projectId);
