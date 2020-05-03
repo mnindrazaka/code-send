@@ -13,4 +13,14 @@ export default class UserController {
       next(new HttpException(500, error.message));
     }
   };
+
+  authenticate = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { username, password } = req.body;
+      const token = await userService.authenticateUser({ username, password });
+      res.send({ token });
+    } catch (error) {
+      next(new HttpException(500, error.message));
+    }
+  };
 }

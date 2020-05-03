@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { Request } from "api/type";
 import ProjectService from "./project.service";
 import HttpException from "utils/httpException";
 const projectService = new ProjectService();
@@ -6,7 +7,8 @@ const projectService = new ProjectService();
 export default class ProjectController {
   index = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const projects = await projectService.getAllProjects();
+      const userId = req.user._id;
+      const projects = await projectService.getAllProjects(userId);
       res.send(projects);
     } catch (error) {
       next(new HttpException(500, error.message));
@@ -15,7 +17,8 @@ export default class ProjectController {
 
   store = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const project = await projectService.createProject(req.body);
+      const userId = req.user._id;
+      const project = await projectService.createProject(userId, req.body);
       res.send(project);
     } catch (error) {
       next(new HttpException(500, error.message));

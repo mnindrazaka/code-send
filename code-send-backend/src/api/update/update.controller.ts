@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { Request } from "api/type";
 import UpdateService from "./update.service";
 import HttpException from "utils/httpException";
 const updateService = new UpdateService();

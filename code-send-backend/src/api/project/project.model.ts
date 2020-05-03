@@ -5,7 +5,11 @@ export type ProjectDocument = Project & Document;
 
 const projectSchema = new Schema(
   {
-    name: String
+    name: String,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
   },
   {
     timestamps: true
