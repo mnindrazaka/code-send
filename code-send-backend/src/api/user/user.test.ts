@@ -1,8 +1,10 @@
+require("dotenv").config();
 import supertest from "supertest";
 import { expect } from "chai";
 import app from "app";
 import { connectDB, mockingDatabaseRecord, closeDB } from "utils/database";
 
+process.env.JWT_SECRET = "secret";
 const request = supertest(app);
 
 describe("user", () => {
@@ -36,5 +38,12 @@ describe("user", () => {
     expect(createUserResponse.body)
       .to.has.property("message")
       .equal('E11000 duplicate key error dup key: { : "mnindrazaka" }');
+  });
+
+  it("can authenticate user", async () => {
+    const authenticateResponse = await request
+      .post("/user/authenticate")
+      .send({ username: "mnindrazaka", password: "mnindrazaka" });
+    expect(authenticateResponse.body).to.has.property("token");
   });
 });

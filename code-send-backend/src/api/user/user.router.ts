@@ -6,4 +6,5 @@ const userController = new UserController();
 const baseUrl = `/user`;
 
 userRouter.post(`${baseUrl}`, userController.store);
+userRouter.post(`${baseUrl}/authenticate`, userController.authenticate);
 export default userRouter;
