@@ -27,7 +27,12 @@ const file = new File(["mock content"], "index.bundle.js");
 const renderUpdateForm = (initialState?: Partial<RootState>) => {
   const utils = render(
     <MemoryRouter>
-      <StoreProvider initialState={initialState}>
+      <StoreProvider
+        initialState={{
+          ...initialState,
+          auth: { username: "mnindrazaka", loading: false }
+        }}
+      >
         <UpdateForm />
       </StoreProvider>
     </MemoryRouter>

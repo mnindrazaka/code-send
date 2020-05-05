@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Layout, Row, Col, Select } from "antd";
+import { Menu, Layout, Row, Col, Select, Button } from "antd";
 import { DashboardOutlined, GiftOutlined } from "@ant-design/icons";
 import { Route, Redirect, Link, Switch, useHistory } from "react-router-dom";
 import Dashboard from "modules/dashboard";
@@ -7,6 +7,8 @@ import Update from "modules/update";
 import { NavigationMenuItem } from "interfaces/Navigation";
 import { useProjectState, useProjectAction } from "hooks/store/useProjectStore";
 import Logo from "components/logo/logo";
+import useProtectedRoute from "hooks/useProtectedRoute";
+import { useLogout } from "hooks/api/useAuthApi";
 
 const navigationMenuItems: NavigationMenuItem[] = [
   {
@@ -84,6 +86,8 @@ const Content = () => {
 };
 
 const Page: React.FC = () => {
+  useProtectedRoute();
+  const { logout } = useLogout();
   const { selected } = useProjectState();
   return selected ? (
     <Layout style={{ minHeight: "100vh" }}>
@@ -93,7 +97,16 @@ const Page: React.FC = () => {
             <Logo />
           </Col>
           <Col>
-            <ProjectSelector />
+            <Row gutter={16}>
+              <Col>
+                <ProjectSelector />
+              </Col>
+              <Col>
+                <Button ghost onClick={logout}>
+                  Logout
+                </Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Layout.Header>

@@ -30,7 +30,12 @@ const renderMainPage = () => {
   const history = createMemoryHistory();
   const utils = render(
     <Router history={history}>
-      <StoreProvider initialState={{ project: mockProjectState }}>
+      <StoreProvider
+        initialState={{
+          project: mockProjectState,
+          auth: { username: "mnindrazaka", loading: false }
+        }}
+      >
         <Page />
       </StoreProvider>
     </Router>
@@ -69,5 +74,15 @@ describe("main", () => {
     });
     const pageSubTitleElement = await findByText(mockProject2._id);
     expect(pageSubTitleElement).toBeInTheDocument();
+  });
+
+  it("can logout successfully", async () => {
+    const { getByText, findByText } = renderMainPage();
+    const logoutButtonElement = getByText("Logout").closest("button")!;
+    act(() => {
+      fireEvent.click(logoutButtonElement);
+    });
+    const alertElement = await findByText("Success");
+    expect(alertElement).toBeInTheDocument();
   });
 });

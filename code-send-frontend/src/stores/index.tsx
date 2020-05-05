@@ -7,6 +7,7 @@ import React, {
 import rootStateAndReducers from "./reducers";
 import { RootState } from "./types";
 import { Action } from "interfaces/Action";
+import { authInitialState } from "./auth/reducers";
 import { projectInitialState } from "./project/reducers";
 import { updateInitialState } from "./update/reducers";
 
@@ -17,6 +18,7 @@ interface RootContextValue {
 
 export const storeContext = createContext<RootContextValue>({
   state: {
+    auth: authInitialState,
     project: projectInitialState,
     update: updateInitialState
   },
