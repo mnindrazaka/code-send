@@ -75,4 +75,14 @@ describe("main", () => {
     const pageSubTitleElement = await findByText(mockProject2._id);
     expect(pageSubTitleElement).toBeInTheDocument();
   });
+
+  it("can logout successfully", async () => {
+    const { getByText, findByText } = renderMainPage();
+    const logoutButtonElement = getByText("Logout").closest("button")!;
+    act(() => {
+      fireEvent.click(logoutButtonElement);
+    });
+    const alertElement = await findByText("Success");
+    expect(alertElement).toBeInTheDocument();
+  });
 });

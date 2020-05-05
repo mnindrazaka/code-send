@@ -39,7 +39,7 @@ export const useRegister = () => {
 
 export const useLogin = () => {
   const { loginRequest, loginSuccess, loginError } = useAuthAction();
-  const { handleError } = useNotification();
+  const { handleSuccess, handleError } = useNotification();
   const history = useHistory();
 
   const login = useCallback(
@@ -49,13 +49,21 @@ export const useLogin = () => {
         const { token } = await codeSendService.login(user);
         saveToken(token);
         loginSuccess(user.username);
+        handleSuccess("Success", "You are successfully logged in");
         history.push("/project");
       } catch (error) {
         loginError(error.message);
         handleError("Failed", error.message);
       }
     },
-    [history, handleError, loginRequest, loginSuccess, loginError]
+    [
+      history,
+      handleSuccess,
+      handleError,
+      loginRequest,
+      loginSuccess,
+      loginError
+    ]
   );
 
   return { login };
@@ -63,7 +71,7 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const { logoutRequest, logoutSuccess, logoutError } = useAuthAction();
-  const { handleError } = useNotification();
+  const { handleSuccess, handleError } = useNotification();
   const history = useHistory();
 
   const logout = useCallback(() => {
@@ -71,12 +79,20 @@ export const useLogout = () => {
       logoutRequest();
       removeToken();
       logoutSuccess();
+      handleSuccess("Success", "You are successfully logged out");
       history.push("/login");
     } catch (error) {
       logoutError(error.message);
       handleError("Failed", error.message);
     }
-  }, [history, handleError, logoutRequest, logoutSuccess, logoutError]);
+  }, [
+    history,
+    handleSuccess,
+    handleError,
+    logoutRequest,
+    logoutSuccess,
+    logoutError
+  ]);
 
   return { logout };
 };
