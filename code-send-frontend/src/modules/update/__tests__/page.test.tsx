@@ -25,7 +25,9 @@ const mockUpdate: Update = {
 const renderUpdatePage = () => {
   const utils = render(
     <MemoryRouter>
-      <StoreProvider>
+      <StoreProvider
+        initialState={{ auth: { username: "mnindrazaka", loading: false } }}
+      >
         <Page />
       </StoreProvider>
     </MemoryRouter>

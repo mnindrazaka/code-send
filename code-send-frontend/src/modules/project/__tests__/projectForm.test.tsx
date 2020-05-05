@@ -25,7 +25,12 @@ const mockProject: Project = {
 const renderProjectForm = (initialState?: Partial<RootState>) => {
   const utils = render(
     <MemoryRouter>
-      <StoreProvider initialState={initialState}>
+      <StoreProvider
+        initialState={{
+          ...initialState,
+          auth: { username: "mnindrazaka", loading: false }
+        }}
+      >
         <ProjectForm />
       </StoreProvider>
     </MemoryRouter>

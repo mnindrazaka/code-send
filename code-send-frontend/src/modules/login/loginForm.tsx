@@ -1,15 +1,16 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import { Card, Button, Typography, Divider } from "antd";
 import { Formik } from "formik";
 import { Form, TextField } from "components/formikWrapper";
 import * as yup from "yup";
-
-interface LoginFormValues {
-  username: string;
-  password: string;
-}
+import { UserFormValues } from "interfaces/User";
+import { useLogin } from "hooks/api/useAuthApi";
+import { useAuthState } from "hooks/store/useAuthStore";
 
 const LoginForm = () => {
+  const { loading } = useAuthState();
+  const { login } = useLogin();
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       username: yup.string().required(),
@@ -17,12 +18,8 @@ const LoginForm = () => {
     });
   }, []);
 
-  const initialValues: LoginFormValues = useMemo(() => {
+  const initialValues: UserFormValues = useMemo(() => {
     return { username: "", password: "" };
-  }, []);
-
-  const handleSubmit = useCallback((values: LoginFormValues) => {
-    console.log(values);
   }, []);
 
   return (
@@ -35,13 +32,13 @@ const LoginForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={login}
       >
         <Form>
           <TextField name="username" label="Username" />
           <TextField name="password" label="Password" type="password" />
           <Divider />
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             Submit
           </Button>
         </Form>

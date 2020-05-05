@@ -76,11 +76,12 @@ const errorReducer: Reducer<ProjectState["error"], Action> = (
     case ProjectActionTypes.GetError:
     case ProjectActionTypes.CreateError:
     case ProjectActionTypes.EditError:
+    case ProjectActionTypes.DeleteError:
       return payload;
     case ProjectActionTypes.GetSuccess:
     case ProjectActionTypes.CreateSuccess:
     case ProjectActionTypes.EditSuccess:
-    case ProjectActionTypes.DeleteError:
+    case ProjectActionTypes.DeleteSuccess:
       return undefined;
     default:
       return prevState;

@@ -17,7 +17,9 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 const renderUpdateLog = () => {
   const utils = render(
     <MemoryRouter>
-      <StoreProvider>
+      <StoreProvider
+        initialState={{ auth: { username: "mnindrazaka", loading: false } }}
+      >
         <UpdateLog />
       </StoreProvider>
     </MemoryRouter>

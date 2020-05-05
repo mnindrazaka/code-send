@@ -5,6 +5,24 @@ jest.mock("../service");
 const ServiceMock = Service as jest.MockedClass<typeof Service>;
 
 describe("code send service", () => {
+  it("can register user", () => {
+    const user = { username: "mnindrazaka", password: "mnindrazaka" };
+    codeSendService.register(user);
+    expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
+      "/user",
+      user
+    );
+  });
+
+  it("can logged in user", () => {
+    const user = { username: "mnindrazaka", password: "mnindrazaka" };
+    codeSendService.login(user);
+    expect(ServiceMock.mock.instances[0].post).toHaveBeenCalledWith(
+      "/user/authenticate",
+      user
+    );
+  });
+
   it("can get all projects", () => {
     codeSendService.getallProjects();
     expect(ServiceMock.mock.instances[0].get).toHaveBeenCalledWith("/project");

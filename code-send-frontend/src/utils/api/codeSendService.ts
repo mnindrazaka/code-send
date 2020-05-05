@@ -2,9 +2,18 @@ import { ProjectFormValues, Project } from "interfaces/Project";
 import { UpdateFormValues, Update } from "interfaces/Update";
 import { Location } from "interfaces/Geocoding";
 import Service from "./service";
+import { User, UserFormValues } from "interfaces/User";
 
 const baseURL = process.env.REACT_APP_CODE_SEND_SERVICE_URL as string;
 const service = new Service(baseURL);
+
+const register = (user: UserFormValues) => {
+  return service.post<User>("/user", user);
+};
+
+const login = (user: UserFormValues) => {
+  return service.post<{ token: string }>("/user/authenticate", user);
+};
 
 const getallProjects = () => {
   return service.get<Project[]>("/project");
@@ -76,6 +85,8 @@ const reverseGeocoding = (latitude: number, longitude: number) => {
 
 export default {
   baseURL,
+  register,
+  login,
   getallProjects,
   createProject,
   editProject,

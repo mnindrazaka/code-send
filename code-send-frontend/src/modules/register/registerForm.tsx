@@ -1,33 +1,34 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import { Card, Button, Typography, Divider } from "antd";
 import { Formik } from "formik";
 import { Form, TextField } from "components/formikWrapper";
 import * as yup from "yup";
+import { UserFormValues } from "interfaces/User";
+import { useRegister } from "hooks/api/useAuthApi";
+import { useAuthState } from "hooks/store/useAuthStore";
 
-interface RegisterFormValues {
-  username: string;
-  password: string;
-  confirmationPassword: string;
+interface RegisterFormValues extends UserFormValues {
+  passwordConfirmation: string;
 }
 
 const RegisterForm = () => {
+  const { loading } = useAuthState();
+  const { register } = useRegister();
+
   const validationSchema = useMemo(() => {
     return yup.object().shape({
       username: yup.string().required(),
       password: yup.string().required(),
-      confirmationPassword: yup
+      passwordConfirmation: yup
         .string()
         .required()
-        .label("confirmation password")
+        .label("password confirmation")
+        .oneOf([yup.ref("password"), null], "password must match")
     });
   }, []);
 
   const initialValues: RegisterFormValues = useMemo(() => {
-    return { username: "", password: "", confirmationPassword: "" };
-  }, []);
-
-  const handleSubmit = useCallback((values: RegisterFormValues) => {
-    console.log(values);
+    return { username: "", password: "", passwordConfirmation: "" };
   }, []);
 
   return (
@@ -40,18 +41,18 @@ const RegisterForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={register}
       >
         <Form>
           <TextField name="username" label="Username" />
           <TextField name="password" label="Password" type="password" />
           <TextField
-            name="confirmationPassword"
-            label="Confirmation Password"
+            name="passwordConfirmation"
+            label="Password Confirmation"
             type="password"
           />
           <Divider />
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             Submit
           </Button>
         </Form>

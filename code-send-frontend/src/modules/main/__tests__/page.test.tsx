@@ -30,7 +30,12 @@ const renderMainPage = () => {
   const history = createMemoryHistory();
   const utils = render(
     <Router history={history}>
-      <StoreProvider initialState={{ project: mockProjectState }}>
+      <StoreProvider
+        initialState={{
+          project: mockProjectState,
+          auth: { username: "mnindrazaka", loading: false }
+        }}
+      >
         <Page />
       </StoreProvider>
     </Router>
