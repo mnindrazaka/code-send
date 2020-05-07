@@ -10,7 +10,7 @@ export default class GeocodingController {
       const places = await geocodingService.forward(query);
       res.send(places);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -20,7 +20,7 @@ export default class GeocodingController {
       const places = await geocodingService.reverse(latitude, longitude);
       res.send(places);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 }

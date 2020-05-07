@@ -8,44 +8,69 @@ export default class Service {
     this.baseURL = baseURL;
   }
 
-  private handleError(res: AxiosResponse) {
-    const { status, message } = res.data;
-    return status === "error" ? Promise.reject(message) : res;
-  }
-
   private getConfig(): AxiosRequestConfig {
     return {
       headers: {
-        authorization: `Bearer ${getToken()}`
+        authorization: getToken() ? `Bearer ${getToken()}` : undefined
       }
     };
   }
 
   public get<T>(endpoint: string) {
-    return axios
-      .get(this.baseURL + endpoint, this.getConfig())
-      .then(this.handleError)
-      .then(res => res.data as T);
+    return new Promise<T>(async (resolve, reject) => {
+      try {
+        const response = await axios.get(
+          this.baseURL + endpoint,
+          this.getConfig()
+        );
+        resolve(response.data);
+      } catch (error) {
+        reject(error.response.data);
+      }
+    });
   }
 
   public post<T>(endpoint: string, data: any) {
-    return axios
-      .post(this.baseURL + endpoint, data, this.getConfig())
-      .then(this.handleError)
-      .then(res => res.data as T);
+    return new Promise<T>(async (resolve, reject) => {
+      try {
+        const response = await axios.post(
+          this.baseURL + endpoint,
+          data,
+          this.getConfig()
+        );
+        resolve(response.data);
+      } catch (error) {
+        reject(error.response.data);
+      }
+    });
   }
 
   public put<T>(endpoint: string, data: any) {
-    return axios
-      .put(this.baseURL + endpoint, data, this.getConfig())
-      .then(this.handleError)
-      .then(res => res.data as T);
+    return new Promise<T>(async (resolve, reject) => {
+      try {
+        const response = await axios.put(
+          this.baseURL + endpoint,
+          data,
+          this.getConfig()
+        );
+        resolve(response.data);
+      } catch (error) {
+        reject(error.response.data);
+      }
+    });
   }
 
   public delete<T>(endpoint: string) {
-    return axios
-      .delete(this.baseURL + endpoint, this.getConfig())
-      .then(this.handleError)
-      .then(res => res.data as T);
+    return new Promise<T>(async (resolve, reject) => {
+      try {
+        const response = await axios.delete(
+          this.baseURL + endpoint,
+          this.getConfig()
+        );
+        resolve(response.data);
+      } catch (error) {
+        reject(error.response.data);
+      }
+    });
   }
 }

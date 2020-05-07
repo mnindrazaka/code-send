@@ -11,7 +11,7 @@ export default class UpdateController {
       const updates = await updateService.getAllUpdates(projectId);
       res.send(updates);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -21,7 +21,7 @@ export default class UpdateController {
       const update = await updateService.getLatestUpdate(projectId);
       res.send(update);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -31,7 +31,7 @@ export default class UpdateController {
       const update = await updateService.createUpdate(projectId, req.body);
       res.send(update);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -41,7 +41,7 @@ export default class UpdateController {
       const update = await updateService.editUpdate(updateId, req.body);
       res.send(update);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -56,7 +56,7 @@ export default class UpdateController {
       );
       res.send(update);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -72,7 +72,7 @@ export default class UpdateController {
       );
       res.send(update);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 }
