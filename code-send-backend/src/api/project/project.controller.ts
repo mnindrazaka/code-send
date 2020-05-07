@@ -11,7 +11,7 @@ export default class ProjectController {
       const projects = await projectService.getAllProjects(userId);
       res.send(projects);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -21,7 +21,7 @@ export default class ProjectController {
       const project = await projectService.createProject(userId, req.body);
       res.send(project);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -31,7 +31,7 @@ export default class ProjectController {
       const project = await projectService.editProject(projectId, req.body);
       res.send(project);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -41,7 +41,7 @@ export default class ProjectController {
       const project = await projectService.deleteProject(projectId);
       res.send(project);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 }

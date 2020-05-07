@@ -3,6 +3,7 @@ import { UpdateRequest } from "./update.type";
 import { Types } from "mongoose";
 import { uploadBundle } from "utils/cloudinary";
 import GeocodingService from "api/geocoding/geocoding.service";
+import HttpException from "utils/httpException";
 
 export default class UpdateService {
   getAllUpdates = (projectId: string) => {
@@ -20,7 +21,7 @@ export default class UpdateService {
           .findOne({ project: projectId })
           .sort({ _id: -1 });
         if (update) resolve(update);
-        else reject({ message: "update not found" });
+        else throw new HttpException(400, "update not found");
       } catch (error) {
         reject(error);
       }
@@ -41,7 +42,7 @@ export default class UpdateService {
           { new: true }
         );
         if (editedUpdate) resolve(editedUpdate);
-        else reject({ message: "update not found" });
+        else throw new HttpException(400, "update not found");
       } catch (error) {
         reject(error);
       }
@@ -62,7 +63,7 @@ export default class UpdateService {
           { new: true }
         );
         if (editedUpdate) resolve(editedUpdate);
-        else reject({ message: "update not found" });
+        else throw new HttpException(400, "update not found");
       } catch (error) {
         reject(error);
       }

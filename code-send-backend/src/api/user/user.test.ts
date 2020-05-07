@@ -37,7 +37,7 @@ describe("user", () => {
       .equal("error");
     expect(createUserResponse.body)
       .to.has.property("message")
-      .equal('E11000 duplicate key error dup key: { : "mnindrazaka" }');
+      .equal("username already exist");
   });
 
   it("can authenticate user", async () => {
@@ -45,5 +45,17 @@ describe("user", () => {
       .post("/user/authenticate")
       .send({ username: "mnindrazaka", password: "mnindrazaka" });
     expect(authenticateResponse.body).to.has.property("token");
+  });
+
+  it("can show error message if username or password wrong", async () => {
+    const authenticateResponse = await request
+      .post("/user/authenticate")
+      .send({ username: "mnindrazaka2", password: "mnindrazaka2" });
+    expect(authenticateResponse.body)
+      .to.has.property("status")
+      .equal("error");
+    expect(authenticateResponse.body)
+      .to.has.property("message")
+      .equal("username or password wrong");
   });
 });

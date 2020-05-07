@@ -1,6 +1,7 @@
 import projectModel, { ProjectDocument } from "./project.model";
 import { ProjectRequest } from "./project.type";
 import { Types } from "mongoose";
+import HttpException from "utils/httpException";
 
 export default class ProjectService {
   getAllProjects = (userId: string) => {
@@ -21,7 +22,7 @@ export default class ProjectService {
           { new: true }
         );
         if (editedProject) resolve(editedProject);
-        else reject({ message: "project not found" });
+        else throw new HttpException(400, "project not found");
       } catch (error) {
         reject(error);
       }
@@ -33,7 +34,7 @@ export default class ProjectService {
       try {
         const deletedProject = await projectModel.findByIdAndDelete(projectId);
         if (deletedProject) resolve(deletedProject);
-        else reject({ message: "project not found" });
+        else throw new HttpException(400, "project not found");
       } catch (error) {
         reject(error);
       }

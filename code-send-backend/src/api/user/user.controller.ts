@@ -10,7 +10,7 @@ export default class UserController {
       const user = await userService.createUser({ username, password });
       res.send(user);
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 
@@ -20,7 +20,7 @@ export default class UserController {
       const token = await userService.authenticateUser({ username, password });
       res.send({ token });
     } catch (error) {
-      next(new HttpException(500, error.message));
+      next(new HttpException(error.statusCode || 500, error.message));
     }
   };
 }

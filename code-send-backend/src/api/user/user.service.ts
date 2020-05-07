@@ -12,6 +12,10 @@ export default class UserService {
   createUser = (user: UserRequest) => {
     return new Promise<UserDocument>(async (resolve, reject) => {
       try {
+        const existingUser = await this.getUserByUsername(user.username);
+        if (existingUser)
+          throw new HttpException(401, "username already exist");
+
         const hash = await bcrypt.hash(user.password);
         await userModel.init();
         const userDocument = await userModel.create({
@@ -32,14 +36,14 @@ export default class UserService {
           username: user.username
         });
         if (!userDocument)
-          throw new HttpException(403, "Username or password wrong");
+          throw new HttpException(401, "username or password wrong");
 
         const isPasswordMatch = await bcrypt.compare(
           user.password,
           userDocument.password
         );
         if (!isPasswordMatch)
-          throw new HttpException(403, "Username or password wrong");
+          throw new HttpException(401, "username or password wrong");
 
         const token = jwt.sign(
           { username: user.username },

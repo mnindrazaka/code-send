@@ -12,7 +12,7 @@ describe("service", () => {
     axiosMock.get.mockResolvedValueOnce({ data: {} });
     await service.get("/endpoint");
     expect(axiosMock.get).toHaveBeenCalledWith(baseURL + "/endpoint", {
-      headers: { authorization: "Bearer undefined" }
+      headers: { authorization: undefined }
     });
   });
 
@@ -23,7 +23,7 @@ describe("service", () => {
       baseURL + "/endpoint",
       {},
       {
-        headers: { authorization: "Bearer undefined" }
+        headers: { authorization: undefined }
       }
     );
   });
@@ -35,7 +35,7 @@ describe("service", () => {
       baseURL + "/endpoint",
       {},
       {
-        headers: { authorization: "Bearer undefined" }
+        headers: { authorization: undefined }
       }
     );
   });
@@ -44,7 +44,7 @@ describe("service", () => {
     axiosMock.delete.mockResolvedValueOnce({ data: {} });
     await service.delete("/endpoint");
     expect(axiosMock.delete).toHaveBeenCalledWith(baseURL + "/endpoint", {
-      headers: { authorization: "Bearer undefined" }
+      headers: { authorization: undefined }
     });
   });
 
