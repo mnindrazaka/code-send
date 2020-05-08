@@ -81,20 +81,6 @@ describe("update", () => {
       .equal("Jawa Timur, Indonesia");
   });
 
-  it("can throw error if latest update not found", async () => {
-    const token = await authenticate();
-    const getLatestUpdateResponse = await request
-      .get(`/project/5e7fe2afa491a60003842d5a/update/latest`)
-      .set("authorization", `Bearer ${token}`)
-      .send();
-    expect(getLatestUpdateResponse.body)
-      .to.has.property("status")
-      .equal("error");
-    expect(getLatestUpdateResponse.body)
-      .to.has.property("message")
-      .equal("update not found");
-  });
-
   it("can create update", async () => {
     const token = await authenticate();
     const getAllProjectResponse = await request

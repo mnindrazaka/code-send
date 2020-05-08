@@ -15,13 +15,12 @@ export default class UpdateService {
   };
 
   getLatestUpdate = (projectId: string) => {
-    return new Promise<UpdateDocument>(async (resolve, reject) => {
+    return new Promise<UpdateDocument | null>(async (resolve, reject) => {
       try {
         const update = await updateModel
           .findOne({ project: projectId })
           .sort({ _id: -1 });
-        if (update) resolve(update);
-        else throw new HttpException(400, "update not found");
+        resolve(update);
       } catch (error) {
         reject(error);
       }
@@ -76,12 +75,13 @@ export default class UpdateService {
     longitude: number,
     updateId?: string
   ) => {
-    return new Promise<UpdateDocument | undefined>(async (resolve, reject) => {
+    return new Promise<UpdateDocument | null>(async (resolve, reject) => {
       try {
         const currentUpdate = updateId
           ? await this.getUpdateById(updateId)
           : null;
         const latestUpdate = await this.getLatestUpdate(projectId);
+        if (!latestUpdate) return;
 
         const isUpdateNewer = currentUpdate
           ? new Date(latestUpdate.createdAt) > new Date(currentUpdate.createdAt)

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { getToken } from "utils/auth";
 
 export default class Service {
@@ -25,7 +25,8 @@ export default class Service {
         );
         resolve(response.data);
       } catch (error) {
-        reject(error.response.data);
+        if (error.response) reject(error.response.data);
+        else reject(error);
       }
     });
   }
@@ -40,7 +41,8 @@ export default class Service {
         );
         resolve(response.data);
       } catch (error) {
-        reject(error.response.data);
+        if (error.response) reject(error.response.data);
+        else reject(error);
       }
     });
   }
@@ -55,7 +57,8 @@ export default class Service {
         );
         resolve(response.data);
       } catch (error) {
-        reject(error.response.data);
+        if (error.response) reject(error.response.data);
+        else reject(error);
       }
     });
   }
@@ -69,7 +72,8 @@ export default class Service {
         );
         resolve(response.data);
       } catch (error) {
-        reject(error.response.data);
+        if (error.response) reject(error.response.data);
+        else reject(error);
       }
     });
   }

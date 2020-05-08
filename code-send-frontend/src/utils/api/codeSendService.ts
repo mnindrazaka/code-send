@@ -36,7 +36,7 @@ const getAllUpdates = (projectId: string) => {
 };
 
 const getLatestUpdate = (projectId: string) => {
-  return service.get<Update>(`/project/${projectId}/update/latest`);
+  return service.get<Update | undefined>(`/project/${projectId}/update/latest`);
 };
 
 const createUpdate = (projectId: string, update: UpdateFormValues) => {

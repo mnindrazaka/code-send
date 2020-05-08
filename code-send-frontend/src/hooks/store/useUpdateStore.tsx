@@ -49,7 +49,8 @@ export const useUpdateAction = () => {
   );
 
   const getLatestUpdateSuccess = useCallback(
-    (update: Update) => dispatch(getLatestUpdateSuccessAction(update)),
+    (update: Update | undefined) =>
+      dispatch(getLatestUpdateSuccessAction(update)),
     [dispatch]
   );
 
