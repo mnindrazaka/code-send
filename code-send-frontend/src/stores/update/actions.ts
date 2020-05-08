@@ -18,7 +18,7 @@ export const getLatestUpdateRequestAction = () => {
   return action(UpdateActionTypes.GetLatestRequest);
 };
 
-export const getLatestUpdateSuccessAction = (update: Update) => {
+export const getLatestUpdateSuccessAction = (update: Update | undefined) => {
   return action(UpdateActionTypes.GetLatestSuccess, update);
 };
 
