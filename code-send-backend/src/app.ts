@@ -12,9 +12,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(userRouter);
-app.use(verifyToken, projectRouter);
-app.use(verifyToken, updateRouter);
 app.use(geocodingRouter);
+
+app.use(verifyToken);
+app.use(projectRouter);
+app.use(updateRouter);
 app.use(errorHandler);
 
 export default app;

@@ -10,7 +10,7 @@ export const initCloudinaryConfig = () => {
   cloudinary.v2.config(config);
 };
 
-export const uploadBundle = (
+export const uploadBundle = async (
   projectId: string,
   updateId: string,
   bundleBuffer: Buffer
@@ -18,10 +18,14 @@ export const uploadBundle = (
   const bufferString = bundleBuffer.toString("base64");
   const base64String = `data:application/javascript;base64,${bufferString}`;
 
-  return cloudinary.v2.uploader
-    .upload(base64String, {
-      resource_type: "raw",
-      public_id: `${projectId}/${updateId}.js`
-    })
-    .then(value => value.secure_url);
+  const value = await cloudinary.v2.uploader.upload(base64String, {
+    resource_type: "raw",
+    public_id: `${projectId}/${updateId}.js`
+  });
+  return value.secure_url;
+};
+
+export default {
+  uploadBundle,
+  initCloudinaryConfig
 };
