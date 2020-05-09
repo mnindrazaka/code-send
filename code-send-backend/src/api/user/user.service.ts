@@ -1,6 +1,6 @@
 import { UserRequest } from "./user.type";
 import userModel, { UserDocument } from "./user.model";
-import bcrypt from "utils/bcrypt";
+import userUtil from "./user.util";
 import jwt from "jsonwebtoken";
 import HttpException from "utils/httpException";
 
@@ -16,7 +16,7 @@ export default class UserService {
         if (existingUser)
           throw new HttpException(401, "username already exist");
 
-        const hash = await bcrypt.hash(user.password);
+        const hash = await userUtil.hash(user.password);
         await userModel.init();
         const userDocument = await userModel.create({
           username: user.username,
@@ -38,7 +38,7 @@ export default class UserService {
         if (!userDocument)
           throw new HttpException(401, "username or password wrong");
 
-        const isPasswordMatch = await bcrypt.compare(
+        const isPasswordMatch = await userUtil.compare(
           user.password,
           userDocument.password
         );

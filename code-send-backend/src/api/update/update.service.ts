@@ -1,7 +1,7 @@
 import updateModel, { UpdateDocument } from "./update.model";
 import { UpdateRequest } from "./update.type";
 import { Types } from "mongoose";
-import { uploadBundle } from "utils/cloudinary";
+import updateUtil from "./update.util";
 import GeocodingService from "api/geocoding/geocoding.service";
 import HttpException from "utils/httpException";
 
@@ -55,7 +55,11 @@ export default class UpdateService {
   ) => {
     return new Promise<UpdateDocument>(async (resolve, reject) => {
       try {
-        const url = await uploadBundle(projectId, updateId, bundleBuffer);
+        const url = await updateUtil.uploadBundle(
+          projectId,
+          updateId,
+          bundleBuffer
+        );
         const editedUpdate = await updateModel.findByIdAndUpdate(
           updateId,
           { bundleUrl: url },

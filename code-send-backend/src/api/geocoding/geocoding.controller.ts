@@ -17,8 +17,8 @@ export default class GeocodingController {
   reverse = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { latitude, longitude } = req.body;
-      const places = await geocodingService.reverse(latitude, longitude);
-      res.send(places);
+      const name = await geocodingService.reverse(latitude, longitude);
+      res.send({ name });
     } catch (error) {
       next(new HttpException(error.statusCode || 500, error.message));
     }

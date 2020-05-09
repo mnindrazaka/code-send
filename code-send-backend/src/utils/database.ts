@@ -3,7 +3,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import projectModel from "api/project/project.model";
 import updateModel from "api/update/update.model";
 import userModel from "api/user/user.model";
-import bcrypt from "./bcrypt";
+import userUtil from "api/user/user.util";
 
 const mongoMemoryServer = new MongoMemoryServer();
 const { USERNAME, PASSWORD } = process.env;
@@ -29,12 +29,12 @@ export async function closeDB(isUsingMemory?: boolean) {
 export async function mockingDatabaseRecord() {
   const user = await userModel.create({
     username: "mnindrazaka",
-    password: await bcrypt.hash("mnindrazaka")
+    password: await userUtil.hash("mnindrazaka")
   });
 
   const user2 = await userModel.create({
     username: "joko",
-    password: await bcrypt.hash("joko")
+    password: await userUtil.hash("joko")
   });
 
   const project = await projectModel.create({
