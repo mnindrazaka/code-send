@@ -1,0 +1,11 @@
+@startuml apply update
+|Sistem|
+start
+:Menampilkan pesan konfirmasi \napakah update akan diterapkan saat ini;
+|User|
+:Mengkonfirmasi penerapan update;
+
+|Sistem|
+:Menutup dan membuka kembali aplikasi \nuntuk menerapkan update saat ini;
+end
+@enduml

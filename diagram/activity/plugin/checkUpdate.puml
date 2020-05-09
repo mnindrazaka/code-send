@@ -1,0 +1,9 @@
+@startuml check update
+|User|
+start
+:Membuka aplikasi;
+|Sistem|
+:Memeriksa update terbaru;
+:Menampilkan pesan bahwa ada update baru \nyang dapat diunduh;
+end
+@enduml

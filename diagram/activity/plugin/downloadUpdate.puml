@@ -1,0 +1,12 @@
+@startuml download update
+|Sistem|
+start
+:Menampilkan pesan konfirmasi \napakah akan mengunduh update atau tidak;
+|User|
+:Mengkonfirmasi pengunduhan update;
+
+|Sistem|
+:Mengunduh update;
+:Menampilkan pesan bahwa update \ntelah berhasil diunduh;
+end
+@enduml

@@ -1,0 +1,16 @@
+@startuml create update
+|Developer|
+start
+:Input data update version;
+:Input data update note;
+:Input data update bundle;
+if (Regional update ?) then (ya)
+  :Memilih lokasi penerapan update;
+else (tidak)
+endif
+:Submit data update;
+|Sistem|
+:Menyimpan data update;
+:Menampilkan notifikasi sukses;
+end
+@enduml

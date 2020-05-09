@@ -1,0 +1,12 @@
+@startuml register
+|Developer|
+start
+:Input username;
+:Input password;
+:Input konfirmasi password;
+:Submit;
+|Sistem|
+:Menyimpan akun;
+:Menampilkan notifikasi sukses;
+end
+@enduml

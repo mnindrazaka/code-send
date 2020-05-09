@@ -1,0 +1,10 @@
+@startuml edit update
+|Developer|
+start
+:Input data update note;
+:Submit data update;
+|Sistem|
+:Menyimpan data update;
+:Menampilkan notifikasi sukses;
+end
+@enduml

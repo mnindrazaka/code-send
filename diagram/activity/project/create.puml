@@ -1,0 +1,10 @@
+@startuml create project
+|Developer|
+start
+:Input data project name;
+:Submit data project;
+|Sistem|
+:Menyimpan data project;
+:Menampilkan notifikasi sukses;
+end
+@enduml
