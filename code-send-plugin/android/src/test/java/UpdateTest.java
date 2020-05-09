@@ -1,11 +1,33 @@
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.WritableMap;
 import com.reactlibrary.models.Update;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
 import static com.google.common.truth.Truth.assertThat;
 
+@PrepareForTest(Arguments.class)
+@RunWith(PowerMockRunner.class)
 public class UpdateTest {
+    @Before
+    public void setup() {
+        PowerMockito.mockStatic(Arguments.class);
+        PowerMockito.when(Arguments.createMap()).thenAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                return new JavaOnlyMap();
+            }
+        });
+    }
+
     @Test
     public void canCreateObjectFromMap() {
         WritableMap updateMap = new JavaOnlyMap();
