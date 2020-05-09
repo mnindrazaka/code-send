@@ -3,6 +3,7 @@ package services;
 import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.filters.SmallTest;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.reactlibrary.models.Update;
@@ -16,6 +17,7 @@ import java.net.MalformedURLException;
 
 import static com.google.common.truth.Truth.assertThat;
 
+@SmallTest
 public class DownloadServiceTest {
     private ReactApplicationContext reactContext;
 
