@@ -1,0 +1,11 @@
+@startuml login
+|Developer|
+start
+:Input username;
+:Input password;
+:Submit;
+|Sistem|
+:Mengautentikasi akun;
+:Menampilkan notifikasi sukses;
+end
+@enduml

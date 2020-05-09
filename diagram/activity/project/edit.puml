@@ -1,0 +1,11 @@
+@startuml edit project
+|Developer|
+start
+:Memilih project yang akan diubah;
+:Input data project name;
+:Submit data project;
+|Sistem|
+:Menyimpan data project;
+:Menampilkan notifikasi sukses;
+end
+@enduml

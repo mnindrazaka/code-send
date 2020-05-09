@@ -1,0 +1,9 @@
+@startuml latest update
+|Sistem|
+start
+:Memuat data update terbaru;
+:Menampilkan data update terbaru;
+|Developer|
+:Melihat informasi update terbaru;
+end
+@enduml

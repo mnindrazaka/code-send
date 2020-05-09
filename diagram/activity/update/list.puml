@@ -1,0 +1,9 @@
+@startuml list update
+|Sistem|
+start
+:Memuat log update;
+:Menampilkan log update;
+|Developer|
+:Melihat log update;
+end
+@enduml

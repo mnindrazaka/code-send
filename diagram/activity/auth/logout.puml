@@ -1,0 +1,8 @@
+@startuml logout
+|Developer|
+start
+:Menekan tombol logout;
+|Sistem|
+:Menampilkan notifikasi sukses;
+end
+@enduml

@@ -1,0 +1,9 @@
+@startuml list project
+|Sistem|
+start
+:Memuat daftar project;
+:Menampilkan daftar project;
+|Developer|
+:Melihat daftar project;
+end
+@enduml
