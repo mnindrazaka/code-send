@@ -85,14 +85,18 @@ export default class UpdateService {
           ? await this.getUpdateById(updateId)
           : null;
         const latestUpdate = await this.getLatestUpdate(projectId);
-        if (!latestUpdate) return;
+        if (!latestUpdate) return resolve(null);
 
         const isUpdateNewer = currentUpdate
           ? new Date(latestUpdate.createdAt) > new Date(currentUpdate.createdAt)
           : true;
-        if (!isUpdateNewer) return;
+        if (!isUpdateNewer) return resolve(null);
 
-        if (latestUpdate.location) {
+        if (
+          latestUpdate.location &&
+          latestUpdate.location.latitude &&
+          latestUpdate.location.longitude
+        ) {
           const geocodingService = new GeocodingService();
           const userLocationName = await geocodingService.reverse(
             latitude,
@@ -104,6 +108,7 @@ export default class UpdateService {
           );
           if (userLocationName === latestUpdateLocationName)
             resolve(latestUpdate);
+          else resolve(null);
         } else {
           resolve(latestUpdate);
         }
