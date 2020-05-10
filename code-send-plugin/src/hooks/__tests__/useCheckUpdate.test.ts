@@ -23,7 +23,7 @@ describe("useCheckUpdate", () => {
       bundleUrl: "https://bundle.com/download"
     };
 
-    codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
+    codeSendServiceMock.checkUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
 
     const { result } = renderHook(() => useCheckUpdate());
@@ -44,7 +44,7 @@ describe("useCheckUpdate", () => {
       bundleUrl: "https://bundle.com/download"
     };
 
-    codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
+    codeSendServiceMock.checkUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
       filename: "/data/data/package/files/bundle/0.1.bundle",
       update: {
@@ -74,7 +74,7 @@ describe("useCheckUpdate", () => {
       note: "first update",
       bundleUrl: "https://bundle.com/download"
     };
-    codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(update);
+    codeSendServiceMock.checkUpdate.mockResolvedValueOnce(undefined);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
       filename: "/data/data/package/files/bundle/0.1.bundle",
       update: {
@@ -96,7 +96,7 @@ describe("useCheckUpdate", () => {
   });
 
   it("can return error if server throw error", async () => {
-    codeSendServiceMock.getLatestUpdate.mockRejectedValueOnce({
+    codeSendServiceMock.checkUpdate.mockRejectedValueOnce({
       status: "error",
       message: "no update available"
     });

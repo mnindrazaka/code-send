@@ -25,20 +25,17 @@ describe("useCodeSend", () => {
         bundleUrl: "https://bundle.com/download"
       }
     };
-    codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(bundle.update);
+    codeSendServiceMock.checkUpdate.mockResolvedValueOnce(bundle.update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
     bundleManagerMock.downloadBundle.mockResolvedValueOnce(bundle.filename);
-
     const { result, waitForNextUpdate } = renderHook(() =>
       useCodeSend("85eu3k693hf983y52huw883279")
     );
     await waitForNextUpdate();
-
     expect(result.current.bundle).toStrictEqual(bundle);
     expect(result.current.error).toBe(undefined);
     expect(result.current.status).toBe("standby");
   });
-
   it("can return error if download bundle failed", async () => {
     const bundle: Bundle = {
       filename: "/data/data/package/files/bundle/0.1.bundle",
@@ -51,15 +48,13 @@ describe("useCodeSend", () => {
         bundleUrl: "https://bundle.com/download"
       }
     };
-    codeSendServiceMock.getLatestUpdate.mockResolvedValueOnce(bundle.update);
+    codeSendServiceMock.checkUpdate.mockResolvedValueOnce(bundle.update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
     bundleManagerMock.downloadBundle.mockRejectedValue("failed to download");
-
     const { result, waitForNextUpdate } = renderHook(() =>
       useCodeSend("85eu3k693hf983y52huw883279")
     );
     await waitForNextUpdate();
-
     expect(result.current.bundle).toBe(undefined);
     expect(result.current.error).toBe("failed to download");
     expect(result.current.status).toBe("standby");
