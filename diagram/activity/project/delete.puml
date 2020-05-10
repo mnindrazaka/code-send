@@ -1,0 +1,10 @@
+@startuml delete project
+|Developer|
+start
+:Memilih project yang akan dihapus;
+:Mengkonfirmasi penghapusan project;
+|Sistem|
+:Menghapus data project;
+:Menampilkan notifikasi sukses;
+end
+@enduml
