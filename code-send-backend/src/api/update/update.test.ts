@@ -23,14 +23,24 @@ describe("update", () => {
     await connectDB(true);
     await mockingDatabaseRecord();
   });
+
   afterEach(async () => await closeDB(true));
 
   it("can throw error if request not authenticated", async () => {
-    const geAllUpdateResponse = await request.get("/update").send();
-    expect(geAllUpdateResponse.body)
+    const token = await authenticate();
+    const getAllProjectResponse = await request
+      .get("/project")
+      .set("authorization", `Bearer ${token}`)
+      .send();
+    const projectId = getAllProjectResponse.body[0]._id;
+
+    const getAllUpdateResponse = await request
+      .get(`/project/${projectId}/update`)
+      .send();
+    expect(getAllUpdateResponse.body)
       .to.has.property("status")
       .equal("error");
-    expect(geAllUpdateResponse.body)
+    expect(getAllUpdateResponse.body)
       .to.has.property("message")
       .equal("authentication token not found");
   });
@@ -179,7 +189,6 @@ describe("update", () => {
 
     const checkUpdateResponse = await request
       .post(`/project/${projectId}/update/check`)
-      .set("authorization", `Bearer ${token}`)
       .send({ updateId, latitude: -7.756928, longitude: 113.211502 });
 
     expect(checkUpdateResponse.body)
@@ -214,7 +223,6 @@ describe("update", () => {
 
     const checkUpdateResponse = await request
       .post(`/project/${projectId}/update/check`)
-      .set("authorization", `Bearer ${token}`)
       .send({ updateId, latitude: -7.756928, longitude: 113.211502 });
 
     expect(checkUpdateResponse.body)
@@ -250,7 +258,6 @@ describe("update", () => {
 
     const checkUpdateResponse = await request
       .post(`/project/${projectId}/update/check`)
-      .set("authorization", `Bearer ${token}`)
       .send({ updateId, latitude: -6.2, longitude: 106.816666 });
 
     expect(checkUpdateResponse.body).to.not.has.property("_id");
@@ -272,7 +279,6 @@ describe("update", () => {
 
     const checkUpdateResponse = await request
       .post(`/project/${projectId}/update/check`)
-      .set("authorization", `Bearer ${token}`)
       .send({ updateId, latitude: -6.2, longitude: 106.816666 });
 
     expect(checkUpdateResponse.body).to.not.has.property("_id");
