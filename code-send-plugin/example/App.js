@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useCodeSend } from "code-send"
 
 const App = () => {
-  useCodeSend("5e7fe2afa491f60003847d6b")
+  useCodeSend("5ebd5a0d4b05fb0003c7cab2", true)
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>CodeSend initial app</Text>

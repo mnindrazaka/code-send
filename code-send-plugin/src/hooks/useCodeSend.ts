@@ -5,7 +5,7 @@ import { Bundle } from "../interfaces/Bundle";
 
 type Status = "standby" | "checking" | "downloading";
 
-const useCodeSend = (projectId: string) => {
+const useCodeSend = (projectId: string, useConfirmation?: boolean) => {
   const [status, setStatus] = useState<Status>("standby");
   const [error, setError] = useState<string>();
   const [bundle, setBundle] = useState<Bundle>();
@@ -21,11 +21,11 @@ const useCodeSend = (projectId: string) => {
     loading: applyLoading,
     error: applyError,
     applyUpdate
-  } = useApplyUpdate();
+  } = useApplyUpdate(useConfirmation);
 
   useEffect(() => {
     checkUpdate(projectId);
-  }, [projectId]);
+  }, [checkUpdate, projectId]);
 
   useEffect(() => {
     if (update) applyUpdate(update);

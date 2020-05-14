@@ -4,23 +4,40 @@ import { Update } from "../interfaces/Update";
 import { Alert } from "react-native";
 import interactionManager from "../utils/interactionManager";
 
-const useApplyUpdate = () => {
+const useApplyUpdate = (useConfirmation?: boolean) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [filename, setFilename] = useState<string>();
   const [error, setError] = useState<string>();
 
-  const applyUpdate = useCallback((update: Update) => {
+  const downloadBundle = useCallback(
+    async (update: Update) => {
+      setLoading(true);
+      const filename = await bundleManager.downloadBundle(update);
+      bundleManager.setActiveBundle({ filename, update });
+      setFilename(filename);
+      setError(undefined);
+    },
+    [bundleManager]
+  );
+
+  const reloadBundle = useCallback(async () => {
+    bundleManager.reloadBundle();
+  }, [bundleManager]);
+
+  const applyUpdate = useCallback(async (update: Update) => {
     try {
+      if (!useConfirmation) {
+        await downloadBundle(update);
+        reloadBundle();
+        return;
+      }
+
       Alert.alert("Update", "There is an update, download now ?", [
         {
           text: "yes",
           onPress: async () => {
             interactionManager.showMessage("Downloading update");
-            setLoading(true);
-            const filename = await bundleManager.downloadBundle(update);
-            bundleManager.setActiveBundle({ filename, update });
-            setFilename(filename);
-            setError(undefined);
+            downloadBundle(update);
 
             Alert.alert(
               "Update Downloaded",
@@ -28,9 +45,7 @@ const useApplyUpdate = () => {
               [
                 {
                   text: "yes",
-                  onPress: () => {
-                    bundleManager.reloadBundle();
-                  }
+                  onPress: reloadBundle
                 },
                 {
                   text: "no",
