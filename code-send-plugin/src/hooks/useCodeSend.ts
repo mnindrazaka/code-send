@@ -25,7 +25,7 @@ const useCodeSend = (projectId: string, useConfirmation?: boolean) => {
 
   useEffect(() => {
     checkUpdate(projectId);
-  }, [projectId]);
+  }, [checkUpdate, projectId]);
 
   useEffect(() => {
     if (update) applyUpdate(update);

@@ -3,6 +3,10 @@ import codeSendService from "../../utils/api/codeSendService";
 import bundleManager from "../../utils/bundleManager";
 import useCodeSend from "../useCodeSend";
 import { Bundle } from "../../interfaces/Bundle";
+import {
+  GeolocationResponse,
+  GeolocationError
+} from "@react-native-community/geolocation";
 
 jest.mock("../../utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -11,6 +15,30 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 
 jest.mock("../../utils/bundleManager");
 const bundleManagerMock = bundleManager as jest.Mocked<typeof bundleManager>;
+
+jest.mock("@react-native-community/geolocation", () => {
+  return {
+    getCurrentPosition: jest.fn(
+      (
+        success: (position: GeolocationResponse) => void,
+        error?: (error: GeolocationError) => void
+      ) => {
+        success({
+          coords: {
+            accuracy: 1,
+            latitude: 1,
+            longitude: 1,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null
+          },
+          timestamp: 1
+        });
+      }
+    )
+  };
+});
 
 describe("useCodeSend", () => {
   it("can return latest bundle", async () => {

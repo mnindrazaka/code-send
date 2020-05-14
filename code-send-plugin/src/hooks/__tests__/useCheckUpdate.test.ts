@@ -3,6 +3,10 @@ import bundleManager from "../../utils/bundleManager";
 import codeSendService from "../../utils/api/codeSendService";
 import useCheckUpdate from "../useCheckUpdate";
 import { Update } from "../../interfaces/Update";
+import Geolocation, {
+  GeolocationResponse,
+  GeolocationError
+} from "@react-native-community/geolocation";
 
 jest.mock("../../utils/api/codeSendService");
 const codeSendServiceMock = codeSendService as jest.Mocked<
@@ -11,6 +15,30 @@ const codeSendServiceMock = codeSendService as jest.Mocked<
 
 jest.mock("../../utils/bundleManager");
 const bundleManagerMock = bundleManager as jest.Mocked<typeof bundleManager>;
+
+jest.mock("@react-native-community/geolocation", () => {
+  return {
+    getCurrentPosition: jest.fn(
+      (
+        success: (position: GeolocationResponse) => void,
+        error?: (error: GeolocationError) => void
+      ) => {
+        success({
+          coords: {
+            accuracy: 1,
+            latitude: 1,
+            longitude: 1,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null
+          },
+          timestamp: 1
+        });
+      }
+    )
+  };
+});
 
 describe("useCheckUpdate", () => {
   it("can return latest update if no active bundle", async () => {
@@ -22,7 +50,6 @@ describe("useCheckUpdate", () => {
       note: "first update",
       bundleUrl: "https://bundle.com/download"
     };
-
     codeSendServiceMock.checkUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
 
@@ -77,14 +104,7 @@ describe("useCheckUpdate", () => {
     codeSendServiceMock.checkUpdate.mockResolvedValueOnce(undefined);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce({
       filename: "/data/data/package/files/bundle/0.1.bundle",
-      update: {
-        _id: "546753285632859869423",
-        createdAt: "2020-03-29T21:59:47.213Z",
-        updatedAt: "2020-03-29T21:59:47.213Z",
-        version: "0.1",
-        note: "first update",
-        bundleUrl: "https://bundle.com/download"
-      }
+      update
     });
 
     const { result } = renderHook(() => useCheckUpdate());
