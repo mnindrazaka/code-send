@@ -4,7 +4,7 @@ import { Update } from "../interfaces/Update";
 import { Alert } from "react-native";
 import interactionManager from "../utils/interactionManager";
 
-const useApplyUpdate = (useConfirm?: boolean) => {
+const useApplyUpdate = (useConfirmation?: boolean) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [filename, setFilename] = useState<string>();
   const [error, setError] = useState<string>();
@@ -26,7 +26,7 @@ const useApplyUpdate = (useConfirm?: boolean) => {
 
   const applyUpdate = useCallback(async (update: Update) => {
     try {
-      if (!useConfirm) {
+      if (!useConfirmation) {
         await downloadBundle(update);
         reloadBundle();
         return;

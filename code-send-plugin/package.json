@@ -39,6 +39,7 @@
     "react-test-renderer": "^16.13.1"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
     "axios": "^0.19.2"
   },
   "peerDependencies": {
