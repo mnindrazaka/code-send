@@ -1,14 +1,14 @@
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.SmallTest;
 
-import com.facebook.react.bridge.JavaOnlyMap;
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.PromiseImpl;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.soloader.SoLoader;
 import com.reactlibrary.CodeSendModule;
 
 import org.junit.Before;
@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 
 import static com.google.common.truth.Truth.assertThat;
 
+
 @SmallTest
 public class CodeSendModuleTest {
     private ReactApplicationContext reactContext;
@@ -27,152 +28,12 @@ public class CodeSendModuleTest {
     public void createReactContext() {
         Context applicationContext = ApplicationProvider.getApplicationContext();
         reactContext = new ReactApplicationContext(applicationContext);
-    }
-
-//    TODO: need to mock native map to java only map
-//    @Test
-//    public void canGetActiveBundle() {
-//        WritableMap updateMap = new JavaOnlyMap();
-//        updateMap.putString("_id", "57jg739gk388g4g89ut4");
-//        updateMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
-//        updateMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
-//        updateMap.putString("version", "0.1");
-//        updateMap.putString("note", "first update");
-//        updateMap.putString("bundleUrl", "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0");
-//
-//        final WritableMap bundleMap = new JavaOnlyMap();
-//        bundleMap.putString("filename", "/data/data/package/files/bundle/0.1.bundle");
-//        bundleMap.putMap("update", updateMap);
-//
-//        Promise promise = new Promise() {
-//            @Override
-//            public void resolve(@Nullable Object value) {
-//                assertThat(value).isEqualTo(bundleMap);
-//            }
-//
-//            @Override
-//            public void reject(String code, String message) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, Throwable throwable) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, String message, Throwable throwable) {
-//
-//            }
-//
-//            @Override
-//            public void reject(Throwable throwable) {
-//
-//            }
-//
-//            @Override
-//            public void reject(Throwable throwable, WritableMap userInfo) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, @NonNull WritableMap userInfo) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, Throwable throwable, WritableMap userInfo) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, String message, @NonNull WritableMap userInfo) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String message) {
-//
-//            }
-//        };
-//
-//        CodeSendModule codeSendModule = new CodeSendModule(reactContext);
-//        codeSendModule.setActiveBundle(bundleMap);
-//        codeSendModule.getActiveBundle(promise);
-//    }
-
-    @Test
-    public void canReturnNullIfNoActiveBundle() {
-        Promise promise = new Promise() {
-            @Override
-            public void resolve(@Nullable Object value) {
-                assertThat(value).isNull();
-            }
-
-            @Override
-            public void reject(String code, String message) {
-
-            }
-
-            @Override
-            public void reject(String code, Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, @NonNull WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, @NonNull WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String message) {
-
-            }
-        };
-
-        CodeSendModule codeSendModule = new CodeSendModule(reactContext);
-        codeSendModule.clearActiveBundle();
-        codeSendModule.getActiveBundle(promise);
+        SoLoader.init(reactContext, false);
     }
 
     @Test
-    public void canDownloadBundle() {
-        WritableMap updateMap = new JavaOnlyMap();
+    public void canGetActiveBundle() {
+        WritableMap updateMap = Arguments.createMap();
         updateMap.putString("_id", "57jg739gk388g4g89ut4");
         updateMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
         updateMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
@@ -180,71 +41,76 @@ public class CodeSendModuleTest {
         updateMap.putString("note", "first update");
         updateMap.putString("bundleUrl", "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0");
 
-        Promise promise = new Promise() {
+        final WritableMap bundleMap = Arguments.createMap();
+        bundleMap.putString("filename", "/data/data/package/files/bundle/0.1.bundle");
+        bundleMap.putMap("update", updateMap);
+
+        Callback onResolved = new Callback() {
             @Override
-            public void resolve(@Nullable Object value) {
-                File expectedFile = new File(reactContext.getFilesDir().getAbsolutePath() + "/bundle", "0.1.bundle");
-                assertThat(value).isEqualTo(expectedFile.getAbsolutePath());
-            }
-
-            @Override
-            public void reject(String code, String message) {
-
-            }
-
-            @Override
-            public void reject(String code, Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, @NonNull WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, @NonNull WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String message) {
-
+            public void invoke(Object... args) {
+                assertThat(args[0]).isEqualTo(bundleMap);
             }
         };
 
+        Callback onRejected = new Callback() {
+            @Override
+            public void invoke(Object... args) {}
+        };
+
         CodeSendModule codeSendModule = new CodeSendModule(reactContext);
-        codeSendModule.downloadBundle(updateMap, promise);
+        codeSendModule.setActiveBundle(bundleMap);
+        codeSendModule.getActiveBundle(new PromiseImpl(onResolved, onRejected));
+    }
+
+    @Test
+    public void canReturnNullIfNoActiveBundle() {
+        Callback onResolved = new Callback() {
+            @Override
+            public void invoke(Object... args) {
+                assertThat(args[0]).isNull();
+            }
+        };
+
+        Callback onRejected = new Callback() {
+            @Override
+            public void invoke(Object... args) {}
+        };
+
+        CodeSendModule codeSendModule = new CodeSendModule(reactContext);
+        codeSendModule.clearActiveBundle();
+        codeSendModule.getActiveBundle(new PromiseImpl(onResolved, onRejected));
+    }
+
+    @Test
+    public void canDownloadBundle() {
+        WritableMap updateMap = Arguments.createMap();
+        updateMap.putString("_id", "57jg739gk388g4g89ut4");
+        updateMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
+        updateMap.putString("version", "0.1");
+        updateMap.putString("note", "first update");
+        updateMap.putString("bundleUrl", "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0");
+
+        Callback onResolved = new Callback() {
+            @Override
+            public void invoke(Object... args) {
+                File expectedFile = new File(reactContext.getFilesDir().getAbsolutePath() + "/bundle", "0.1.bundle");
+                assertThat(args[0]).isEqualTo(expectedFile.getAbsolutePath());
+            }
+        };
+
+        Callback onRejected = new Callback() {
+            @Override
+            public void invoke(Object... args) {}
+        };
+
+        CodeSendModule codeSendModule = new CodeSendModule(reactContext);
+        codeSendModule.downloadBundle(updateMap, new PromiseImpl(onResolved, onRejected));
     }
 
     @Test
     public void canThrowWrongURLFormat() {
-        WritableMap updateMap = new JavaOnlyMap();
+        WritableMap updateMap = Arguments.createMap();
         updateMap.putString("_id", "57jg739gk388g4g89ut4");
         updateMap.putString("createdAt", "2020-03-29T21:59:47.213Z");
         updateMap.putString("updatedAt", "2020-03-29T21:59:47.213Z");
@@ -252,64 +118,19 @@ public class CodeSendModuleTest {
         updateMap.putString("note", "first update");
         updateMap.putString("bundleUrl", "http//wrongUrlFormat.com");
 
-        Promise promise = new Promise() {
+        Callback onResolved = new Callback() {
             @Override
-            public void resolve(@Nullable Object value) {
+            public void invoke(Object... args) {}
+        };
 
-            }
-
+        Callback onRejected = new Callback() {
             @Override
-            public void reject(String code, String message) {
-
-            }
-
-            @Override
-            public void reject(String code, Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(Throwable throwable) {
-
-            }
-
-            @Override
-            public void reject(Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, @NonNull WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, @NonNull WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
-
-            }
-
-            @Override
-            public void reject(String message) {
-                assertThat(message).contains(new MalformedURLException().toString());
+            public void invoke(Object... args) {
+                assertThat(args[0].toString()).contains(new MalformedURLException().toString());
             }
         };
 
         CodeSendModule codeSendModule = new CodeSendModule(reactContext);
-        codeSendModule.downloadBundle(updateMap, promise);
+        codeSendModule.downloadBundle(updateMap, new PromiseImpl(onResolved, onRejected));
     }
 }
