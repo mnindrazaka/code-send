@@ -38,7 +38,7 @@ const ProjectForm: FunctionComponent = () => {
           onSubmit={handleSubmit}
         >
           <Form>
-            <TextField name="name" label="Name" />
+            <TextField name="name" label="Name" placeholder="Awesome App" />
             <Button type="primary" htmlType="submit" loading={loading}>
               Submit
             </Button>

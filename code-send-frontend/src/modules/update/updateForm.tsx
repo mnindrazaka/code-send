@@ -27,7 +27,12 @@ const UpdateForm: FunctionComponent = () => {
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      version: selected ? yup.string() : yup.string().required(),
+      version: selected
+        ? yup.number().typeError("version must be a number")
+        : yup
+            .number()
+            .typeError("version must be a number")
+            .required(),
       note: yup.string().required(),
       bundle: selected ? yup.mixed() : yup.mixed().required(),
       location: isRegional && !selected ? yup.mixed().required() : yup.mixed()
@@ -58,8 +63,14 @@ const UpdateForm: FunctionComponent = () => {
           onSubmit={handleSubmit}
         >
           <Form>
-            {!selected && <TextField name="version" label="Version" />}
-            <TextField name="note" label="Note" />
+            {!selected && (
+              <TextField name="version" label="Version" placeholder="0.1" />
+            )}
+            <TextField
+              name="note"
+              label="Note"
+              placeholder="add feature to application"
+            />
             {!selected && <FileField name="bundle" label="Bundle" />}
             {!selected && (
               <AntdForm.Item>
