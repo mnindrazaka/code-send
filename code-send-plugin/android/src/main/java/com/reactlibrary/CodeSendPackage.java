@@ -11,13 +11,23 @@ import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
 
 public class CodeSendPackage implements ReactPackage {
+    private static CodeSendPackage mCurrentInstance;
+
+    public CodeSendPackage() {
+        mCurrentInstance = this;
+    }
+
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new CodeSendModule(reactContext));
+        return Arrays.<NativeModule>asList(new CodeSendModule(reactContext, this));
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Collections.emptyList();
+    }
+
+    void invalidateCurrentInstance() {
+        mCurrentInstance = null;
     }
 }
