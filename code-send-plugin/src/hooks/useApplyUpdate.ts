@@ -20,7 +20,7 @@ const useApplyUpdate = (useConfirmation?: boolean) => {
     [bundleManager]
   );
 
-  const reloadBundle = useCallback(async () => {
+  const reloadBundle = useCallback(() => {
     bundleManager.reloadBundle();
   }, [bundleManager]);
 
@@ -32,37 +32,26 @@ const useApplyUpdate = (useConfirmation?: boolean) => {
         return;
       }
 
-      Alert.alert("Update", "There is an update, download now ?", [
-        {
-          text: "yes",
-          onPress: async () => {
-            interactionManager.showMessage("Downloading update");
-            downloadBundle(update);
-
-            Alert.alert(
-              "Update Downloaded",
-              "Your update is ready, apply update now ?",
-              [
-                {
-                  text: "yes",
-                  onPress: reloadBundle
-                },
-                {
-                  text: "no",
-                  onPress: () => {
-                    interactionManager.showMessage(
-                      "Your update will be applied on next app start"
-                    );
-                  }
-                }
-              ]
-            );
+      Alert.alert(
+        "Update",
+        `There is an update for version ${update.version} with release note : ${update.note}. Download now ?`,
+        [
+          {
+            text: "yes",
+            onPress: async () => {
+              interactionManager.showMessage("Downloading update");
+              await downloadBundle(update);
+              reloadBundle();
+              interactionManager.showMessage(
+                "Update will be applied after you restart your application"
+              );
+            }
+          },
+          {
+            text: "no"
           }
-        },
-        {
-          text: "no"
-        }
-      ]);
+        ]
+      );
     } catch (error) {
       setError(error);
       setFilename(undefined);
