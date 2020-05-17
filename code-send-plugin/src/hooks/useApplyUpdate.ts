@@ -34,7 +34,7 @@ const useApplyUpdate = (useConfirmation?: boolean) => {
 
       Alert.alert(
         "Update",
-        `There is an update for version ${update.version}, download now ?`,
+        `There is an update for version ${update.version} with release note : ${update.note}. Download now ?`,
         [
           {
             text: "yes",
