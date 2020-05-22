@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from "react";
 import {
   Button,
-  Skeleton,
   PageHeader,
   Card,
   Row,
   Col,
   Typography,
-  Popconfirm
+  Popconfirm,
+  Result,
+  Divider
 } from "antd";
 import { Link } from "react-router-dom";
 import { useGetAllProject, useDeleteProject } from "hooks/api/useProjectApi";
@@ -22,6 +23,7 @@ import { ReactComponent as ProjectCover3 } from "assets/images/projectCover3.svg
 import { ReactComponent as ProjectCover4 } from "assets/images/projectCover4.svg";
 import { ReactComponent as ProjectCover5 } from "assets/images/projectCover5.svg";
 import { ReactComponent as ProjectCover6 } from "assets/images/projectCover6.svg";
+import { ReactComponent as Empty } from "assets/images/empty.svg";
 
 interface ProjectCardProps {
   project: Project;
@@ -95,15 +97,57 @@ const ProjectList: FunctionComponent = () => {
           </Button>
         </Link>
 
-        <Skeleton loading={loading} active>
-          <Row style={{ marginTop: 15 }} gutter={[15, 15]}>
+        <Divider />
+
+        {loading ? (
+          <Row gutter={[16, 16]}>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+            <Col span={6}>
+              <Card loading={loading} />
+            </Col>
+          </Row>
+        ) : items.length ? (
+          <Row style={{ marginTop: 16 }} gutter={[16, 16]}>
             {items.map((item, index) => (
               <Col span={6} key={index}>
                 <ProjectCard project={item} />
               </Col>
             ))}
           </Row>
-        </Skeleton>
+        ) : (
+          <Card>
+            <Result
+              icon={<Empty style={{ width: 200, height: 200 }} />}
+              title="You Have No Project !"
+              subTitle="Create one and start developing your application"
+              extra={
+                <Link to="/project/create">
+                  <Button type="primary">Create Project Now</Button>
+                </Link>
+              }
+            />
+          </Card>
+        )}
       </Container>
     </>
   );
