@@ -5,7 +5,7 @@ import codeSendService from "utils/api/codeSendService";
 import { Location } from "interfaces/Geocoding";
 
 interface LocationFieldProps {
-  label: string;
+  label?: React.ReactNode;
   name: string;
 }
 

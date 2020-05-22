@@ -3,7 +3,7 @@ import { Input, Form } from "antd";
 import { useField } from "formik";
 
 interface TextFieldProps {
-  label: string;
+  label?: React.ReactNode;
   name: string;
   placeholder?: string;
   type?: "text" | "password";
