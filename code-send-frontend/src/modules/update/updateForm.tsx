@@ -39,14 +39,30 @@ const UpdateForm: FunctionComponent = () => {
     });
   }, [selected, isRegional]);
 
+  const handleCreateUpdate = React.useCallback(
+    (values: UpdateFormValues) => {
+      if (isRegional) createUpdate(values);
+      else createUpdate({ ...values, location: undefined });
+    },
+    [isRegional, createUpdate]
+  );
+
+  const handleEditUpdate = React.useCallback(
+    (values: UpdateFormValues) => {
+      if (!selected) return;
+      editUpdate(selected._id, values);
+    },
+    [selected, editUpdate]
+  );
+
   const { title, subTitle, initialValues, handleSubmit } = useToggleForm<
     UpdateFormValues
   >({
     name: "Update",
     emptyValues: { note: "", version: "", location: undefined },
     filledValues: selected,
-    onCreate: createUpdate,
-    onEdit: values => editUpdate(selected!._id, values)
+    onCreate: handleCreateUpdate,
+    onEdit: handleEditUpdate
   });
 
   const handleToggleRegional = useCallback(() => {
