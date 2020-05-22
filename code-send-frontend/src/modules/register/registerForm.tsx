@@ -1,11 +1,13 @@
 import React, { useMemo } from "react";
-import { Card, Button, Typography, Divider } from "antd";
+import { Card, Button, Typography, Divider, Row, Col } from "antd";
 import { Formik } from "formik";
 import { Form, TextField } from "components/formikWrapper";
 import * as yup from "yup";
 import { UserFormValues } from "interfaces/User";
 import { useRegister } from "hooks/api/useAuthApi";
 import { useAuthState } from "hooks/store/useAuthStore";
+import { Link } from "react-router-dom";
+import { ReactComponent as RegisterCover } from "assets/images/register.svg";
 
 interface RegisterFormValues extends UserFormValues {
   passwordConfirmation: string;
@@ -33,30 +35,49 @@ const RegisterForm = () => {
 
   return (
     <Card>
-      <Typography.Title level={4}>Register</Typography.Title>
-      <Typography.Paragraph strong>
-        Join to code send to start your development
-      </Typography.Paragraph>
-      <Divider />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={register}
-      >
-        <Form>
-          <TextField name="username" label="Username" />
-          <TextField name="password" label="Password" type="password" />
-          <TextField
-            name="passwordConfirmation"
-            label="Password Confirmation"
-            type="password"
-          />
+      <Row align="middle" gutter={30}>
+        <Col span={12} style={{ padding: 30, textAlign: "center" }}>
+          <RegisterCover width={200} height={200} />
+          <Typography.Title level={4}>Welcome</Typography.Title>
+          <Typography.Paragraph>
+            Join us to start your wonderful development experience
+          </Typography.Paragraph>
+        </Col>
+        <Col span={12}>
+          <Typography.Title level={4}>Register</Typography.Title>
           <Divider />
-          <Button type="primary" htmlType="submit" loading={loading}>
-            Submit
-          </Button>
-        </Form>
-      </Formik>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={register}
+          >
+            <Form>
+              <TextField name="username" label="Username" />
+              <TextField name="password" label="Password" type="password" />
+              <TextField
+                name="passwordConfirmation"
+                label="Password Confirmation"
+                type="password"
+              />
+              <Divider />
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                block
+                style={{ marginBottom: 16 }}
+              >
+                Register Now
+              </Button>
+              <Link to="/login">
+                <Typography.Text>
+                  Already have account ? login now
+                </Typography.Text>
+              </Link>
+            </Form>
+          </Formik>
+        </Col>
+      </Row>
     </Card>
   );
 };

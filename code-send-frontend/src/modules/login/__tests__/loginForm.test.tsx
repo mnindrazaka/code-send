@@ -28,7 +28,7 @@ describe("login form", () => {
     const { findByText, getByLabelText, getByText } = renderLoginForm();
     const inputUsernameElement = getByLabelText("Username");
     const inputPasswordElement = getByLabelText("Password");
-    const submitElement = getByText("Submit").closest("button");
+    const submitElement = getByText("Login Now").closest("button");
 
     codeSendServiceMock.login.mockResolvedValueOnce({ token: "1234" });
 
@@ -54,7 +54,7 @@ describe("login form", () => {
     const { findByText, getByLabelText, getByText } = renderLoginForm();
     const inputUsernameElement = getByLabelText("Username");
     const inputPasswordElement = getByLabelText("Password");
-    const submitElement = getByText("Submit").closest("button");
+    const submitElement = getByText("Login Now").closest("button");
 
     codeSendServiceMock.login.mockRejectedValueOnce({
       status: "error",
