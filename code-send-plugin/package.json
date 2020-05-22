@@ -1,7 +1,7 @@
 {
   "name": "code-send",
   "title": "Code Send",
-  "version": "1.0.8",
+  "version": "1.0.0",
   "description": "Hot code update plugin",
   "main": "lib/index.js",
   "scripts": {
@@ -36,15 +36,16 @@
     "jest": "^25.3.0",
     "react": "^16.9.0",
     "react-native": "^0.61.5",
-    "react-test-renderer": "^16.13.1"
+    "react-test-renderer": "^16.13.1",
+    "@react-native-community/geolocation": "^2.0.2"
   },
   "dependencies": {
-    "@react-native-community/geolocation": "^2.0.2",
     "axios": "^0.19.2"
   },
   "peerDependencies": {
     "react": "^16.9.0",
-    "react-native": "^0.61.5"
+    "react-native": "^0.61.5",
+    "@react-native-community/geolocation": "^2.0.2"
   },
   "jest": {
     "testPathIgnorePatterns": [
