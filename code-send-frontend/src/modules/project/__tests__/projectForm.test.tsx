@@ -35,9 +35,9 @@ const renderProjectForm = (initialState?: Partial<RootState>) => {
       </StoreProvider>
     </MemoryRouter>
   );
-  const { getByLabelText, getByText } = utils;
-  const inputNameElement = getByLabelText("Name");
-  const submitElement = getByText("Submit").closest("button");
+  const { getByPlaceholderText, getByText } = utils;
+  const inputNameElement = getByPlaceholderText("Awesome App");
+  const submitElement = getByText("Create Project Now").closest("button");
   return {
     ...utils,
     inputNameElement,

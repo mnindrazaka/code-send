@@ -1,0 +1,52 @@
+@startuml usecase
+left to right direction
+
+actor Developer as dev
+
+' auth use case
+usecase (Masuk ke sistem) as login
+usecase (Keluar dari sistem) as logout
+usecase (Mendaftarkan akun) as register
+
+(logout) ..> login : include
+
+dev-->(register)
+dev-->(logout)
+
+' project use case
+rectangle project {
+  usecase (Membuat \nproject baru) as (create project)
+  usecase (Melihat \ndaftar project) as (list project)
+  usecase (Mengubah \ninformasi project) as (edit project)
+  usecase (Menghapus \nproject) as (delete project)
+
+  dev-->(create project)
+  dev-->(list project)
+  dev-->(edit project)
+  dev-->(delete project)
+
+  (create project) ..> login : include
+  (list project) ..> login : include
+  (edit project) ..> login : include
+  (delete project) ..> login : include
+}
+
+' update use case
+rectangle update {
+  usecase (Merilis \n update baru) as (create update)
+  usecase (Melihat \n log update) as (list update)
+  usecase (Mengubah \n informasi update) as (edit update)
+  usecase (Melihat informasi \n update terbaru) as (latest update)
+
+  (create update) ..> login : include
+  (list update) ..> login : include
+  (edit update) ..> login : include
+  (latest update) ..> login : include
+
+  dev-->(create update)
+  dev-->(list update)
+  dev-->(edit update)
+  dev-->(latest update)
+}
+
+@enduml

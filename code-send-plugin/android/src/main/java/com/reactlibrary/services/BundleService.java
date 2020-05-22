@@ -7,12 +7,16 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.google.gson.Gson;
 import com.reactlibrary.models.Bundle;
 
+import java.io.File;
+
 public class BundleService {
     public static final String ACTIVE_BUNDLE_KEY = "activeBundle";
     public static final  String BUNDLE_PREFS_KEY = "bundlePrefs";
+    private final ReactApplicationContext reactContext;
     private final SharedPreferences bundlePrefs;
 
     public BundleService(ReactApplicationContext reactContext) {
+        this.reactContext = reactContext;
         bundlePrefs = reactContext.getSharedPreferences(BUNDLE_PREFS_KEY, Context.MODE_PRIVATE);
     }
 
@@ -35,5 +39,13 @@ public class BundleService {
         SharedPreferences.Editor editor = bundlePrefs.edit();
         editor.remove(ACTIVE_BUNDLE_KEY);
         editor.apply();
+    }
+
+    public void reloadBundle() {
+        // this is must be sync with https://github.com/facebook/react-native/blob/master/ReactAndroid/src/main/java/com/facebook/react/devsupport/DevSupportManagerBase.java
+        File cachedDevBundle = new File(reactContext.getFilesDir(), "ReactNativeDevBundle.js");
+        if (cachedDevBundle.exists()) {
+            cachedDevBundle.delete();
+        }
     }
 }

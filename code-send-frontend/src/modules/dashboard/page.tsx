@@ -65,7 +65,7 @@ const Page: React.FC = () => {
             <Result
               icon={<Empty style={{ width: 200, height: 200 }} />}
               title="You Have No Update !"
-              subTitle="Create one and start developing your application"
+              subTitle="Create one and relase it to user"
               extra={
                 <Link to="/update/create">
                   <Button type="primary">Create Update Now</Button>

@@ -16,10 +16,7 @@ import com.reactlibrary.services.BundleService;
 import com.reactlibrary.services.DownloadTask;
 import com.reactlibrary.services.InteractionService;
 
-import java.io.File;
-
 public class CodeSendModule extends ReactContextBaseJavaModule {
-    private final CodeSendPackage codeSendPackage;
     private final BundleService bundleService;
     private final InteractionService interactionService;
 
@@ -33,11 +30,10 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
         return bundle.getFilename();
     }
 
-    public CodeSendModule(ReactApplicationContext reactApplicationContext, CodeSendPackage codeSendPackage) {
+    public CodeSendModule(ReactApplicationContext reactApplicationContext) {
         super(reactApplicationContext);
         this.bundleService = new BundleService(reactApplicationContext);
         this.interactionService = new InteractionService(reactApplicationContext);
-        this.codeSendPackage = codeSendPackage;
     }
 
     @NonNull
@@ -70,22 +66,7 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void reloadBundle() {
-        if (getCurrentActivity() == null) return;
-
-        // this is must be sync with https://github.com/facebook/react-native/blob/master/ReactAndroid/src/main/java/com/facebook/react/devsupport/DevSupportManagerBase.java
-        File cachedDevBundle = new File(getReactApplicationContext().getFilesDir(), "ReactNativeDevBundle.js");
-        if (cachedDevBundle.exists()) {
-            cachedDevBundle.delete();
-        }
-
-        codeSendPackage.invalidateCurrentInstance();
-        getCurrentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (getCurrentActivity() == null) return;
-                getCurrentActivity().recreate();
-            }
-        });
+        bundleService.reloadBundle();
     }
 
     @ReactMethod

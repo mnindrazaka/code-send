@@ -43,3 +43,5 @@ buck-out/
 
 # typescript
 lib
+
+index.android.bundle

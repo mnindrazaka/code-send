@@ -4,7 +4,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { useField } from "formik";
 
 interface FileFieldProps {
-  label: string;
+  label?: React.ReactNode;
   name: string;
 }
 

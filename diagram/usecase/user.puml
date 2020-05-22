@@ -1,0 +1,16 @@
+@startuml usecase
+left to right direction
+actor Pengguna as user
+
+' apply update use case
+usecase (Melakukan \n pemeriksaan update) as (check update)
+usecase (Mengkonfirmasi \n pengunduhan update) as (download update)
+usecase (Melihat \n proses pengunduhan update) as (download update progress)
+usecase (Mengkonfirmasi \n penerapan update) as (apply update)
+
+user-->(check update)
+user-->(download update)
+user-->(download update progress)
+user-->(apply update)
+
+@enduml
