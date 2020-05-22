@@ -31,7 +31,7 @@ describe("login form", () => {
     const inputPasswordConfirmationElement = getByLabelText(
       "Password Confirmation"
     );
-    const submitElement = getByText("Submit").closest("button");
+    const submitElement = getByText("Register Now").closest("button");
 
     codeSendServiceMock.register.mockResolvedValueOnce({
       _id: "51264789521",
@@ -71,7 +71,7 @@ describe("login form", () => {
     const inputPasswordConfirmationElement = getByLabelText(
       "Password Confirmation"
     );
-    const submitElement = getByText("Submit").closest("button");
+    const submitElement = getByText("Register Now").closest("button");
 
     codeSendServiceMock.register.mockRejectedValueOnce({
       status: "error",
