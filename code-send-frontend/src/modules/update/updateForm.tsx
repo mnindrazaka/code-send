@@ -25,11 +25,13 @@ import { useCreateUpdate, useEditUpdate } from "hooks/api/useUpdateApi";
 import Container from "components/container";
 import useToggleForm from "hooks/useToggleForm";
 import { useUpdateState } from "hooks/store/useUpdateStore";
+import { useHistory } from "react-router-dom";
 
 const UpdateForm: FunctionComponent = () => {
   const { loading, selected } = useUpdateState();
   const { createUpdate } = useCreateUpdate();
   const { editUpdate } = useEditUpdate();
+  const history = useHistory();
   const [isRegional, setRegional] = useState<boolean>(false);
 
   const validationSchema = useMemo(() => {
@@ -62,7 +64,7 @@ const UpdateForm: FunctionComponent = () => {
 
   return (
     <>
-      <PageHeader title={title} subTitle={subTitle} />
+      <PageHeader title={title} subTitle={subTitle} onBack={history.goBack} />
       <Container>
         <Card>
           <Formik

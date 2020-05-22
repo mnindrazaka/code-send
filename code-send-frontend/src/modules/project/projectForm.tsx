@@ -9,11 +9,13 @@ import Container from "components/container";
 import useToggleForm from "hooks/useToggleForm";
 import { useProjectState } from "hooks/store/useProjectStore";
 import { ReactComponent as CreateProjectCover } from "assets/images/createProject.svg";
+import { useHistory } from "react-router-dom";
 
 const ProjectForm: FunctionComponent = () => {
   const { selected, loading } = useProjectState();
   const { createProject } = useCreateProject();
   const { editProject } = useEditProject();
+  const history = useHistory();
 
   const validationSchema = yup.object().shape({
     name: yup.string().required()
@@ -31,7 +33,7 @@ const ProjectForm: FunctionComponent = () => {
 
   return (
     <>
-      <PageHeader title={title} subTitle={subTitle} />
+      <PageHeader title={title} subTitle={subTitle} onBack={history.goBack} />
       <Container>
         <Card>
           <Row justify="center" align="middle">
