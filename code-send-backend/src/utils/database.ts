@@ -20,6 +20,10 @@ export async function connectDB(isUsingMemory?: boolean) {
   return mongoose.connect(connectionString, options);
 }
 
+export async function clearDB() {
+  return mongoose.connection.db.dropDatabase();
+}
+
 export async function closeDB(isUsingMemory?: boolean) {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
