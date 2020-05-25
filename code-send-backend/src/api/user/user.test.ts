@@ -2,18 +2,25 @@ require("dotenv").config();
 import supertest from "supertest";
 import { expect } from "chai";
 import app from "app";
-import { connectDB, mockingDatabaseRecord, closeDB } from "utils/database";
+import {
+  connectDB,
+  mockingDatabaseRecord,
+  closeDB,
+  clearDB
+} from "utils/database";
 
 process.env.JWT_SECRET = "secret";
 const request = supertest(app);
 
 describe("user", () => {
+  beforeAll(async () => await connectDB(true));
+
   beforeEach(async () => {
-    await connectDB(true);
+    await clearDB();
     await mockingDatabaseRecord();
   });
 
-  afterEach(async () => await closeDB(true));
+  afterAll(async () => await closeDB(true));
 
   it("can create user", async () => {
     const createUserResponse = await request

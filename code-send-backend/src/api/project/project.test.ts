@@ -2,7 +2,12 @@ require("dotenv").config();
 import supertest from "supertest";
 import app from "app";
 import { expect } from "chai";
-import { connectDB, closeDB, mockingDatabaseRecord } from "utils/database";
+import {
+  connectDB,
+  closeDB,
+  mockingDatabaseRecord,
+  clearDB
+} from "utils/database";
 
 process.env.JWT_SECRET = "secret";
 const request = supertest(app);
@@ -15,12 +20,14 @@ const authenticate = async () => {
 };
 
 describe("project", () => {
+  beforeAll(async () => await connectDB(true));
+
   beforeEach(async () => {
-    await connectDB(true);
+    await clearDB();
     await mockingDatabaseRecord();
   });
 
-  afterEach(async () => await closeDB(true));
+  afterAll(async () => await closeDB(true));
 
   it("can throw error if request not authenticated", async () => {
     const geAllProjectResponse = await request.get("/project").send();
