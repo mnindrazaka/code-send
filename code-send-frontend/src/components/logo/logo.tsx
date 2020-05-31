@@ -6,7 +6,7 @@ const Logo = () => {
   return (
     <Link to="/project">
       <Typography.Text strong style={{ color: "white" }}>
-        Code Send
+        Code Send URL
       </Typography.Text>
     </Link>
   );
