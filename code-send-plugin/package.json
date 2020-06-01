@@ -1,5 +1,5 @@
 {
-  "name": "code-send",
+  "name": "code-send-plugin",
   "title": "Code Send",
   "version": "1.0.0",
   "description": "Hot code update plugin",
