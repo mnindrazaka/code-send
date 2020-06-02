@@ -57,7 +57,10 @@ describe("useCodeSend", () => {
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
     bundleManagerMock.downloadBundle.mockResolvedValueOnce(bundle.filename);
     const { result, waitForNextUpdate } = renderHook(() =>
-      useCodeSend("85eu3k693hf983y52huw883279")
+      useCodeSend("85eu3k693hf983y52huw883279", {
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
     );
     await waitForNextUpdate();
     expect(result.current.bundle).toStrictEqual(bundle);
@@ -80,7 +83,10 @@ describe("useCodeSend", () => {
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
     bundleManagerMock.downloadBundle.mockRejectedValue("failed to download");
     const { result, waitForNextUpdate } = renderHook(() =>
-      useCodeSend("85eu3k693hf983y52huw883279")
+      useCodeSend("85eu3k693hf983y52huw883279", {
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
     );
     await waitForNextUpdate();
     expect(result.current.bundle).toBe(undefined);

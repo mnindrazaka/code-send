@@ -9,7 +9,12 @@ describe("useApplyUpdate", () => {
   it("can return filename if download bundle success", async () => {
     const filename = "/data/data/package/files/bundle/0.1.bundle";
     bundleManagerMock.downloadBundle.mockResolvedValueOnce(filename);
-    const { result } = renderHook(() => useApplyUpdate());
+    const { result } = renderHook(() =>
+      useApplyUpdate({
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
+    );
     await act(() =>
       result.current.applyUpdate({
         _id: "5e7fe2afa491f60003847d6b",
@@ -30,7 +35,12 @@ describe("useApplyUpdate", () => {
     bundleManagerMock.downloadBundle.mockRejectedValueOnce(
       "failed to download"
     );
-    const { result } = renderHook(() => useApplyUpdate());
+    const { result } = renderHook(() =>
+      useApplyUpdate({
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
+    );
     await act(() =>
       result.current.applyUpdate({
         _id: "5e7fe2afa491f60003847d6b",

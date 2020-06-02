@@ -3,9 +3,22 @@ import useCheckUpdate from "./useCheckUpdate";
 import useApplyUpdate from "./useApplyUpdate";
 import { Bundle } from "../interfaces/Bundle";
 
+export type CodeSendOptions = {
+  showDownloadConfirmation: boolean;
+  showErrorMessage: boolean;
+};
+
+export const defaultOptions: CodeSendOptions = {
+  showDownloadConfirmation: true,
+  showErrorMessage: true
+};
+
 type Status = "standby" | "checking" | "downloading";
 
-const useCodeSend = (projectId: string, useConfirmation?: boolean) => {
+const useCodeSend = (
+  projectId: string,
+  options: CodeSendOptions = defaultOptions
+) => {
   const [status, setStatus] = useState<Status>("standby");
   const [error, setError] = useState<string>();
   const [bundle, setBundle] = useState<Bundle>();
@@ -15,13 +28,13 @@ const useCodeSend = (projectId: string, useConfirmation?: boolean) => {
     loading: checkLoading,
     error: checkError,
     checkUpdate
-  } = useCheckUpdate();
+  } = useCheckUpdate(options);
   const {
     filename,
     loading: applyLoading,
     error: applyError,
     applyUpdate
-  } = useApplyUpdate(useConfirmation);
+  } = useApplyUpdate(options);
 
   useEffect(() => {
     checkUpdate(projectId);
