@@ -53,7 +53,12 @@ describe("useCheckUpdate", () => {
     codeSendServiceMock.checkUpdate.mockResolvedValueOnce(update);
     bundleManagerMock.getActiveBundle.mockResolvedValueOnce(null);
 
-    const { result } = renderHook(() => useCheckUpdate());
+    const { result } = renderHook(() =>
+      useCheckUpdate({
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
+    );
     await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
 
     expect(result.current.update).toBe(update);
@@ -84,7 +89,12 @@ describe("useCheckUpdate", () => {
       }
     });
 
-    const { result } = renderHook(() => useCheckUpdate());
+    const { result } = renderHook(() =>
+      useCheckUpdate({
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
+    );
     await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
 
     expect(result.current.update).toBe(update);
@@ -107,7 +117,12 @@ describe("useCheckUpdate", () => {
       update
     });
 
-    const { result } = renderHook(() => useCheckUpdate());
+    const { result } = renderHook(() =>
+      useCheckUpdate({
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
+    );
     await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
 
     expect(result.current.update).toBe(undefined);
@@ -120,7 +135,12 @@ describe("useCheckUpdate", () => {
       status: "error",
       message: "no update available"
     });
-    const { result } = renderHook(() => useCheckUpdate());
+    const { result } = renderHook(() =>
+      useCheckUpdate({
+        showDownloadConfirmation: false,
+        showErrorMessage: false
+      })
+    );
     await act(() => result.current.checkUpdate("85eu3k693hf983y52huw883279"));
 
     expect(result.current.update).toBe(undefined);
