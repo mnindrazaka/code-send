@@ -4,22 +4,25 @@ Plugin for implementing hot code update with react native using code send platfo
 
 ## 1. Setup
 
-1. Install code send plugin
+1. Install code send plugin and react native geolocation for implementing regional update
 
 ```bash
-$ npm install code-send-plugin --save
+$ npm install code-send-plugin @react-native-community/geolocation
 ```
 
-2. Install react native geolocation for implementing regional update
-
-```bash
-$ npm install @react-native-community/geolocation
-```
-
-3. Link package
+2. Link package
 
 ```bash
 $ npx react-native link code-send-plugin @react-native-community/geolocation
+```
+
+3. Add Permission to access geolocation and file system to store bundle on `AndroidManifest.xml`
+
+```xml
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
 
 4. Add bundle resolver in react native host in `android/app/src/main/java/com/packageName/MainApplication.java`
@@ -79,7 +82,7 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
-4. Use code send hook to automatically check for update when application start. You can get `projectId` by creating a project on [code send platform](https://mnindrazaka.github.io/code-send/)
+5. Use code send hook to automatically check for update when application start. You can get `projectId` by creating a project on [code send platform](https://mnindrazaka.github.io/code-send/)
 
 ```javascript
 import React from "react";
@@ -87,8 +90,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { useCodeSend } from "code-send"; // import useCodeSend hook
 
 const App = () => {
-  // run useCodeSend hook, set second parameter to false if you want to use silent update without confirmation
-  useCodeSend("projectId", true);
+  // run useCodeSend hook
+  useCodeSend("projectId", {  });
   return (
     <View>
       <Text>CodeSend initial app</Text>
@@ -99,7 +102,16 @@ const App = () => {
 export default App;
 ```
 
-5. Release your react native application and upload it to marketplace. To make a signed apk, follow tutorial from [react native website](https://reactnative.dev/docs/signed-apk-android)
+`useCodeSend` has second optional parameters to manage update behaviour. Here is the 
+
+| Parameter                | Default | Description                                                 |
+| ------------------------ | ------- | ----------------------------------------------------------- |
+| showDownloadConfirmation | true    | show confirmation dialog to download update if update found |
+| showErrorMessage         | true    | show error message if checking or download update failed    |
+
+
+
+6. Release your react native application and upload it to marketplace. To make a signed apk, follow tutorial from [react native website](https://reactnative.dev/docs/signed-apk-android)
 
 ### 2. Release New Update
 
