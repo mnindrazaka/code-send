@@ -40,7 +40,8 @@ public class DownloadService {
             notificationManager = (NotificationManager) reactContext.getSystemService(Context.NOTIFICATION_SERVICE);
             builder = new NotificationCompat.Builder(reactContext);
             builder.setContentTitle("Download Update")
-                    .setContentText("Download in progress").setSmallIcon(androidx.core.R.drawable.notification_icon_background);
+                    .setContentText("Download in progress")
+                    .setSmallIcon(androidx.core.R.drawable.notification_icon_background);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             {
@@ -92,7 +93,7 @@ public class DownloadService {
             input.close();
     }
 
-    private void downloadFile() throws IOException {
+    private void downloadFile() throws IOException, InterruptedException {
         byte[] data = new byte[4096];
         int count;
         long total = 0;
@@ -104,6 +105,7 @@ public class DownloadService {
             if (showProgress) {
                 builder.setProgress(lengthOfFile, (int) total, false);
                 notificationManager.notify(notifyId, builder.build());
+                Thread.sleep(1*1000);
             }
         }
         if (showProgress) {
