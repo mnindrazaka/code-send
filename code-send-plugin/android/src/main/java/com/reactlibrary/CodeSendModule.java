@@ -59,8 +59,13 @@ public class CodeSendModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void downloadBundle(ReadableMap updateMap, Promise promise) {
-        DownloadTask downloadTask = new DownloadTask(getReactApplicationContext(), new Update(updateMap), promise);
+    public void downloadBundle(ReadableMap updateMap, boolean showProgress, Promise promise) {
+        DownloadTask downloadTask = new DownloadTask(
+                getReactApplicationContext(),
+                new Update(updateMap),
+                showProgress,
+                promise
+        );
         downloadTask.execute();
     }
 

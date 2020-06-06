@@ -37,7 +37,7 @@ public class DownloadServiceTest {
                 "first update",
                 "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/ttoan4aymkbufrrjl1r0"
         );
-        DownloadService downloadService = new DownloadService(reactContext, update);
+        DownloadService downloadService = new DownloadService(reactContext, update, false);
         String filePath = null;
         try {
             filePath = downloadService.download();
@@ -59,7 +59,7 @@ public class DownloadServiceTest {
                 "first update",
                 "http//wrongUrlFormat.com"
         );
-        DownloadService downloadService = new DownloadService(reactContext, update);
+        DownloadService downloadService = new DownloadService(reactContext, update, false);
         String errorMessage = "";
         try {
             downloadService.download();
@@ -79,7 +79,7 @@ public class DownloadServiceTest {
                 "first update",
                 "https://res.cloudinary.com/mnindrazaka/raw/upload/v1585519194/randomMockFile"
         );
-        DownloadService downloadService = new DownloadService(reactContext, update);
+        DownloadService downloadService = new DownloadService(reactContext, update, false);
         String errorMessage = "";
         try {
             downloadService.download();

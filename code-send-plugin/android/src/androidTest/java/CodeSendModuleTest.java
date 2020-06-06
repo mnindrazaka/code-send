@@ -105,7 +105,7 @@ public class CodeSendModuleTest {
         };
 
         CodeSendModule codeSendModule = new CodeSendModule(reactContext);
-        codeSendModule.downloadBundle(updateMap, new PromiseImpl(onResolved, onRejected));
+        codeSendModule.downloadBundle(updateMap, false, new PromiseImpl(onResolved, onRejected));
     }
 
     @Test
@@ -131,6 +131,6 @@ public class CodeSendModuleTest {
         };
 
         CodeSendModule codeSendModule = new CodeSendModule(reactContext);
-        codeSendModule.downloadBundle(updateMap, new PromiseImpl(onResolved, onRejected));
+        codeSendModule.downloadBundle(updateMap, false, new PromiseImpl(onResolved, onRejected));
     }
 }

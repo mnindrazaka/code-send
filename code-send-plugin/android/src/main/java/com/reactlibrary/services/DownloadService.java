@@ -1,6 +1,9 @@
 package com.reactlibrary.services;
 
-import androidx.core.util.Consumer;
+import android.app.NotificationManager;
+import android.content.Context;
+
+import androidx.core.app.NotificationCompat;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.reactlibrary.models.Update;
@@ -19,11 +22,23 @@ public class DownloadService {
     private InputStream input;
     private OutputStream output;
     private HttpURLConnection connection;
+    private boolean showProgress;
+
+    private NotificationManager notificationManager;
+    private NotificationCompat.Builder builder;
 
 
-    public DownloadService(ReactApplicationContext reactContext, Update update) {
+    public DownloadService(ReactApplicationContext reactContext, Update update, boolean showProgress) {
         this.reactContext = reactContext;
         this.update = update;
+        this.showProgress = showProgress;
+
+        if (showProgress) {
+            notificationManager = (NotificationManager) reactContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            builder = new NotificationCompat.Builder(reactContext);
+            builder.setContentTitle("Download Update")
+                    .setContentText("Download in progress");
+        }
     }
 
     private String getFilename() {
@@ -68,9 +83,18 @@ public class DownloadService {
         int count;
         long total = 0;
         int lengthOfFile = connection.getContentLength();
+        int notifyId = 1;
         while ((count = input.read(data)) != -1) {
             total += count;
             output.write(data, 0, count);
+            if (showProgress) {
+                builder.setProgress(lengthOfFile, (int) total, false);
+                notificationManager.notify(notifyId, builder.build());
+            }
+        }
+        if (showProgress) {
+            builder.setContentText("Download completed").setProgress(0, 0, false);
+            notificationManager.notify(notifyId, builder.build());
         }
     }
 
