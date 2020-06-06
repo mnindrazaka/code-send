@@ -105,7 +105,6 @@ public class DownloadService {
             if (showProgress) {
                 builder.setProgress(lengthOfFile, (int) total, false);
                 notificationManager.notify(notifyId, builder.build());
-                Thread.sleep(1*1000);
             }
         }
         if (showProgress) {
