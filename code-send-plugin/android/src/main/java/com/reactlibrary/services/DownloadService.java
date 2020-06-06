@@ -1,11 +1,14 @@
 package com.reactlibrary.services;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.reactlibrary.R;
 import com.reactlibrary.models.Update;
 
 import java.io.File;
@@ -37,7 +40,18 @@ public class DownloadService {
             notificationManager = (NotificationManager) reactContext.getSystemService(Context.NOTIFICATION_SERVICE);
             builder = new NotificationCompat.Builder(reactContext);
             builder.setContentTitle("Download Update")
-                    .setContentText("Download in progress");
+                    .setContentText("Download in progress").setSmallIcon(androidx.core.R.drawable.notification_icon_background);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            {
+                String channelId = "Your_channel_id";
+                NotificationChannel channel = new NotificationChannel(
+                        channelId,
+                        "Channel human readable title",
+                        NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(channel);
+                builder.setChannelId(channelId);
+            }
         }
     }
 
