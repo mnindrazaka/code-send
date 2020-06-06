@@ -56,6 +56,7 @@ describe("useCheckUpdate", () => {
     const { result } = renderHook(() =>
       useCheckUpdate({
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );
@@ -92,6 +93,7 @@ describe("useCheckUpdate", () => {
     const { result } = renderHook(() =>
       useCheckUpdate({
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );
@@ -120,6 +122,7 @@ describe("useCheckUpdate", () => {
     const { result } = renderHook(() =>
       useCheckUpdate({
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );
@@ -138,6 +141,7 @@ describe("useCheckUpdate", () => {
     const { result } = renderHook(() =>
       useCheckUpdate({
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );

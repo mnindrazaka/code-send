@@ -15,8 +15,11 @@ const clearActiveBundle = () => {
   CodeSend.clearActiveBundle();
 };
 
-const downloadBundle = (update: Update): Promise<string> => {
-  return CodeSend.downloadBundle(update);
+const downloadBundle = (
+  update: Update,
+  showProgress: boolean
+): Promise<string> => {
+  return CodeSend.downloadBundle(update, showProgress);
 };
 
 const reloadBundle = () => {

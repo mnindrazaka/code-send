@@ -12,6 +12,7 @@ describe("useApplyUpdate", () => {
     const { result } = renderHook(() =>
       useApplyUpdate({
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );
@@ -38,6 +39,7 @@ describe("useApplyUpdate", () => {
     const { result } = renderHook(() =>
       useApplyUpdate({
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );

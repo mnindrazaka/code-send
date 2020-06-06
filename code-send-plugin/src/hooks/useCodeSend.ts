@@ -5,11 +5,13 @@ import { Bundle } from "../interfaces/Bundle";
 
 export type CodeSendOptions = {
   showDownloadConfirmation: boolean;
+  showDownloadProgress: boolean;
   showErrorMessage: boolean;
 };
 
 export const defaultOptions: CodeSendOptions = {
   showDownloadConfirmation: true,
+  showDownloadProgress: true,
   showErrorMessage: true
 };
 

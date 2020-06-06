@@ -14,7 +14,10 @@ const useApplyUpdate = (options: CodeSendOptions) => {
     async (update: Update) => {
       try {
         setLoading(true);
-        const filename = await bundleManager.downloadBundle(update);
+        const filename = await bundleManager.downloadBundle(
+          update,
+          options.showDownloadProgress
+        );
         bundleManager.setActiveBundle({ filename, update });
         setFilename(filename);
         setError(undefined);
