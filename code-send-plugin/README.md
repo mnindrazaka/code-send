@@ -107,11 +107,12 @@ export default App;
 | Parameter                | Default | Description                                                 |
 | ------------------------ | ------- | ----------------------------------------------------------- |
 | showDownloadConfirmation | true    | show confirmation dialog to download update if update found |
+| showDownloadProgress     | true    | show download update progress in notification               |
 | showErrorMessage         | true    | show error message if checking or download update failed    |
 
 
 
-6. Release your react native application and upload it to marketplace. To make a signed apk, follow tutorial from [react native website](https://reactnative.dev/docs/signed-apk-android)
+1. Release your react native application and upload it to marketplace. To make a signed apk, follow tutorial from [react native website](https://reactnative.dev/docs/signed-apk-android)
 
 ### 2. Release New Update
 
