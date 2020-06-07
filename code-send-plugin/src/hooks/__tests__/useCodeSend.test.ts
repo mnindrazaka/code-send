@@ -59,6 +59,7 @@ describe("useCodeSend", () => {
     const { result, waitForNextUpdate } = renderHook(() =>
       useCodeSend("85eu3k693hf983y52huw883279", {
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );
@@ -85,6 +86,7 @@ describe("useCodeSend", () => {
     const { result, waitForNextUpdate } = renderHook(() =>
       useCodeSend("85eu3k693hf983y52huw883279", {
         showDownloadConfirmation: false,
+        showDownloadProgress: false,
         showErrorMessage: false
       })
     );

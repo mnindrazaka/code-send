@@ -1,7 +1,7 @@
 rootProject.name = 'example'
+include ':code-send-plugin'
+project(':code-send-plugin').projectDir = new File(rootProject.projectDir, '../../android')
 include ':@react-native-community_geolocation'
 project(':@react-native-community_geolocation').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/geolocation/android')
-include ':code-send'
-project(':code-send').projectDir = new File(rootProject.projectDir, '../node_modules/code-send/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'

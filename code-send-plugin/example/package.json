@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@react-native-community/geolocation": "^2.0.2",
-    "code-send": "../",
+    "code-send-plugin": "file:..",
     "react": "16.9.0",
     "react-native": "0.61.5"
   },

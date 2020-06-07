@@ -9,11 +9,12 @@ import com.reactlibrary.models.Update;
 public class DownloadTask extends AsyncTask<String, Integer, String> {
     private ReactApplicationContext reactContext;
     private DownloadService downloadService;
+
     private Promise promise;
 
-    public DownloadTask(ReactApplicationContext reactContext,  Update update, Promise promise) {
+    public DownloadTask(ReactApplicationContext reactContext,  Update update, boolean showProgress, Promise promise) {
         this.reactContext = reactContext;
-        this.downloadService = new DownloadService(reactContext, update);
+        this.downloadService = new DownloadService(reactContext, update, showProgress);
         this.promise = promise;
     }
 

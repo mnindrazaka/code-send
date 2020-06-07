@@ -190,8 +190,8 @@ android {
 }
 
 dependencies {
+    implementation project(':code-send-plugin')
     implementation project(':@react-native-community_geolocation')
-    implementation project(':code-send')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

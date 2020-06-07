@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useCodeSend } from "code-send"
+import { useCodeSend } from "code-send-plugin"
 
 const App = () => {
-  useCodeSend("5ebd5a0d4b05fb0003c7cab2", true)
+  useCodeSend("5ebd5a0d4b05fb0003c7cab2")
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>CodeSend initial app</Text>
