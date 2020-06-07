@@ -91,7 +91,7 @@ import { useCodeSend } from "code-send"; // import useCodeSend hook
 
 const App = () => {
   // run useCodeSend hook
-  useCodeSend("projectId", {  });
+  useCodeSend("projectId");
   return (
     <View>
       <Text>CodeSend initial app</Text>
