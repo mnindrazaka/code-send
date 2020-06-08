@@ -62,7 +62,7 @@ const ProjectForm: FunctionComponent = () => {
                     loading={loading}
                     block
                   >
-                    Create Project Now
+                    {selected ? "Edit Project Now" : "Create Project Now"}
                   </Button>
                 </Form>
               </Formik>
