@@ -1,0 +1,191 @@
+@startuml classDiagram
+class Api {
+  protected String _id
+  
+  protected String createdAt
+  
+  protected String updatedAt
+
+  public Api(String _id, String createdAt, String updatedAt)
+  
+  public Api(ReadableMap apiMap)
+
+  public String get_id()
+
+  public void set_id(String _id) 
+
+  public String getCreatedAt()
+
+  public void setCreatedAt(String createdAt)
+
+  public String getUpdatedAt()
+
+  public void setUpdatedAt(String updatedAt)
+}
+
+class Update {
+  protected String version
+  
+  protected String note
+  
+  protected String bundleUrl
+
+  public Update(String version, String note, String bundleUrl)
+  
+  public Update(ReadableMap updateMap)
+
+  public WritableMap toMap()
+
+  public String getVersion()
+
+  public String getNote()
+
+  public String getBundleUrl()
+}
+
+class Bundle {
+    private String filename
+
+    private Update update
+
+    public Bundle(String filename, Update update)
+
+    public Bundle(ReadableMap bundleMap)
+
+    public WritableMap toMap()
+
+    public String getFilename()
+
+    public Update getUpdate()
+}
+
+class BundleService {
+    public static final String ACTIVE_BUNDLE_KEY
+    
+    public static final  String BUNDLE_PREFS_KEY
+    
+    private final ReactApplicationContext reactContext
+    
+    private final SharedPreferences bundlePrefs
+
+    public BundleService(ReactApplicationContext reactContext)
+
+    public Bundle getActiveBundle()
+
+    public void setActiveBundle(Bundle bundle)
+
+    public void clearActiveBundle()
+
+    public void reloadBundle()
+}
+
+class InteractionService {
+    private ReactApplicationContext reactContext
+
+    public InteractionService(ReactApplicationContext reactContext)
+
+    public void showMessage(String message)
+}
+
+class DownloadService {
+    private ReactApplicationContext reactContext
+
+    private Update update
+    
+    private InputStream input
+    
+    private OutputStream output
+    
+    private HttpURLConnection connection
+    
+    private boolean showProgress
+
+    private NotificationManager notificationManager
+    
+    private NotificationCompat.Builder builder
+
+    public DownloadService(ReactApplicationContext reactContext, Update update, boolean showProgress)
+
+    private String getFilename()
+
+    private String getStorageDirectory()
+
+    private File getFile()
+
+    private void openConnection(String stringUrl)
+
+    private void closeConnection()
+
+    private void openInputOutput()
+
+    private void closeInputOutput()
+
+    private void downloadFile()
+
+    public String download()
+}
+
+class DownloadTask {
+    private ReactApplicationContext reactContext
+
+    private DownloadService downloadService
+
+    private Promise promise
+
+    public DownloadTask(ReactApplicationContext reactContext,  Update update, boolean showProgress, Promise promise)
+
+    protected String doInBackground(String... sUrl)
+
+    protected void onPostExecute(String result)
+}
+
+class CodeSendModule {
+    private final BundleService bundleService
+
+    private final InteractionService interactionService
+
+    public static String launchResolveBundlePath(Context ctx)
+
+    public CodeSendModule(ReactApplicationContext reactApplicationContext)
+
+    public String getName()
+
+    public void getActiveBundle(Promise promise)
+
+    public void setActiveBundle(ReadableMap bundleMap)
+
+    public void clearActiveBundle()
+
+    public void downloadBundle(ReadableMap updateMap, boolean showProgress, Promise promise)
+
+    public void reloadBundle() 
+
+    public void showMessage(String message) 
+}
+
+class CodeSendPackage {
+    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext)
+
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext)
+}
+
+
+Update --|> Api
+
+Update -- Bundle
+
+Update -- DownloadService
+
+Bundle -- BundleService
+
+BundleService -- CodeSendModule
+
+DownloadService -- DownloadTask
+
+InteractionService -- CodeSendModule
+
+DownloadTask -- CodeSendModule
+
+CodeSendModule -- CodeSendPackage
+
+@enduml
