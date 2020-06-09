@@ -35,20 +35,16 @@ const renderProjectForm = (initialState?: Partial<RootState>) => {
       </StoreProvider>
     </MemoryRouter>
   );
-  const { getByPlaceholderText, getByText } = utils;
-  const inputNameElement = getByPlaceholderText("Awesome App");
-  const submitElement = getByText("Create Project Now").closest("button");
-  return {
-    ...utils,
-    inputNameElement,
-    submitElement
-  };
+  return utils;
 };
 
 describe("project form", () => {
   it("can show create success message", async () => {
-    const { inputNameElement, submitElement, findByText } = renderProjectForm();
+    const { getByPlaceholderText, getByText, findByText } = renderProjectForm();
     codeSendServiceMock.createProject.mockResolvedValueOnce(mockProject);
+
+    const inputNameElement = getByPlaceholderText("Awesome App");
+    const submitElement = getByText("Create Project Now").closest("button");
 
     await act(async () => {
       fireEvent.change(inputNameElement, {
@@ -64,11 +60,14 @@ describe("project form", () => {
   });
 
   it("can show create failed message", async () => {
-    const { inputNameElement, submitElement, findByText } = renderProjectForm();
+    const { getByPlaceholderText, getByText, findByText } = renderProjectForm();
     codeSendServiceMock.createProject.mockRejectedValueOnce({
       status: "error",
       message: "failed to create update"
     });
+
+    const inputNameElement = getByPlaceholderText("Awesome App");
+    const submitElement = getByText("Create Project Now").closest("button");
 
     await act(async () => {
       fireEvent.change(inputNameElement, {
@@ -84,7 +83,7 @@ describe("project form", () => {
   });
 
   it("can show edit success message", async () => {
-    const { inputNameElement, submitElement, findByText } = renderProjectForm({
+    const { getByPlaceholderText, getByText, findByText } = renderProjectForm({
       project: {
         items: [],
         loading: false,
@@ -93,6 +92,9 @@ describe("project form", () => {
     });
 
     codeSendServiceMock.editProject.mockResolvedValueOnce(mockProject);
+
+    const inputNameElement = getByPlaceholderText("Awesome App");
+    const submitElement = getByText("Edit Project Now").closest("button");
 
     await act(async () => {
       fireEvent.change(inputNameElement, {
@@ -108,7 +110,7 @@ describe("project form", () => {
   });
 
   it("can show edit failed message", async () => {
-    const { inputNameElement, submitElement, findByText } = renderProjectForm({
+    const { getByPlaceholderText, getByText, findByText } = renderProjectForm({
       project: {
         items: [],
         loading: false,
@@ -120,6 +122,9 @@ describe("project form", () => {
       status: "error",
       message: "failed to edit update"
     });
+
+    const inputNameElement = getByPlaceholderText("Awesome App");
+    const submitElement = getByText("Edit Project Now").closest("button");
 
     await act(async () => {
       fireEvent.change(inputNameElement, {
