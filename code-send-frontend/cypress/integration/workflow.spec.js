@@ -69,7 +69,7 @@ describe("workflow", () => {
     cy.get('[id="bundle"]').attachFile("example.json");
     cy.contains('Release update only on particular location').click()
     cy.contains('Location').click().type('Jawa Timur')
-    cy.wait(3000)
+    cy.wait(6000)
     cy.contains('Location').click({ force: true }).type(', Indonesia')
     cy.contains('Submit').click()
     cy.wait(2000)
