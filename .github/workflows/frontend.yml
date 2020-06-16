@@ -1,0 +1,54 @@
+name: Frontend workflow
+on:
+  pull_request:
+    types: [opened, edited, closed, reopened, synchronize]
+jobs:
+  unit-test:
+    name: Unit test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@master
+      - name: Install depedency
+        run: |
+          cd code-send-frontend
+          yarn
+      - name: Run unit test
+        run: |
+          cd code-send-frontend
+          yarn test
+  end-to-end-test:
+    name: End to end test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@master
+      - name: Install depedency
+        run: |
+          cd code-send-frontend
+          yarn
+      - name: Run end to end test
+      - uses: cypress-io/github-action@v1
+        with:
+          browser: chrome
+          headless: true
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: [unit-test, end-to-end-test]
+    if: github.event.pull_request.merged
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build
+        run: |
+          cd code-send-frontend
+          yarn
+          REACT_APP_CODE_SEND_SERVICE_URL=${{ secrets.CODE_SEND_SERVICE_URL }} yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: code-send-frontend/build
