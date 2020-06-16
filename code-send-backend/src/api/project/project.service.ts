@@ -1,6 +1,5 @@
 import projectModel, { ProjectDocument } from "./project.model";
 import { ProjectRequest } from "./project.type";
-import { Types } from "mongoose";
 import HttpException from "utils/httpException";
 
 export default class ProjectService {

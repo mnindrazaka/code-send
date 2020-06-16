@@ -1,6 +1,5 @@
 import updateModel, { UpdateDocument } from "./update.model";
 import { UpdateRequest } from "./update.type";
-import { Types } from "mongoose";
 import updateUtil from "./update.util";
 import GeocodingService from "api/geocoding/geocoding.service";
 import HttpException from "utils/httpException";
