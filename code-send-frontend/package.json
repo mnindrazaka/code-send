@@ -1,6 +1,5 @@
 {
   "name": "code-send-frontend",
-  "homepage": "https://mnindrazaka.github.io/code-send/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,17 +16,20 @@
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
+    "serve": "^11.3.2",
     "typesafe-actions": "^5.1.0",
     "typescript": "^3.8.3",
     "yup": "^0.28.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:prod": "yarn serve -s -l 3000 build",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "test:e2e": "cypress run",
     "coverage": "react-scripts test --coverage --watchAll",
     "eject": "react-scripts eject",
+    "integration": "run-p --race start:prod test:e2e",
     "prettier": "prettier --write '{src,test,mock}/**/*.{ts,tsx}'"
   },
   "eslintConfig": {
@@ -71,6 +73,7 @@
     "cypress": "^4.7.0",
     "cypress-file-upload": "^4.0.7",
     "husky": "^4.2.2",
-    "mocked-env": "^1.3.2"
+    "mocked-env": "^1.3.2",
+    "npm-run-all": "^4.1.5"
   }
 }
