@@ -1,6 +1,5 @@
 import projectModel, { ProjectDocument } from "./project.model";
 import { ProjectRequest } from "./project.type";
-import { Types } from "mongoose";
 import HttpException from "utils/httpException";
 
 export default class ProjectService {
@@ -9,8 +8,7 @@ export default class ProjectService {
   };
 
   createProject = (userId: string, project: ProjectRequest) => {
-    const user = new Types.ObjectId(userId);
-    return projectModel.create({ ...project, user });
+    return projectModel.create({ ...project, user: userId });
   };
 
   editProject = (projectId: string, project: ProjectRequest) => {

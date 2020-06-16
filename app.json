@@ -1,0 +1,6 @@
+{
+  "name": "Code send backend",
+  "description": "code send backend app",
+  "repository": "https://github.com/mnindrazaka/code-send",
+  "stack": "container"
+}

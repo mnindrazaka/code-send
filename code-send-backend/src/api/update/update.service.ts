@@ -1,6 +1,5 @@
 import updateModel, { UpdateDocument } from "./update.model";
 import { UpdateRequest } from "./update.type";
-import { Types } from "mongoose";
 import updateUtil from "./update.util";
 import GeocodingService from "api/geocoding/geocoding.service";
 import HttpException from "utils/httpException";
@@ -28,8 +27,7 @@ export default class UpdateService {
   };
 
   createUpdate = (projectId: string, update: UpdateRequest) => {
-    const project = new Types.ObjectId(projectId);
-    return updateModel.create({ ...update, project });
+    return updateModel.create({ ...update, project: projectId });
   };
 
   editUpdate = (updateId: string, update: UpdateRequest) => {
