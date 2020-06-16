@@ -26,12 +26,11 @@ jobs:
       - name: Install depedency
         run: |
           cd code-send-frontend
-          npm install
+          yarn
       - name: Run end to end test
-        uses: cypress-io/github-action@v1
-        with:
-          browser: chrome
-          headless: true
+        run: |
+          cd code-send-frontend
+          yarn integration
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: [unit-test, end-to-end-test]
