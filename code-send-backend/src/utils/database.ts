@@ -51,6 +51,7 @@ export async function mockingDatabaseRecord() {
     user: user2._id
   });
 
+  // @ts-ignore
   await updateModel.create({
     version: "0.1",
     note: "first update",
@@ -63,6 +64,7 @@ export async function mockingDatabaseRecord() {
     project: project._id
   });
 
+  // @ts-ignore
   await updateModel.create({
     version: "0.2",
     note: "second update",
