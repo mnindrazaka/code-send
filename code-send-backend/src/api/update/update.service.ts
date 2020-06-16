@@ -28,8 +28,7 @@ export default class UpdateService {
   };
 
   createUpdate = (projectId: string, update: UpdateRequest) => {
-    const project = new Types.ObjectId(projectId);
-    return updateModel.create({ ...update, project });
+    return updateModel.create({ ...update, project: projectId });
   };
 
   editUpdate = (updateId: string, update: UpdateRequest) => {
