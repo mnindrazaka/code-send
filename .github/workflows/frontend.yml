@@ -28,7 +28,7 @@ jobs:
           cd code-send-frontend
           yarn
       - name: Run end to end test
-      - uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v1
         with:
           browser: chrome
           headless: true
