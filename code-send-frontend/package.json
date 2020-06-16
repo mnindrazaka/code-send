@@ -23,12 +23,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:prod": "yarn serve -s -l 3000 build",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "test:e2e": "cypress run",
     "coverage": "react-scripts test --coverage --watchAll",
     "eject": "react-scripts eject",
-    "integration": "run-p --race start test:e2e",
+    "integration": "run-p --race start:prod test:e2e",
     "prettier": "prettier --write '{src,test,mock}/**/*.{ts,tsx}'"
   },
   "eslintConfig": {
