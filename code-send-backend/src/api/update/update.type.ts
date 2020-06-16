@@ -8,6 +8,7 @@ export interface Update {
   note: string;
   location?: Location;
   bundleUrl: string;
+  project: string;
 }
 
 export interface UpdateRequest extends Omit<Update, "bundleUrl"> {
