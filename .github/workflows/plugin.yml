@@ -1,0 +1,19 @@
+name: Plugin workflow
+on:
+  pull_request:
+    types: [opened, edited, closed, reopened, synchronize]
+jobs:
+  unit-test:
+    name: Unit test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@master
+      - name: Install dependency
+        run: |
+          cd code-send-plugin
+          yarn
+      - name: Run unit test
+        run: |
+          cd code-send-plugin
+          yarn test
