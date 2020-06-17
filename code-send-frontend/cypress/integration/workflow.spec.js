@@ -24,7 +24,7 @@ describe("workflow", () => {
     cy.contains('Username').click().type('usertest')
     cy.contains('Password').click().type('usertest')
     cy.contains('Login Now').click()
-    cy.wait(5000)
+    cy.wait(8000)
   })
 
   it('can create new project', () => {
