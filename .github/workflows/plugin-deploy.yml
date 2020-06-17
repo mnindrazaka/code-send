@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
     steps:
       - name: Checkout source code
         uses: actions/checkout@master
