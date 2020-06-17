@@ -1,0 +1,32 @@
+name: Plugin deploy workflow
+on:
+  push:
+    branches:
+      - master
+jobs:
+  publish:
+    name: Publish to npm registry
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@master
+      - name: Install dependency
+        run: |
+          cd code-send-plugin
+          yarn
+      - name: Upgrade patch version
+        run: |
+          cd code-send-plugin
+          npm version patch
+      - name: Publish package
+        run: |
+          cd code-send-plugin
+          npm publish
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v4
+        with:
+          add: 'code-send-plugin'
+          message: 'chore(plugin): patch release'
+          ref: 'master'
