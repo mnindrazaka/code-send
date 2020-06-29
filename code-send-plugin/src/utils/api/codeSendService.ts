@@ -1,7 +1,7 @@
 import { Update } from "../../interfaces/Update";
 import Service from "./service";
 
-const baseURL = "http://code-send.herokuapp.com";
+const baseURL = "https://code-send.herokuapp.com";
 const service = new Service(baseURL);
 
 const checkUpdate = (
