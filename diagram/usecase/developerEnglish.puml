@@ -1,0 +1,52 @@
+@startuml usecase
+left to right direction
+
+actor Developer as dev
+
+' auth use case
+usecase (Login to system) as login
+usecase (Logout from system) as logout
+usecase (Register account) as register
+
+(logout) ..> login : include
+
+dev-->(register)
+dev-->(logout)
+
+' project use case
+rectangle project {
+  usecase (Create \nnew project) as (create project)
+  usecase (View \nproject list) as (list project)
+  usecase (Edit \nproject information) as (edit project)
+  usecase (Delete \nproject) as (delete project)
+
+  dev-->(create project)
+  dev-->(list project)
+  dev-->(edit project)
+  dev-->(delete project)
+
+  (create project) ..> login : include
+  (list project) ..> login : include
+  (edit project) ..> login : include
+  (delete project) ..> login : include
+}
+
+' update use case
+rectangle update {
+  usecase (Release \n a new update) as (create update)
+  usecase (View \n update log) as (list update)
+  usecase (Edit \n update information) as (edit update)
+  usecase (View new update \n information) as (latest update)
+
+  (create update) ..> login : include
+  (list update) ..> login : include
+  (edit update) ..> login : include
+  (latest update) ..> login : include
+
+  dev-->(create update)
+  dev-->(list update)
+  dev-->(edit update)
+  dev-->(latest update)
+}
+
+@enduml

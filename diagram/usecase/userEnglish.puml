@@ -1,0 +1,14 @@
+@startuml usecase
+left to right direction
+actor User as user
+
+' apply update use case
+usecase (Perform an update check) as (check update)
+usecase (Confirm downloading of updates) as (download update)
+usecase (View the update download process) as (download update progress)
+
+user-->(check update)
+user-->(download update)
+user-->(download update progress)
+
+@enduml
